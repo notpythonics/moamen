@@ -1,0 +1,21 @@
+function message_handler:reopen_room()
+    local user_who_made_channel = self.channel:getFirstMessage().mentionedUsers.first
+    local member_who_made_channel = self.guild:getMember(user_who_made_channel.id)
+    if not user_who_made_channel then
+        self.channel:send('👩🏿‍🦱 صاحب التكت مو موجود')
+        return
+    end
+
+    self.channel:getPermissionOverwriteFor(member_who_made_channel):allowPermissions('readMessages')
+    self.channel:send {
+        embed = {
+            title = '🔓 ' .. self.author.name .. ' opened this channel',
+            description = "you can reclose this channel via the -->\n`the close` button",
+            color = discordia.Color.fromRGB(0, 0, 0).value,
+        }
+    }
+
+    local c_name = self.channel.name
+    local new_name = string.gsub(c_name, '🔒', '🔓')
+    self.channel:setName(new_name)
+end

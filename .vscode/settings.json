@@ -1,0 +1,7 @@
+{
+    "Lua.diagnostics.globals": [
+        "deps",
+        "discordia"
+    ],
+    "Lua.runtime.version": "LuaJIT"
+}
