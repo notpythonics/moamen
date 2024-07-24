@@ -42,7 +42,8 @@ function wiki:process_message()
                     url = 'https://i.imgur.com/NWLksPt.png'
                 },
                 fields = {
-                    { name = "مالك الروم",
+                    {
+                        name = "مالك الروم",
                         value = "```lua\nlocal user_who_made_channel = intr.channel:getFirstMessage().mentionedUsers.first\nlocal member_who_made_channel = self.guild:getMember(user_who_made_channel.id)\n```",
                     },
                 },
@@ -50,7 +51,6 @@ function wiki:process_message()
         }
         return
     end
-    
 end
 
 -- classes/images/first_mention.png

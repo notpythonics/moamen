@@ -8,12 +8,10 @@ message_handler.__index = message_handler
 
 function GET_DURATION(str)
     local id_num = str:match('%d+')
-    do
+    if id_num then
         local _, endp = string.find(str, id_num)
         str = str:sub(endp+1)
-        --print('str -->', str)
         str = str:match('%d+')
-        --print('str -->', str)
         if str then
             return tonumber(str)
         end
@@ -39,12 +37,21 @@ function message_handler:handle(message)
     self.channel = message.channel
     self.message = message
 
+    print(self.content)
+
     if (self.content:sub(1, 14) == 'moamen timeout' or
         self.content:sub(1, 11) == 'moamen mute')  then
         self:timeOut_command()
-    elseif(self.content:sub(1, 16) == 'moamen untimeout' or
+
+    elseif (self.content:sub(1, 16) == 'moamen untimeout' or
         self.content:sub(1, 13) == 'moamen unmute') then
         self:untimeOut_command()
+
+    elseif (self.content:sub(1, 10) == 'moamen ban') then
+        self:ban_command()
+
+    elseif (self.content:sub(1, 12) == 'moamen unban') then
+        self:unban_command()
 
     elseif (self.content:sub(1, 18) == 'moamen roles_embed') then
         self:roles_embed_command()
@@ -57,6 +64,9 @@ function message_handler:handle(message)
 
     elseif (self.content:sub(1, 11) == 'moamen wiki') then
         self:wiki_command(self.message)
+
+    elseif (self.content:sub(1, 11) == 'moamen kick') then
+        self:kick_command()
 
     elseif (self.channel.id == '1028991151467933758' or
             self.channel.id == '1202308818139091026') then
@@ -76,7 +86,7 @@ function message_handler:source_code_command()
     self.channel:send {
         embed = {
             title = 'source code',
-            description = "البوت مبرمج بlua\n`repo: https://github.com/notpythonics/moamen\ngit clone https://github.com/notpythonics/moamen\n-->run batch file`\nyou can't be a contributor go away",
+            description = "البوت مبرمج بlua\n`repo:https://github.com/notpythonics/moamen\ngit clone https://github.com/notpythonics/moamen\n-->run batch file`\nyou can't be a contributor go away",
             color = discordia.Color.fromRGB(0, 0, 0).value,
         }
     }
@@ -108,10 +118,37 @@ local function is_invalid_mention(f_mention)
     if f_mention.bot then return true end
 end
 
+function message_handler:kick_command()
+    local f_mention = self.mentionedUsers.first
+    if is_invalid_mention(f_mention) then
+        return
+    end
+
+    local author_member = self.guild:getMember(self.author.id)
+
+    if author_member:hasPermission('administrator') then
+        local f_member = self.guild:getMember(f_mention.id)
+        if f_member:hasPermission('administrator') then
+            return
+        end
+
+        f_member:kick('moamen does not like her')
+
+        self.channel:send {
+            embed = {
+                title = '👼🏿 ' .. f_member.name .. ' was kicked',
+                description = author_member.name .. ' kicked a member',
+                color = discordia.Color.fromRGB(0, 0, 0).value,
+            }
+        }
+    end
+end
+
+
 function message_handler:assign_member_role_command()
     local f_mention = self.mentionedUsers.first
 
-    if (is_invalid_mention(f_mention)) then
+    if is_invalid_mention(f_mention) then
         self.channel:send {
             embed = {
                 title = 'لم تعطا رتبة ❎',
@@ -144,6 +181,7 @@ function message_handler:untimeOut_command()
 
     if author_member:hasPermission('administrator') then
         local f_member = self.guild:getMember(f_mention.id)
+        f_member:removeTimeout()
 
         self.channel:send {
             embed = {
@@ -156,6 +194,69 @@ function message_handler:untimeOut_command()
 end
 
 
+function message_handler:ban_command()
+    local f_mention = self.mentionedUsers.first
+    if is_invalid_mention(f_mention) then
+        return
+    end
+
+    local author_member = self.guild:getMember(self.author.id)
+
+    if author_member:hasPermission('administrator') then
+        local f_member = self.guild:getMember(f_mention.id)
+        if f_member:hasPermission('administrator') then
+            return
+        end
+
+        local duration = math.min(GET_DURATION(self.content), 7)
+        print('ban duration in days --> ', duration)
+        f_member:ban('moamen does not like her', duration)
+
+        self.channel:send {
+            embed = {
+                title = self.client:getEmoji('1215330368694124544').mentionString .. ' ' .. f_member.name .. ' was banned',
+                description = author_member.name .. ' banned a member\nduration: `' .. tostring(duration) .. ' days`',
+                color = discordia.Color.fromRGB(0, 0, 0).value,
+                footer = {
+                    text = 'case number --> ' .. tostring(#self.guild:getBans())
+                }
+            }
+        }
+    end
+end
+
+function message_handler:unban_command()
+    local author_member = self.guild:getMember(self.author.id)
+    local id_num = self.content:match('%d+')
+
+    if not id_num then
+        return
+    end
+
+    if author_member:hasPermission('administrator') then
+
+        if self.guild:unbanUser(id_num, 'moamen likes her') then
+            self.channel:send {
+                embed = {
+                    title = self.client:getEmoji('1265702883806937331').mentionString .. 'someone was unbanned',
+                    description = author_member.name .. ' unbanned a member who has this id -->\n`' .. id_num .. '`',
+                    color = discordia.Color.fromRGB(0, 0, 0).value,
+                    footer = {
+                        text = 'case number --> ' .. tostring(#self.guild:getBans())
+                    }
+                }
+            }
+        else
+            self.channel:send {
+                embed = {
+                    description = author_member.name .. ' sorry I could not find a member by this id -->\n`' .. id_num .. '`',
+                    color = discordia.Color.fromRGB(0, 0, 0).value,
+                }
+            }
+        end
+    end
+end
+
 function message_handler:timeOut_command()
     local f_mention = self.mentionedUsers.first
     if is_invalid_mention(f_mention) then
@@ -166,6 +267,10 @@ function message_handler:timeOut_command()
 
     if author_member:hasPermission('administrator') then
         local f_member = self.guild:getMember(f_mention.id)
+        if f_member:hasPermission('administrator') then
+            return
+        end
+
         local duration = GET_DURATION(self.content) * 60 -- 1 minute if GET_DURATION returns 1
         f_member:timeoutFor(duration)
 
