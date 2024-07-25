@@ -3,5 +3,7 @@ git fetch --all
 
 git checkout main0
 
+git reset --hard
+
 git push origin main
 git push origin main0

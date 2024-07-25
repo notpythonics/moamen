@@ -2372,3 +2372,10 @@
 2024-07-25 18:41:17 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
 2024-07-25 18:41:17 | [INFO]    | Shard 0 : Received HELLO
 2024-07-25 18:41:17 | [INFO]    | Shard 0 : Received READY
+2024-07-26 01:14:24 | [INFO]    | Discordia 2.12.0
+2024-07-26 01:14:24 | [INFO]    | Connecting to Discord...
+2024-07-26 01:14:24 | [INFO]    | Authenticated as stdto_underlying#1582
+2024-07-26 01:14:25 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-07-26 01:14:26 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-07-26 01:14:26 | [INFO]    | Shard 0 : Received HELLO
+2024-07-26 01:14:26 | [INFO]    | Shard 0 : Received READY
