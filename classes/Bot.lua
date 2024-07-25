@@ -34,7 +34,8 @@ function bot:bind_events()
             local message_user = reaction.message.member.user
             reaction.message.channel:send{
                 embed = {
-                    description = message_user.mentionString .. 'رسالة لك انحذفت لأن لها 5 ' .. self.client:getEmoji('1265414312483229706').mentionString,
+                    --description = message_user.mentionString .. 'رسالة لك انحذفت لأن لها 5 ' .. self.client:getEmoji('1265414312483229706').mentionString,
+                    description = message_user.mentionString .. 'a message of yours was deleted because it had 5' .. self.client:getEmoji('1265414312483229706').mentionString,
                     color = discordia.Color.fromRGB(0, 0, 0).value,
                 }
             }

@@ -66,6 +66,9 @@ function message_handler:handle(message)
     elseif (self.content:sub(1, 11) == 'moamen kick') then
         self:kick_command()
 
+    elseif (self.content:sub(1, 15) == 'moamen fe_embed') then
+        self:fe_embed()
+
     elseif (self.channel.id == '1028991151467933758' or
             self.channel.id == '1202308818139091026') then
         self.message:addReaction('👍🏿')
@@ -73,6 +76,42 @@ function message_handler:handle(message)
     end
 end
 
+
+function message_handler:fe_embed()
+    local author_member = self.guild:getMember(self.author.id)
+
+    if not author_member:hasPermission('administrator') then
+        return
+    end
+
+    local replied_to_msg = self.message.referencedMessage
+
+    if not replied_to_msg then
+        self.message:reply('please use this command as a reply to a message')
+        return
+    end
+
+    local embed = {
+        author = {
+            name = replied_to_msg.author.username,
+            icon_url = replied_to_msg.author.avatarURL
+        },
+        description = 'made by ' .. replied_to_msg.author.mentionString
+    }
+
+    -- check for image attachments
+    local attachments = replied_to_msg.attachments -- a table of attachments(an attachment is any file like an image)
+    if attachments  then
+        local f_attachment = attachments[1] -- git first attachment
+        if f_attachment then
+            embed.image = { url = f_attachment.url }
+        end
+    end
+
+    self.message.guild:getChannel('1266047330294169672'):send {
+        embed = embed
+    }
+end
 
 function message_handler:wiki_command(message)
     local wiki = Wiki:new(message)
