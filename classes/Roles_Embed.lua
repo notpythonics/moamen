@@ -1,5 +1,6 @@
 local discordia = require('discordia')
 local timer = require('timer')
+local Shared = require('./Shared')
 
 local roles_embed = {}
 
@@ -9,32 +10,10 @@ function roles_embed:new(message, client)
     self = setmetatable({}, roles_embed)
 
     self.client = client
-    self.message = message
     self.guild = message.guild
     self.channel = message.channel
 
     return self
-end
-
--- returns a bool
-function TABLE_FIND(tbl, target) -- inserted in _G table
-    for i, v in ipairs(tbl) do
-        if v == target then
-            return i
-        end
-    end
-    return nil
-end
-
-DEBOUNCE_MEMBERS = {} -- stores name strings
-
-function REMOVE_DEBOUNCE_FROM_IN(name, seconds) -- inserted in _G table
-    local co = coroutine.create(function ()
-        timer.sleep(seconds*1000)
-        table.remove(DEBOUNCE_MEMBERS, TABLE_FIND(DEBOUNCE_MEMBERS, name))
-    end)
-
-    coroutine.resume(co)
 end
 
 function roles_embed:bind_interaction_event()
@@ -49,12 +28,17 @@ function roles_embed:bind_interaction_event()
     self.client:on("interactionCreate", function(intr)
         intr:replyDeferred(true)
 
-        if TABLE_FIND(DEBOUNCE_MEMBERS, intr.member.name) then
-            REMOVE_DEBOUNCE_FROM_IN(intr.member.name, 2)
+        if Shared.TABLE_FIND(Shared.BLOCKED_MEMBERS, intr.member.user.id) then
+            intr:reply('انت محظور')
+            return
+        end
+
+        if Shared.TABLE_FIND(Shared.DEBOUNCE_MEMBERS, intr.member.user.id) then
+            Shared.REMOVE_DEBOUNCE_FROM_IN(intr.member.user.id, 2)
             intr:reply('cool down')
             return
         end
-        table.insert(DEBOUNCE_MEMBERS, intr.member.name)
+        table.insert(Shared.DEBOUNCE_MEMBERS, intr.member.user.id)
 
 
 

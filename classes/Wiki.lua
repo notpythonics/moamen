@@ -23,17 +23,7 @@ function wiki:new(message)
 end
 
 function wiki:process_message()
-    print(self.msg)
-
-    if(self.msg == 'int' or self.msg == 'ints' or self.msg == 'intgers' or self.msg == 'intger') then
-        self.channel:send {
-            embed = {
-                title = 'Lua has no integer type',
-                description = "every number in lua is a double or a float\n`source:https://www.lua.org/pil/2.3.html`\nwhy --> becuase it doesn't need it",
-                color = discordia.Color.fromRGB(0, 0, 0).value,
-            }
-        }
-    end
+    --print('wiki message -->', self.msg)
 
     if (self.msg == 'ticket_close_algorithm') then
         self.channel:send {

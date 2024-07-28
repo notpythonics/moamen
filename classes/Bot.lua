@@ -4,6 +4,7 @@ local discordia_components = require("discordia-components")
 local Components = discordia_components.Components
 
 local Message_Handler = require('./Message_Handler')
+local Block = require('./Block')
 
 local bot = {}
 bot.__index = bot
@@ -29,25 +30,33 @@ function bot:bind_events()
         if not delete_this_reaction then
             return end
 
-        if(delete_this_reaction.count >= 5) then
+        if(delete_this_reaction.count >= 4) then
             reaction.message:delete()
             local message_user = reaction.message.member.user
             reaction.message.channel:send{
                 embed = {
-                    --description = message_user.mentionString .. 'رسالة لك انحذفت لأن لها 5 ' .. self.client:getEmoji('1265414312483229706').mentionString,
-                    description = message_user.mentionString .. 'a message of yours was deleted because it had 5' .. self.client:getEmoji('1265414312483229706').mentionString,
+                    --description = message_user.mentionString .. 'رسالة لك انحذفت لأن لها 4 ' .. self.client:getEmoji('1265414312483229706').mentionString,
+                    description = message_user.mentionString .. 'a message of yours was deleted because it had 4' .. self.client:getEmoji('1265414312483229706').mentionString,
                     color = discordia.Color.fromRGB(0, 0, 0).value,
                 }
             }
         end
     end)
 
+    do
+        local message_handler = Message_Handler:new(self.client)
 
-    local message_handler = Message_Handler:new(self.client)
+        self.client:on('messageCreate', function(message)
+            local block = Block:new(message.guild.members:get(message.author.id), message.author.id)
+            if block:find() then
+                block:punsh()
+                message:delete()
+                return
+            end
 
-    self.client:on('messageCreate', function(message)
-        message_handler:handle(message)
-    end)
+            message_handler:handle(message)
+        end)
+    end
 
 
     self.client:on('memberJoin', function(member)
