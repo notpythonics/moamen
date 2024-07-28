@@ -25,7 +25,7 @@ end
 -- a function to find a target in a table
 function shared.TABLE_FIND(tbl, target)
     for i, v in ipairs(tbl) do
-        print(i, ' ', v)
+        --print(i, ' ', v)
         if v == target then
             return i
         end
@@ -33,7 +33,7 @@ function shared.TABLE_FIND(tbl, target)
     return nil
 end
 
--- a table to store debounced member ID's
+-- a table to store debounced member IDs
 shared.DEBOUNCE_MEMBERS = {}
 
 -- a function to remove a debounced member

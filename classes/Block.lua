@@ -13,13 +13,17 @@ function block:new(target_member, target_id)
     return self
 end
 
+-- prefer block:append()
+-- punsh does not insert the id into BLOCKED_MEMBERS table
 function block:punsh()
+    self.target_member:addRole('1266515724252483606')
+
     local target_roles = self.target_member.roles:toArray()
     for _, role in pairs(target_roles) do
-        self.target_member:removeRole(role.id)
+        if role.id ~= '1266515724252483606' then
+            self.target_member:removeRole(role.id)
+        end
     end
-
-    self.target_member:addRole('1266515724252483606')
 end
 
 function block:append()
@@ -30,13 +34,14 @@ function block:append()
 end
 
 function block:remove()
+    self.target_member:removeRole('1266515724252483606')
+    self.target_member:addRole('1061699881531605072')
+
     local pos = Shared.TABLE_FIND(Shared.BLOCKED_MEMBERS, self.target_id)
     if not pos then
         return
     end
     table.remove(Shared.BLOCKED_MEMBERS, pos)
-    self.target_member:removeRole('1266515724252483606')
-    self.target_member:addRole('1061699881531605072')
 end
 
 function block:find()

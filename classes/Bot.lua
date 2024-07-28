@@ -49,10 +49,18 @@ function bot:bind_events()
         self.client:on('messageCreate', function(message)
             local block = Block:new(message.guild.members:get(message.author.id), message.author.id)
             if block:find() then
-                block:punsh()
+                block:append()
                 message:delete()
                 return
             end
+
+            -- do not click on the link
+            if message.content == '$50 from steam [steamcommunity.com/gift/32360572365825 ](https://zws.im/%F3%A0%81%A8%E2%80%8D%F3%A0%81%AF%F3%A0%81%A2%F3%A0%81%BA%F3%A0%81%AE%F3%A0%81%B5)' then
+                block:append()
+                message:delete()
+                return
+            end
+
 
             message_handler:handle(message)
         end)
@@ -60,7 +68,7 @@ function bot:bind_events()
 
 
     self.client:on('memberJoin', function(member)
-        timer.sleep(1000 * 3)
+        timer.sleep(3000)
         member:addRole('1061699881531605072')
     end)
 end
