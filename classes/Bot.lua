@@ -20,10 +20,11 @@ end
 
 function bot:bind_events()
 
-    self.client:on('reactionAdd', function(reaction, user_id)
+    self.client:on('reactionAddUncached', function(channel, message_id, _, user_id)
         local rec_adder = self.client:getUser(user_id)
+        local message = channel:getMessage(message_id)
 
-        local delete_this_reaction = reaction.message.reactions:find(function(r)
+        local delete_this_reaction = message.reactions:find(function(r)
             return r.emojiName == "delete_this"
         end)
 
@@ -31,9 +32,9 @@ function bot:bind_events()
             return end
 
         if(delete_this_reaction.count >= 4) then
-            reaction.message:delete()
-            local message_user = reaction.message.member.user
-            reaction.message.channel:send{
+            message:delete()
+            local message_user = message.member.user
+            message.channel:send{
                 embed = {
                     --description = message_user.mentionString .. 'رسالة لك انحذفت لأن لها 4 ' .. self.client:getEmoji('1265414312483229706').mentionString,
                     description = message_user.mentionString .. 'a message of yours was deleted because it had 4' .. self.client:getEmoji('1265414312483229706').mentionString,
@@ -42,6 +43,7 @@ function bot:bind_events()
             }
         end
     end)
+
 
     do
         local message_handler = Message_Handler:new(self.client)

@@ -2,7 +2,7 @@ local discordia = require('discordia')
 local Roles_Embed = require('./Roles_Embed')
 local Wiki = require('./Wiki')
 local Block = require('./Block')
-local Shared = require('./Shared')
+local Shared = require('../Shared')
 
 local message_handler = {}
 

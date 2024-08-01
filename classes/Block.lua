@@ -1,5 +1,5 @@
 local discordia = require('discordia')
-local Shared = require('./Shared')
+local Shared = require('../Shared')
 
 local block = {}
 block.__index = block

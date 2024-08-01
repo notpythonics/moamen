@@ -1,6 +1,6 @@
 local discordia = require('discordia')
 local timer = require('timer')
-local Shared = require('./Shared')
+local Shared = require('../Shared')
 
 local roles_embed = {}
 
