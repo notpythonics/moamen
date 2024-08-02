@@ -1,8 +1,16 @@
 local discordia = require('discordia')
 local Shared = require('../Shared')
+local Enums = require('../Enums')
 
 local block = {}
 block.__index = block
+
+-- a table to store blocked members IDs
+local blocked_members = {}
+
+function block:blocked_members_tbl()
+    return blocked_members
+end
 
 function block:new(target_member, target_id)
     self = setmetatable({}, block)
@@ -16,11 +24,11 @@ end
 -- prefer block:append()
 -- punsh does not insert the id into BLOCKED_MEMBERS table
 function block:punsh()
-    self.target_member:addRole('1266515724252483606')
+    self.target_member:addRole(Enums.roles.blocked)
 
     local target_roles = self.target_member.roles:toArray()
     for _, role in pairs(target_roles) do
-        if role.id ~= '1266515724252483606' then
+        if role.id ~= Enums.roles.blocked then
             self.target_member:removeRole(role.id)
         end
     end
@@ -28,24 +36,24 @@ end
 
 function block:append()
     self:punsh()
-    if not Shared.TABLE_FIND(Shared.BLOCKED_MEMBERS, self.target_id) then
-        table.insert(Shared.BLOCKED_MEMBERS, self.target_id)
+    if not Shared.TABLE_FIND(blocked_members, self.target_id) then
+        table.insert(blocked_members, self.target_id)
     end
 end
 
 function block:remove()
-    self.target_member:removeRole('1266515724252483606')
-    self.target_member:addRole('1061699881531605072')
+    self.target_member:removeRole(Enums.roles.blocked)
+    self.target_member:addRole(Enums.roles.member)
 
-    local pos = Shared.TABLE_FIND(Shared.BLOCKED_MEMBERS, self.target_id)
+    local pos = Shared.TABLE_FIND(blocked_members, self.target_id)
     if not pos then
         return
     end
-    table.remove(Shared.BLOCKED_MEMBERS, pos)
+    table.remove(blocked_members, pos)
 end
 
 function block:find()
-    if Shared.TABLE_FIND(Shared.BLOCKED_MEMBERS, self.target_id) then
+    if Shared.TABLE_FIND(blocked_members, self.target_id) then
         return true
     end
     return false

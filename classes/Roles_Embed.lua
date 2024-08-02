@@ -1,6 +1,8 @@
 local discordia = require('discordia')
 local timer = require('timer')
 local Shared = require('../Shared')
+local Enums = require('../Enums')
+local Block = require('./Block')
 
 local roles_embed = {}
 
@@ -28,7 +30,7 @@ function roles_embed:bind_interaction_event()
     self.client:on("interactionCreate", function(intr)
         intr:replyDeferred(true)
 
-        if Shared.TABLE_FIND(Shared.BLOCKED_MEMBERS, intr.member.user.id) then
+        if Shared.TABLE_FIND(Block:blocked_members_tbl(), intr.member.user.id) then
             intr:reply('انت محظور')
             return
         end
@@ -50,10 +52,10 @@ function roles_embed:bind_interaction_event()
         --------------------------------------------------------------
         if (custom_id == 'delete') then
             if is_member(intr) then return end
-
+            -- ineeded co?
             local co = coroutine.create(function ()
                 intr.channel:send('الروم ينحذف بعد 3 ثواني')
-                timer.sleep(1000 * 3)
+                timer.sleep(3000)
                 intr.channel:delete()
             end)
 
@@ -96,10 +98,10 @@ function roles_embed:bind_interaction_event()
 
         -- create a channel
         local created_channel = self.guild:createTextChannel(intr.data.values[1] .. ' 🔓')
-        created_channel:setCategory('1248614752750403604')
+        created_channel:setCategory(Enums.categories.ask_for_roles)
 
         -- make it priavte to the maker
-        created_channel:getPermissionOverwriteFor(self.guild:getRole('1028991149806981140')):denyPermissions(
+        created_channel:getPermissionOverwriteFor(self.guild:getRole(Enums.roles.everyone)):denyPermissions(
             'readMessages')
         created_channel:getPermissionOverwriteFor(intr.member):allowPermissions('readMessages')
 

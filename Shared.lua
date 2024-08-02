@@ -2,9 +2,6 @@ local timer = require('timer')
 
 local shared = {}
 
--- a table to store blocked members IDs
-shared.BLOCKED_MEMBERS = {}
-
 -- a global variable to track if roles_embed is sent
 shared.IS_ROLES_EMBED_SENT = false
 
