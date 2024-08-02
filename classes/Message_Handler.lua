@@ -108,7 +108,7 @@ function message_handler:fe_embed()
 
     -- check for image attachments
     local attachments = replied_to_msg.attachments -- a table of attachments(an attachment is any file like an image)
-    if attachments  then
+    if attachments then
         local f_attachment = attachments[1] -- git first attachment
         if f_attachment then
             embed.image = { url = f_attachment.url }
@@ -131,7 +131,7 @@ function message_handler:source_code_command()
     self.channel:send {
         embed = {
             title = 'source code',
-            description = "البوت مبرمج بlua\n`repo:https://github.com/notpythonics/moamen\ngit clone https://github.com/notpythonics/moamen\n-->run batch file`\nyou can't be a contributor go away",
+            description = "repo: [moamen](https://github.com/notpythonics/moamen)\n`git clone https://github.com/notpythonics/moamen`\n-->change enums and replace token\n->run batch file\nyou can't be a contributor go away",
             color = discordia.Color.fromRGB(0, 0, 0).value,
         }
     }

@@ -1,4 +1,5 @@
 local timer = require('timer')
+local Enums = require('./Enums')
 
 local shared = {}
 

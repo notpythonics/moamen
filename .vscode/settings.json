@@ -3,5 +3,8 @@
         "deps",
         "discordia"
     ],
-    "Lua.runtime.version": "LuaJIT"
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.diagnostics.disable": [
+        "different-requires"
+    ]
 }

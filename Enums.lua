@@ -16,7 +16,8 @@ enums.roles = {
 enums.channels = {
     your_games = '1202308818139091026',
     your_doings = '1028991151467933758',
-    fetured = '1266047330294169672'
+    fetured = '1266047330294169672',
+    bots_cmds = '1028991151467933756'
 }
 
 enums.categories = {

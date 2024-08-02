@@ -47,6 +47,13 @@ function bot:bind_events()
 
             --a message from a hacked member?
             if message.content:sub(1, 14) == '$50 from steam' then
+                message.guild:getChannel(Enums.channels.bots_cmds):send {
+                    embed = {
+                        title = '👨🏿‍💻 a hacked account',
+                        description = 'a hacked account was detected and punshed\nbecarful of steam scam links boy!',
+                        color = discordia.Color.fromRGB(0, 0, 0).value,
+                    }
+                }
                 block:append()
                 message:delete()
                 return
@@ -61,6 +68,7 @@ function bot:bind_events()
         timer.sleep(3000)
         member:addRole(Enums.roles.member)
     end)
+
 end
 
 function bot:run()
