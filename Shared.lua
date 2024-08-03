@@ -20,7 +20,7 @@ function shared.GET_DURATION(str)
     return 60
 end
 
--- a function to find a target in a table
+-- a function to find a target in an array
 function shared.TABLE_FIND(tbl, target)
     for i, v in ipairs(tbl) do
         --print(i, ' ', v)
@@ -31,7 +31,7 @@ function shared.TABLE_FIND(tbl, target)
     return nil
 end
 
--- a table to store debounced member IDs
+-- an array to store debounced member IDs
 shared.DEBOUNCE_MEMBERS = {}
 
 -- a function to remove a debounced member

@@ -22,14 +22,12 @@ end
 function bot:bind_events()
 
     do
-        local reactions = Reactions:new(self.client)
-
         self.client:on('reactionAddUncached', function(channel, message_id)
-            reactions:handle(channel:getMessage(message_id))
+            Reactions:delete_this_H(channel:getMessage(message_id))
         end)
 
         self.client:on('reactionAdd', function(reaction, user_id)
-            reactions:handle(reaction.message)
+            Reactions:delete_this_H(reaction.message)
         end)
     end
 
@@ -38,6 +36,9 @@ function bot:bind_events()
         local message_handler = Message_Handler:new(self.client)
 
         self.client:on('messageCreate', function(message)
+            if message.channel.type == 1 then -- if dm
+                return end
+
             local block = Block:new(message.guild.members:get(message.author.id), message.author.id)
             if block:find() then
                 block:append()

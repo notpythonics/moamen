@@ -5,7 +5,7 @@ local Enums = require('../Enums')
 local block = {}
 block.__index = block
 
--- a table to store blocked members IDs
+-- an array to store blocked members IDs
 local blocked_members = {}
 
 function block:blocked_members_tbl()
