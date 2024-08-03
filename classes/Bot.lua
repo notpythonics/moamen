@@ -21,15 +21,13 @@ end
 
 function bot:bind_events()
 
-    do
-        self.client:on('reactionAddUncached', function(channel, message_id)
-            Reactions:delete_this_H(channel:getMessage(message_id))
-        end)
+    self.client:on('reactionAddUncached', function(channel, message_id)
+        Reactions:delete_this_H(channel:getMessage(message_id))
+    end)
 
-        self.client:on('reactionAdd', function(reaction, user_id)
-            Reactions:delete_this_H(reaction.message)
-        end)
-    end
+    self.client:on('reactionAdd', function(reaction, user_id)
+        Reactions:delete_this_H(reaction.message)
+    end)
 
 
     do
