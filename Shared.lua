@@ -3,7 +3,7 @@ local Enums = require('./Enums')
 
 local shared = {}
 
--- a global variable to track if roles_embed is sent
+-- a variable to track if roles_embed is sent
 shared.IS_ROLES_EMBED_SENT = false
 
 -- a function to get a number from a message(it skips the id(aka first number))

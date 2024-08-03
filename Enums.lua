@@ -1,8 +1,9 @@
 local enums = {}
 
+--you might  emojiName:emojiID
 enums.emojis = {
     delete_this = '1265414312483229706',
-    what = '1268763017257160794',
+    what = 'what:1268763017257160794',
     no_whipping = '1265702883806937331',
     whipp = '1215330368694124544'
 }

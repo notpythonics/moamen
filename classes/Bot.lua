@@ -51,7 +51,7 @@ function bot:bind_events()
                     embed = {
                         title = '👨🏿‍💻 a hacked account',
                         description = 'a hacked account was detected and punshed\nbecarful of steam scam links boy!',
-                        color = discordia.Color.fromRGB(0, 0, 0).value,
+                        color = discordia.Color.fromRGB(0, 0, 102).value,
                     }
                 }
                 block:append()

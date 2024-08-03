@@ -35,23 +35,20 @@ function message_handler:handle(message)
         return
     end
 
-    if (self.content:sub(1, 14) == 'moamen timeout' or
-        self.content:sub(1, 11) == 'moamen mute')  then
+    if (self.content:sub(1, 11) == 'moamen mute')  then
         self:timeOut_command()
 
-    elseif (self.content:sub(1, 16) == 'moamen untimeout' or
-        self.content:sub(1, 13) == 'moamen unmute') then
+    elseif (self.content:sub(1, 13) == 'moamen unmute') then
         self:untimeOut_command()
 
+        --banning
     elseif (self.content:sub(1, 10) == 'moamen ban') then
         self:ban_command()
 
     elseif (self.content:sub(1, 12) == 'moamen unban') then
         self:unban_command()
 
-    elseif (self.content:sub(1, 18) == 'moamen roles_embed') then
-        self:roles_embed_command()
-
+        --others
     elseif (self.content:sub(1, 20) == 'moamen assign_member') then
         self:assign_member_role_command()
 
@@ -63,6 +60,10 @@ function message_handler:handle(message)
 
     elseif (self.content:sub(1, 11) == 'moamen kick') then
         self:kick_command()
+
+        --embeds
+    elseif (self.content:sub(1, 18) == 'moamen roles_embed') then
+        self:roles_embed_command()
 
     elseif (self.content:sub(1, 15) == 'moamen fe_embed') then
         self:fe_embed()
@@ -106,13 +107,28 @@ function message_handler:fe_embed()
         description = 'made by ' .. replied_to_msg.author.mentionString
     }
 
-    -- check for image attachments
-    local attachments = replied_to_msg.attachments -- a table of attachments(an attachment is any file like an image)
-    if attachments then
-        local f_attachment = attachments[1] -- git first attachment
-        if f_attachment then
-            embed.image = { url = f_attachment.url }
+    --copied and pasted from satckoverflow
+    local function find_links(message)
+        local content = message.content
+        local links = {}
+
+        for link in content:gmatch('https?://[%w-_%.%?%.:/%+=&]+') do
+            table.insert(links, link)
         end
+
+        return links
+    end
+
+    -- check for image attachments
+    local attachment = replied_to_msg.attachments[1] -- a table of attachments(an attachment is any file like an image)
+    if attachment then
+        embed.image = { url = attachment.url }
+    end
+
+    --check for links
+    local link = find_links(replied_to_msg)[1]:gsub(' ', '')
+    if link then
+        embed.description = embed.description .. '\n\n' .. string.format('[[video]](%s)', link)
     end
 
     self.guild:getChannel(Enums.channels.fetured):send {
@@ -166,7 +182,7 @@ function message_handler:unban_command()
             embed = {
                 title = self.client:getEmoji(Enums.emojis.no_whipping).mentionString .. 'someone was unbanned',
                 description = self.author_member.name .. ' unbanned a member who has this id -->\n`' .. id_num .. '`',
-                color = discordia.Color.fromRGB(0, 0, 0).value,
+                color = discordia.Color.fromRGB(0, 102, 0).value,
                 footer = {
                     text = 'case number --> ' .. tostring(#self.guild:getBans())
                 }
@@ -176,7 +192,7 @@ function message_handler:unban_command()
         self.channel:send {
             embed = {
                 description = self.author_member.name .. ' sorry I could not find a member by this id -->\n`' .. id_num .. '`',
-                color = discordia.Color.fromRGB(0, 0, 0).value,
+                color = discordia.Color.fromRGB(0, 102, 0).value,
             }
         }
     end
