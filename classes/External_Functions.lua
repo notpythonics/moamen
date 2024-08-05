@@ -1,9 +1,11 @@
 local discordia = require('discordia')
+local timer = require('timer')
+
 local Enums = require('../Enums')
 
-local reactions = {}
+local external_functions = {}
 
-function reactions:delete_this_H(message)
+function external_functions.delete_this_reaction(message)
     local delete_this_reaction = message.reactions:find(function(r)
         return r.emojiId == Enums.emojis.delete_this
     end)
@@ -24,4 +26,9 @@ function reactions:delete_this_H(message)
     end
 end
 
-return reactions
+function external_functions.member_join(member)
+    timer.sleep(3000)
+    member:addRole(Enums.roles.member)
+end
+
+return external_functions

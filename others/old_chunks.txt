@@ -19,3 +19,12 @@ function message_handler:reopen_room()
     local new_name = string.gsub(c_name, '🔒', '🔓')
     self.channel:setName(new_name)
 end
+
+
+local co = coroutine.create(function ()
+    intr.channel:send('الروم ينحذف بعد 3 ثواني')
+    timer.sleep(3000)
+    intr.channel:delete()
+end)
+
+coroutine.resume(co)

@@ -22,7 +22,7 @@ function block:new(target_member, target_id)
 end
 
 -- prefer block:append()
--- punsh does not insert the id into BLOCKED_MEMBERS table
+-- punsh does not insert the id into BLOCKED_MEMBERS array
 function block:punsh()
     self.target_member:addRole(Enums.roles.blocked)
 

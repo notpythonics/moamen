@@ -2,6 +2,7 @@ local discordia = require('discordia')
 local Roles_Embed = require('./Roles_Embed')
 local Wiki = require('./Wiki')
 local Block = require('./Block')
+
 local Shared = require('../Shared')
 local Enums = require('../Enums')
 
@@ -18,9 +19,8 @@ function message_handler:new(client)
 end
 
 function message_handler:handle(message)
-    self.author = message.author
-    if self.author.bot then return end
 
+    self.author = message.author
     self.guild = message.guild -- a guild is your server
     self.content = message.content
     self.mentionedUsers = message.mentionedUsers
@@ -31,7 +31,9 @@ function message_handler:handle(message)
     if (self.content:sub(1, 5) == 'what?' or
         self.content:sub(1, 4) == 'what' or
         self.content:sub(1, 3) == 'wat') then
-        self.message:addReaction(Enums.emojis.what)
+        pcall(function()
+            self.message:addReaction(Enums.emojis.what)
+        end)
         return
     end
 
@@ -41,12 +43,14 @@ function message_handler:handle(message)
     elseif (self.content:sub(1, 13) == 'moamen unmute') then
         self:untimeOut_command()
 
+
         --banning
     elseif (self.content:sub(1, 10) == 'moamen ban') then
         self:ban_command()
 
     elseif (self.content:sub(1, 12) == 'moamen unban') then
         self:unban_command()
+
 
         --others
     elseif (self.content:sub(1, 20) == 'moamen assign_member') then
@@ -61,12 +65,17 @@ function message_handler:handle(message)
     elseif (self.content:sub(1, 11) == 'moamen kick') then
         self:kick_command()
 
+
         --embeds
     elseif (self.content:sub(1, 18) == 'moamen roles_embed') then
         self:roles_embed_command()
 
+    elseif (self.content:sub(1, 18) == 'moamen shop_embeds') then
+        self:shop_embeds_command()
+
     elseif (self.content:sub(1, 15) == 'moamen fe_embed') then
         self:fe_embed()
+
 
         --blocking commands
     elseif (self.content:sub(1, 22) == 'moamen blocked_members') then
@@ -81,9 +90,47 @@ function message_handler:handle(message)
 
     elseif (self.channel.id == Enums.channels.your_doings or
             self.channel.id == Enums.channels.your_games) then
-        self.message:addReaction('👍🏿')
-        self.message:addReaction('👎🏿')
+        pcall(function()
+            self.message:addReaction('👍🏿')
+            self.message:addReaction('👎🏿')
+        end)
     end
+end
+
+
+function message_handler:shop_embeds_command()
+    if not self.author_member:hasPermission('administrator') then
+        return
+    end
+    do
+        local rooms_buttons = discordia.Components {
+            discordia.Button('fh_request') -- id
+                :label 'إنشاء'
+                :style 'success'
+        }
+
+        self.client:getChannel(Enums.channels.fh_embed_channel):sendComponents({
+            embed = {
+                title = 'عرض خدمة',
+                description = 'اعرض خدمتك التطويرية للربح منها',
+                color = discordia.Color.fromRGB(0, 0, 0).value,
+            }
+        }, rooms_buttons)
+    end
+
+    local rooms_buttons = discordia.Components {
+        discordia.Button('lfd_request') -- id
+            :label 'إنشاء'
+            :style 'success'
+    }
+
+    self.client:getChannel(Enums.channels.lfd_embed_channel):sendComponents({
+        embed = {
+            title = 'طلب خدمة',
+            description = 'ابحث عن مطورين لمساعدتك في تطوير لعبتك',
+            color = discordia.Color.fromRGB(0, 0, 0).value,
+        }
+    }, rooms_buttons)
 end
 
 
@@ -126,9 +173,9 @@ function message_handler:fe_embed()
     end
 
     --check for links
-    local link = find_links(replied_to_msg)[1]:gsub(' ', '')
+    local link = find_links(replied_to_msg)[1]
     if link then
-        embed.description = embed.description .. '\n\n' .. string.format('[[video]](%s)', link)
+        embed.description = embed.description .. '\n' .. string.format('[[video]](%s)', link:gsub(' ', ''))
     end
 
     self.guild:getChannel(Enums.channels.fetured):send {
@@ -155,18 +202,14 @@ end
 
 
 function message_handler:roles_embed_command()
-    if Shared.IS_ROLES_EMBED_SENT then
-        self.message:reply('في امبيد موجودة')
+    if not self.author_member:hasPermission('administrator') then
         return
     end
 
     local roles_embed = Roles_Embed:new(self.message, self.client)
     roles_embed:bind_interaction_event()
 
-    if self.author_member:hasPermission('administrator') then
-        roles_embed:send()
-        Shared.IS_ROLES_EMBED_SENT = true
-    end
+    roles_embed:send()
 end
 
 

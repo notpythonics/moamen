@@ -53,7 +53,7 @@ function wiki:process_message()
 
                     --block commands
                     {name = 'blocking',
-                    value = '`blocked_members` number of blocked members\n`block` blocks a member(removes roles)\n`unblock` unblocks a member',
+                    value = '`blocked_members` number of blocked members\n`block` blocks a member (removes roles)\n`unblock` unblocks a member',
                     inline = false},
 
                     {name = 'banning',
@@ -61,7 +61,7 @@ function wiki:process_message()
                     inline = false},
 
                     {name = 'embeds',
-                    value = '`roles_embed` sends an embed for applying to roles\n`fe_embed` sends an embed of an attachment or link found in a referenced message',
+                    value = '`roles_embed` sends an embed for applying to roles (it binds inter event)\n`fe_embed` sends an embed of an attachment or link found in a referenced message\n`erase` stops the process of filling an embed shop',
                     inline = false},
 
                     {name = 'others',

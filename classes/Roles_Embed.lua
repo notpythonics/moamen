@@ -1,8 +1,10 @@
 local discordia = require('discordia')
 local timer = require('timer')
+local Block = require('./Block')
+local Shop = require('./Shop')
+
 local Shared = require('../Shared')
 local Enums = require('../Enums')
-local Block = require('./Block')
 
 local roles_embed = {}
 
@@ -18,52 +20,95 @@ function roles_embed:new(message, client)
     return self
 end
 
-function roles_embed:bind_interaction_event()
-    local function is_member(intr)
-        if not intr.member:hasPermission('administrator') then
-            intr.channel:send('صاحب التقديم ممنوع يحذف التكت')
-            return true
-        end
-        return false
+local function is_member(intr)
+    if not intr.member:hasPermission('administrator') then
+        intr.channel:send('صاحب التقديم ممنوع يحذف التكت')
+        return true
     end
+    return false
+end
 
-    self.client:on("interactionCreate", function(intr)
+function roles_embed:bind_interaction_event(another_client)
+    if another_client then self.client = another_client end
+    if Shared.IS_INTERACTION_BOUND then return end
+    Shared.IS_INTERACTION_BOUND = true
+
+
+    self.client:on('interactionCreate', function(intr)
+        if not intr.member then return end
+
         intr:replyDeferred(true)
 
+        --is blocked
         if Shared.TABLE_FIND(Block:blocked_members_tbl(), intr.member.user.id) then
             intr:reply('انت محظور')
             return
         end
 
-        if Shared.TABLE_FIND(Shared.DEBOUNCE_MEMBERS, intr.member.user.id) then
-            Shared.REMOVE_DEBOUNCE_FROM_IN(intr.member.user.id, 2)
-            intr:reply('cool down')
-            return
-        end
-        table.insert(Shared.DEBOUNCE_MEMBERS, intr.member.user.id)
-
-
-
         local custom_id = intr.data.custom_id
         print(custom_id)
 
 
-        --- what button?
+        ---- what button?
         --------------------------------------------------------------
-        if (custom_id == 'delete') then
-            if is_member(intr) then return end
-            -- ineeded co?
-            local co = coroutine.create(function ()
-                intr.channel:send('الروم ينحذف بعد 3 ثواني')
-                timer.sleep(3000)
-                intr.channel:delete()
-            end)
 
-            coroutine.resume(co)
+        --shop
+        if (custom_id == 'lfd_request' or custom_id == 'fh_request') then
+            if Shared.REQUESTED_EMBEDS[intr.member.username] then
+                intr:reply('في طلب مرسل')
+                return
+            end
+            intr:reply('خاص')
+            Shop:append_working(intr.member.user, custom_id)
             return
         end
 
+        --accept and decline buttons
+        local function handle_shop_embed_button(r_embed, is_accepted)
+            intr.message:delete()
 
+            if not r_embed then
+                return
+            end
+
+            local user = self.client:getUser(r_embed[1])
+            Shared.REQUESTED_EMBEDS[user.username] = nil
+
+            if is_accepted then
+                intr:reply('انقبلت')
+                Shop:send(intr.message, r_embed[2], r_embed[3])
+                user:getPrivateChannel():send('الإمبد انقبل')
+            else
+                intr:reply('انحذفت')
+                user:getPrivateChannel():send('الإمبد انرفض')
+            end
+        end
+
+        if custom_id == 'request_decline' then
+            local r_embed = Shared.REQUESTED_EMBEDS[intr.message.embed.author.name]
+            handle_shop_embed_button(r_embed, false)
+            return
+        end
+
+        if custom_id == 'request_accept' then
+            local r_embed = Shared.REQUESTED_EMBEDS[intr.message.embed.author.name]
+            handle_shop_embed_button(r_embed, true)
+            return
+        end
+        -------------------------
+
+
+        --ticket delete
+        if (custom_id == 'delete') then
+            if is_member(intr) then return end
+
+            intr.channel:send('الروم ينحذف بعد 3 ثواني')
+            timer.sleep(3000)
+            intr.channel:delete()
+            return
+        end
+
+        --ticket close
         if (custom_id == 'close') then
             if is_member(intr) then return end
             if string.find(intr.channel.name, '🔒') then
@@ -95,17 +140,17 @@ function roles_embed:bind_interaction_event()
         end
         --------------------------------------------------------------
 
-
-        -- create a channel
+        if not self.guild then return end
+        --create a channel
         local created_channel = self.guild:createTextChannel(intr.data.values[1] .. ' 🔓')
         created_channel:setCategory(Enums.categories.ask_for_roles)
 
-        -- make it priavte to the maker
+        --make it priavte to the maker
         created_channel:getPermissionOverwriteFor(self.guild:getRole(Enums.roles.everyone)):denyPermissions(
             'readMessages')
         created_channel:getPermissionOverwriteFor(intr.member):allowPermissions('readMessages')
 
-        -- send an emebd to the created_channel
+        --send an emebd to the created_channel
         created_channel:send(intr.member.user.mentionString)
         local rooms_buttons = discordia.Components {
             discordia.Button("delete") -- id
@@ -138,7 +183,7 @@ function roles_embed:send()
             :option("مصمم جرافيك", "gfx", "هذه الرتبة لها 3 تصنيفات", false, self.guild:getEmoji('1248610490855325738'))
             :option("مؤثرات بصرية", "vfx", "هذه الرتبة لها 3 تصنيفات", false, self.guild:getEmoji('1248610479232909332'))
             :option("أنيميشن", "animation", "هذه الرتبة لها 3 تصنيفات", false, self.guild:getEmoji('1248610481606885486'))
-            :option("واجهة مستخدم", "ui", "هذه الرتبة لها 3 تصنيفات", false, self.guild:getEmoji('1248610488275828848')),
+            :option("واجهة مستخدم", "ui", "هذه الرتبة لها 3 تصنيفات", false, self.guild:getEmoji('1248610488275828848'))
     }
     self.channel:sendComponents({
         embed = {
