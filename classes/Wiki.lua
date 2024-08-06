@@ -4,7 +4,7 @@ local wiki = {}
 
 wiki.__index = wiki
 
-function wiki:new(message)
+function wiki.new(message)
     local function remove_prefix(str)
         return str:sub(12)
     end
@@ -13,7 +13,7 @@ function wiki:new(message)
         return string.gsub(str, ' ', '')
     end
 
-    self = setmetatable({}, wiki)
+    local self = setmetatable({}, wiki)
 
     self.message = message
     self.msg = remove_spaces(remove_prefix(message.content))

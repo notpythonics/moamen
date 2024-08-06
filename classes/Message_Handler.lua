@@ -10,8 +10,8 @@ local message_handler = {}
 
 message_handler.__index = message_handler
 
-function message_handler:new(client)
-    self = setmetatable({}, message_handler)
+function message_handler.new(client)
+    local self = setmetatable({}, message_handler)
 
     self.client = client
 
@@ -185,7 +185,7 @@ end
 
 
 function message_handler:wiki_command(message)
-    local wiki = Wiki:new(message)
+    local wiki = Wiki.new(message)
     wiki:process_message()
 end
 
@@ -206,7 +206,7 @@ function message_handler:roles_embed_command()
         return
     end
 
-    local roles_embed = Roles_Embed:new(self.message, self.client)
+    local roles_embed = Roles_Embed.new(self.message, self.client)
     roles_embed:bind_interaction_event()
 
     roles_embed:send()
@@ -224,7 +224,7 @@ function message_handler:unban_command()
         self.channel:send {
             embed = {
                 title = self.client:getEmoji(Enums.emojis.no_whipping).mentionString .. 'someone was unbanned',
-                description = self.author_member.name .. ' unbanned a member who has this id -->\n`' .. id_num .. '`',
+                description = self.author_member.username .. ' unbanned a member who has this id -->\n`' .. id_num .. '`',
                 color = discordia.Color.fromRGB(0, 102, 0).value,
                 footer = {
                     text = 'case number --> ' .. tostring(#self.guild:getBans())
@@ -234,7 +234,7 @@ function message_handler:unban_command()
     else
         self.channel:send {
             embed = {
-                description = self.author_member.name .. ' sorry I could not find a member by this id -->\n`' .. id_num .. '`',
+                description = self.author_member.username .. ' sorry I could not find a member by this id -->\n`' .. id_num .. '`',
                 color = discordia.Color.fromRGB(0, 102, 0).value,
             }
         }
@@ -268,7 +268,7 @@ function message_handler:block_command()
         return
     end
 
-    local block = Block:new(f_member, f_mention.id)
+    local block = Block.new(f_member, f_mention.id)
     block:append()
 end
 
@@ -283,7 +283,7 @@ function message_handler:unblock_command()
         return
     end
 
-    local block = Block:new(f_member, f_mention.id)
+    local block = Block.new(f_member, f_mention.id)
     block:remove()
 end
 
@@ -302,8 +302,8 @@ function message_handler:kick_command()
 
     self.channel:send {
         embed = {
-            title = '👼🏿 ' .. f_member.name .. ' was kicked',
-            description = self.author_member.name .. ' kicked a member',
+            title = '👼🏿 ' .. f_member.username .. ' was kicked',
+            description = self.author_member.username .. ' kicked a member',
             color = discordia.Color.fromRGB(0, 0, 0).value,
         }
     }
@@ -356,8 +356,8 @@ function message_handler:untimeOut_command()
 
     self.channel:send {
         embed = {
-            title = '✅ ' .. f_member.name .. ' was untimedOut',
-            description = self.author_member.name .. ' removed a timeout from a member',
+            title = '✅ ' .. f_member.username .. ' was untimedOut',
+            description = self.author_member.username .. ' removed a timeout from a member',
             color = discordia.Color.fromRGB(0, 0, 0).value,
         }
     }
@@ -380,11 +380,11 @@ function message_handler:ban_command()
 
     self.channel:send {
         embed = {
-            title = self.client:getEmoji(Enums.emojis.whipp).mentionString .. ' ' .. f_member.name .. ' was banned',
-            description = self.author_member.name .. ' banned a member\nduration: `' .. tostring(duration) .. ' days`',
+            title = self.client:getEmoji(Enums.emojis.whipp).mentionString .. ' ' .. f_member.username .. ' was banned',
+            description = self.author_member.username .. ' banned a member\nduration: `' .. tostring(duration) .. ' days`',
             color = discordia.Color.fromRGB(0, 0, 0).value,
             footer = {
-                text = 'case number --> ' .. tostring(#self.guild:getBans())
+                text = 'case ' .. tostring(#self.guild:getBans())
             }
         }
     }
@@ -406,8 +406,8 @@ function message_handler:timeOut_command()
 
     self.channel:send {
         embed = {
-            title = '✅ ' .. f_member.name .. ' was timedOut',
-            description = self.author_member.name .. ' timedOut a member\nduration: `' .. tostring(duration / 60) .. ' minutes`',
+            title = '✅ ' .. f_member.username .. ' was timedOut',
+            description = self.author_member.username .. ' timedOut a member\nduration: `' .. tostring(duration / 60) .. ' minutes`',
             color = discordia.Color.fromRGB(0, 0, 0).value,
         }
     }

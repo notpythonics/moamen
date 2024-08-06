@@ -14,8 +14,8 @@ local Enums = require('../Enums')
 local bot = {}
 bot.__index = bot
 
-function bot:new(token)
-    self = setmetatable({}, bot)
+function bot.new(token)
+    local self = setmetatable({}, bot)
 
     self.client = discordia.Client():enableAllIntents() -- Client() gets retruned only once
     self.token = token
@@ -35,7 +35,7 @@ function bot:bind_events()
 
 
     do
-        local message_handler = Message_Handler:new(self.client)
+        local message_handler = Message_Handler.new(self.client)
 
         self.client:on('messageCreate', function(message)
             if message.author.bot then return end
@@ -44,7 +44,7 @@ function bot:bind_events()
             ---------------------------------------
             if message.channel.type == 1 then -- if dm
 
-                local requested_embed, to_type, type_work = Shop:process_stage(message)
+                local requested_embed, to_type, type_work = Shop.process_stage(message)
 
                 local function send(id)
                     local channel =  self.client:getChannel(id)
@@ -82,7 +82,7 @@ function bot:bind_events()
             ---------------------------------------
 
             --blocking members
-            local block = Block:new(message.guild.members:get(message.author.id), message.author.id)
+            local block = Block.new(message.guild.members:get(message.author.id), message.author.id)
             if block:find() then
                 block:append()
                 message:delete()

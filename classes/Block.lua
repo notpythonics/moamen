@@ -12,8 +12,8 @@ function block:blocked_members_tbl()
     return blocked_members
 end
 
-function block:new(target_member, target_id)
-    self = setmetatable({}, block)
+function block.new(target_member, target_id)
+    local self = setmetatable({}, block)
 
     self.target_id = target_id
     self.target_member = target_member

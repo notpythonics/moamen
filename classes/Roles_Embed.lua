@@ -10,8 +10,8 @@ local roles_embed = {}
 
 roles_embed.__index = roles_embed
 
-function roles_embed:new(message, client)
-    self = setmetatable({}, roles_embed)
+function roles_embed.new(message, client)
+    local self = setmetatable({}, roles_embed)
 
     self.client = client
     self.guild = message.guild
@@ -59,7 +59,7 @@ function roles_embed:bind_interaction_event(another_client)
                 return
             end
             intr:reply('خاص')
-            Shop:append_working(intr.member.user, custom_id)
+            Shop.append_working(intr.member.user, custom_id)
             return
         end
 
@@ -76,7 +76,7 @@ function roles_embed:bind_interaction_event(another_client)
 
             if is_accepted then
                 intr:reply('انقبلت')
-                Shop:send(intr.message, r_embed[2], r_embed[3])
+                Shop.send(intr.message, r_embed[2], r_embed[3])
                 user:getPrivateChannel():send('الإمبد انقبل')
             else
                 intr:reply('انحذفت')

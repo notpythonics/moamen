@@ -15,7 +15,7 @@ local function invalid_input(message, author, stage)
     if content == '' and stage ~= 3 then return true end
 end
 
-function shop:process_stage(message)
+function shop.process_stage(message)
     local author = message.author
     local p_channel = author:getPrivateChannel()
     local working_member = working_members[author.id]
@@ -124,7 +124,7 @@ function shop:process_stage(message)
     end
 end
 
-function shop:append_working(author, to_type)
+function shop.append_working(author, to_type)
     local p_channel = author:getPrivateChannel()
     if not p_channel then
         return
@@ -181,7 +181,7 @@ function shop:append_working(author, to_type)
         working_members[author.id].stage =  1
 end
 
-function shop:send(message, r_embed, to_type)
+function shop.send(message, r_embed, to_type)
     local channel_id = nil
     local tbl = nil
 
