@@ -33,7 +33,9 @@ function external_functions.member_join(member)
         return
     end
     timer.sleep(3000)
-    member:addRole(Enums.roles.member)
+    pcall(function ()
+        member:addRole(Enums.roles.member)
+    end)
 end
 
 return external_functions

@@ -350,7 +350,9 @@ function message_handler:assign_member_role_command()
     end
 
     local f_member = self.guild:getMember(f_mention.id)
-    f_member:addRole(Enums.roles.member)
+    pcall(function ()
+        f_member:addRole(Enums.roles.member)
+    end)
 
     self.channel:send {
         embed = {
