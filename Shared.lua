@@ -5,6 +5,9 @@ local shared = {}
 --a variable to track if interaction is bound
 shared.IS_INTERACTION_BOUND = false
 
+--a variable to prvent bots from joining
+shared.IS_BOTS_ENTRY_ALLOWED = false
+
 --a function to get a number from a message(it skips the id(aka first number))
 function shared.GET_DURATION(str)
     local id_num = str:match('%d+')

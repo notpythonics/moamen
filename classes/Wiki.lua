@@ -42,6 +42,19 @@ function wiki:process_message()
         return
     end
 
+    if(self.msg == 'std::pair') then
+        self.channel:send {
+            embed = {
+                image = {
+                    url = 'https://i.imgur.com/GsAKmId.png'
+                },
+                title = 'std::pair',
+                description = '```cpp\n#include <utility>\n\n{std::pair p<int, double>{1, 3.1};}\nstd::pair p{1.1, 5};// deduction\n```'
+            }
+        }
+        return
+    end
+
     if (self.msg == 'cmds') then
         self.channel:send {
             embed = {

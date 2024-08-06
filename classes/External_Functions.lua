@@ -1,6 +1,7 @@
 local discordia = require('discordia')
 local timer = require('timer')
 
+local Shared = require('../Shared')
 local Enums = require('../Enums')
 
 local external_functions = {}
@@ -27,6 +28,10 @@ function external_functions.delete_this_reaction(message)
 end
 
 function external_functions.member_join(member)
+    if member.user.bot and not Shared.IS_BOTS_ENTRY_ALLOWED then
+        member:kick('Bots entry is disallowed')
+        return
+    end
     timer.sleep(3000)
     member:addRole(Enums.roles.member)
 end

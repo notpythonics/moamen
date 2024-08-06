@@ -37,6 +37,26 @@ function message_handler:handle(message)
         return
     end
 
+    local function is_owner()
+        if self.author.id == '731437038234238977' or self.author.id == '1167626422303596645' then
+            return true
+        end
+    end
+
+    if (self.content:sub(1, 26) == 'moamen disallow_bots_entry') then
+        if not is_owner() then return end
+        Shared.IS_BOTS_ENTRY_ALLOWED = false
+        return
+    elseif (self.content:sub(1, 23) == 'moamen allow_bots_entry') then
+        if not is_owner() then return end
+        Shared.IS_BOTS_ENTRY_ALLOWED = true
+        return
+    elseif (self.content:sub(1, 17) == 'moamen bots_entry') then
+        self.channel:send(Shared.IS_BOTS_ENTRY_ALLOWED and 'allowed `1`' or 'disallowed `0`')
+        return
+    end
+
+
     if (self.content:sub(1, 11) == 'moamen mute')  then
         self:timeOut_command()
 
