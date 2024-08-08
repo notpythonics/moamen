@@ -7,6 +7,7 @@ local Enums = require('../Enums')
 local external_functions = {}
 
 function external_functions.delete_this_reaction(message)
+    if not message then return end
     local delete_this_reaction = message.reactions:find(function(r)
         return r.emojiId == Enums.emojis.delete_this
     end)
