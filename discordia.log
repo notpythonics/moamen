@@ -3604,3 +3604,330 @@
 2024-08-06 16:24:48 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
 2024-08-06 16:24:48 | [INFO]    | Shard 0 : Received HELLO
 2024-08-06 16:24:49 | [INFO]    | Shard 0 : Received READY
+2024-08-07 13:06:04 | [INFO]    | Discordia 2.12.0
+2024-08-07 13:06:04 | [INFO]    | Connecting to Discord...
+2024-08-07 13:06:05 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 13:06:05 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 13:06:06 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 13:06:06 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 13:06:06 | [INFO]    | Shard 0 : Received READY
+2024-08-07 13:06:17 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/channels/1028991151467933751/messages
+2024-08-07 13:06:17 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/channels/1028991151467933751/messages
+2024-08-07 13:06:42 | [INFO]    | Discordia 2.12.0
+2024-08-07 13:06:42 | [INFO]    | Connecting to Discord...
+2024-08-07 13:06:42 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 13:06:42 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 13:06:43 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 13:06:43 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 13:06:44 | [INFO]    | Shard 0 : Received READY
+2024-08-07 13:11:39 | [INFO]    | Discordia 2.12.0
+2024-08-07 13:11:39 | [INFO]    | Connecting to Discord...
+2024-08-07 13:11:40 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 13:11:40 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 13:11:40 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 13:11:40 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 13:11:41 | [INFO]    | Shard 0 : Received READY
+2024-08-07 13:31:24 | [INFO]    | Discordia 2.12.0
+2024-08-07 13:31:24 | [INFO]    | Connecting to Discord...
+2024-08-07 13:31:24 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 13:31:24 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 13:31:25 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 13:31:25 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 13:31:26 | [INFO]    | Shard 0 : Received READY
+2024-08-07 13:36:00 | [INFO]    | Discordia 2.12.0
+2024-08-07 13:36:00 | [INFO]    | Connecting to Discord...
+2024-08-07 13:36:01 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 13:36:01 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 13:36:01 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 13:36:01 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 13:36:02 | [INFO]    | Shard 0 : Received READY
+2024-08-07 14:07:47 | [INFO]    | Discordia 2.12.0
+2024-08-07 14:07:47 | [INFO]    | Connecting to Discord...
+2024-08-07 14:07:48 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 14:07:48 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 14:07:49 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 14:07:49 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 14:07:49 | [INFO]    | Shard 0 : Received READY
+2024-08-07 14:14:07 | [INFO]    | Discordia 2.12.0
+2024-08-07 14:14:07 | [INFO]    | Connecting to Discord...
+2024-08-07 14:14:07 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 14:14:07 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 14:14:08 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 14:14:08 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 14:14:08 | [INFO]    | Shard 0 : Received READY
+2024-08-07 14:34:39 | [INFO]    | Discordia 2.12.0
+2024-08-07 14:34:39 | [INFO]    | Connecting to Discord...
+2024-08-07 14:34:40 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 14:34:40 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 14:34:40 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 14:34:40 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 14:34:41 | [INFO]    | Shard 0 : Received READY
+2024-08-07 14:38:57 | [INFO]    | Discordia 2.12.0
+2024-08-07 14:38:57 | [INFO]    | Connecting to Discord...
+2024-08-07 14:38:58 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 14:38:58 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 14:38:58 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 14:38:58 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 14:38:59 | [INFO]    | Shard 0 : Received READY
+2024-08-07 14:39:43 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/channels/1162817084481347684/messages
+2024-08-07 14:40:14 | [INFO]    | Discordia 2.12.0
+2024-08-07 14:40:14 | [INFO]    | Connecting to Discord...
+2024-08-07 14:40:14 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 14:40:14 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 14:40:15 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 14:40:15 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 14:40:16 | [INFO]    | Shard 0 : Received READY
+2024-08-07 14:41:08 | [INFO]    | Discordia 2.12.0
+2024-08-07 14:41:08 | [INFO]    | Connecting to Discord...
+2024-08-07 14:41:09 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 14:41:09 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 14:41:09 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 14:41:09 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 14:41:10 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:03:32 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:03:32 | [INFO]    | Connecting to Discord...
+2024-08-07 15:03:32 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:03:32 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:03:33 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:03:33 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:03:33 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:05:14 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:05:14 | [INFO]    | Connecting to Discord...
+2024-08-07 15:05:15 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:05:15 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:05:16 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:05:16 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:05:16 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:06:01 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:06:01 | [INFO]    | Connecting to Discord...
+2024-08-07 15:06:02 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:06:02 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:06:02 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:06:02 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:06:03 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:15:41 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:15:41 | [INFO]    | Connecting to Discord...
+2024-08-07 15:15:42 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:15:42 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:15:43 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:15:43 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:15:43 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:41:31 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:41:31 | [INFO]    | Connecting to Discord...
+2024-08-07 15:41:31 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:41:31 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:41:32 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:41:32 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:41:32 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:43:49 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:43:49 | [INFO]    | Connecting to Discord...
+2024-08-07 15:43:49 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:43:49 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:43:50 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:43:50 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:43:50 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:55:38 | [INFO]    | Discordia 2.12.0
+2024-08-07 15:55:38 | [INFO]    | Connecting to Discord...
+2024-08-07 15:55:38 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 15:55:38 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 15:55:39 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 15:55:39 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 15:55:39 | [INFO]    | Shard 0 : Received READY
+2024-08-07 15:57:24 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270727487839666197/aW50ZXJhY3Rpb246MTI3MDcyNzQ4NzgzOTY2NjE5NzpiY2YzRHVqcU1HUjVwSVlTN0UxYllQa1hGd1VQVjVPd3k1ejlNS2E2NlptT0NsRndpc2ZOSlBKS1kzUjFxZndaS3ZOTFhGQlNBdkR3RndJQVNQSVp4VmJndnJrR01BdDV1bk1ZNHNCQXdUR1JKWUI4VWVaZkZjeDU0T2FIRkZ2VA/callback
+2024-08-07 16:02:51 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:02:51 | [INFO]    | Connecting to Discord...
+2024-08-07 16:02:52 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:02:52 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:02:52 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:02:52 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:02:53 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:05:09 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270729440749424640/aW50ZXJhY3Rpb246MTI3MDcyOTQ0MDc0OTQyNDY0MDpWTjBVdmVyQTBDU0lCU0V0Ukl5RjhZSFFLdDJRMVU0RWVneDlLT0tSVnFnMnQwSjI4WENOTXd4bnkyTXdpWE1vV1F4ZzhiMTllcUpXWHRuOU1EWkhDN0JOUEVRbWY1VTVkSnRjRmIyWWU1SDNnbjFVS0lDR1lhSDY3NkVRN0hYUg/callback
+2024-08-07 16:11:03 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:11:03 | [INFO]    | Connecting to Discord...
+2024-08-07 16:11:03 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:11:03 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:11:04 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:11:04 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:11:04 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:12:14 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270731223794188348/aW50ZXJhY3Rpb246MTI3MDczMTIyMzc5NDE4ODM0ODo1SHJPbTg2YjJYRGxFNlV2bXN3QzFyT3ZZN2IyZGJNeFJlQ05mdjRPNm9tVlR5dkRiMThSRDJYRFo1QWYwZHdNejBlRzZkcWZ4ZmE0SEhacVlRcm5aU1VqZ21EU056dFJhNlhYQUZkWXFrS21KV0xNdFNXMEtVUmtsNEdJRnlORg/callback
+2024-08-07 16:20:47 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:20:47 | [INFO]    | Connecting to Discord...
+2024-08-07 16:20:47 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:20:48 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:20:49 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:20:49 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:20:49 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:21:47 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:21:47 | [INFO]    | Connecting to Discord...
+2024-08-07 16:21:48 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:21:48 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:21:48 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:21:48 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:21:49 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:27:24 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:27:24 | [INFO]    | Connecting to Discord...
+2024-08-07 16:27:25 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:27:25 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:27:25 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:27:25 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:27:26 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:28:40 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270735358883270731/aW50ZXJhY3Rpb246MTI3MDczNTM1ODg4MzI3MDczMTpGYWRqMU5PVXlxVFl2elJXd2VwTjN2WFBSMWZqZHEydVg1UzFIa0QwMm53SnVsTU5Cb2lIU1d1dGt2cGM2M0g4TmtteGFNczRXUHNuY3BpQXlPRFJFRVRkbUhwRnZVcWxCYVBPc0xpTzBVVDRLN2ZKYUFDVjlqbHh0aTRuYjhHMQ/callback
+2024-08-07 16:31:32 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:31:32 | [INFO]    | Connecting to Discord...
+2024-08-07 16:31:33 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:31:33 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:31:33 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:31:33 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:31:34 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:32:23 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270736293050978335/aW50ZXJhY3Rpb246MTI3MDczNjI5MzA1MDk3ODMzNTpQMlVoYUNTcWExRXcyZXRJUzMzNnl6cjhVVjJ0WDNlMkZ6WW80VkFhNzVCV2dsSWJSR0ZvaDdCWm9lRHl4VlpYYmdMZDhiaXRZOVBvc1lDMkRvM1dzT3FQWWw3S2tUMHlkTWRvQUd5MmlIWUlyanQ5QmJvUmpFOTFLQTZoQ2JCNg/callback
+2024-08-07 16:38:21 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:38:21 | [INFO]    | Connecting to Discord...
+2024-08-07 16:38:22 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:38:22 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:38:22 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:38:22 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:38:23 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:38:50 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270737916645343395/aW50ZXJhY3Rpb246MTI3MDczNzkxNjY0NTM0MzM5NTp1SlYxb0ZHcmhNc2VnVEFwczB1UUdrZUtlbUFNVEhDQkxwQW9Cb3BoTmxMOFlYSXE0MnJTYWd2eTNwWTJRRUpmbFZnZW0wSkhGR2dEQXNKb0k5T0czU1FvTW12M0ZxS2cxdlJsazFrYm51dlR0bm9WOEdjNzdydnB0ZU90NWFvZA/callback
+2024-08-07 16:53:19 | [INFO]    | Discordia 2.12.0
+2024-08-07 16:53:19 | [INFO]    | Connecting to Discord...
+2024-08-07 16:53:19 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 16:53:19 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 16:53:20 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 16:53:20 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 16:53:21 | [INFO]    | Shard 0 : Received READY
+2024-08-07 16:53:55 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270741712746184754/aW50ZXJhY3Rpb246MTI3MDc0MTcxMjc0NjE4NDc1NDpZbExtMWFRZlEyUmNQN21NMkRwZDA0Y0psSGp4dnlyZVVxcHViTHl0UEdKeUpEeHo3SXVuQzVsNTV4bWRtb1lqNWcxRGJjUTNvYkFwTDFPM0FkVzJhYUdHVDF0Y3A5M1E4bnk4UWlxWGRNU1VwdlVpdVBUeFAwQ3UzVk15UEdOUg/callback
+2024-08-07 19:08:12 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:08:12 | [INFO]    | Connecting to Discord...
+2024-08-07 19:08:13 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:08:13 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:08:14 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:08:14 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:08:14 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:08:23 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:08:36 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:08:53 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:09:35 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270775854422687808/aW50ZXJhY3Rpb246MTI3MDc3NTg1NDQyMjY4NzgwODpnZHREcDZTRU1tRUxSU3VrVzVxdWcwN0RPcEJ6MWkxbGFzRFE3cEg4SUpzMG1MeWU2M20xTlh5UkZPODJRZ1I4VXRveklXTkxIOVFDeWtQeFRBSXpPZlFoRkZIREdnM0VBTG9qbzd3YjlGNG5MVDd2clBycE5mcFJoM3NDOGU1aA/callback
+2024-08-07 19:10:43 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:21:05 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:21:05 | [INFO]    | Connecting to Discord...
+2024-08-07 19:21:05 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:21:05 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:21:06 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:21:06 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:21:06 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:21:46 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270778921801224212/aW50ZXJhY3Rpb246MTI3MDc3ODkyMTgwMTIyNDIxMjpsRXNPQTN6bjBFZktKanVzVmZrcG1iNnBUcnlXUWpDVGpxZzdRWklraDdhQk4xSERBU3pyT1V3bGphWUJOY2dSUmY3Q2dRZjFGb21Sb1ZxWlNJc3duSmYwVDBxUnA3R1VTWG41UFZvV1llb3RzTkNOUHV2N1duSGtNdldXVVRKcg/callback
+2024-08-07 19:22:14 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:22:14 | [INFO]    | Connecting to Discord...
+2024-08-07 19:22:14 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:22:14 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:22:15 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:22:15 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:22:15 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:22:17 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:22:28 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:22:38 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:22:54 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:23:10 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:32:07 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:32:07 | [INFO]    | Connecting to Discord...
+2024-08-07 19:32:08 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:32:08 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:32:08 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:32:08 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:32:09 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:34:48 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:35:36 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:36:12 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:37:19 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:37:19 | [INFO]    | Connecting to Discord...
+2024-08-07 19:37:19 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:37:19 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:37:20 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:37:20 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:37:21 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:37:26 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:37:31 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_UPDATE
+2024-08-07 19:37:33 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:37:36 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:37:37 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:37:43 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:38:08 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-07 19:47:30 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:47:30 | [INFO]    | Connecting to Discord...
+2024-08-07 19:47:30 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:47:30 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:47:31 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:47:31 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:47:32 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:53:17 | [INFO]    | Discordia 2.12.0
+2024-08-07 19:53:17 | [INFO]    | Connecting to Discord...
+2024-08-07 19:53:17 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-07 19:53:17 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-07 19:53:18 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-07 19:53:18 | [INFO]    | Shard 0 : Received HELLO
+2024-08-07 19:53:18 | [INFO]    | Shard 0 : Received READY
+2024-08-07 19:53:37 | [WARNING] | Uncached TextChannel (1236046501076009100) on MESSAGE_CREATE
+2024-08-08 08:31:00 | [INFO]    | Discordia 2.12.0
+2024-08-08 08:31:00 | [INFO]    | Connecting to Discord...
+2024-08-08 08:31:01 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 08:31:02 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 08:31:02 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 08:31:02 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 08:31:03 | [INFO]    | Shard 0 : Received READY
+2024-08-08 08:34:32 | [INFO]    | Discordia 2.12.0
+2024-08-08 08:34:32 | [INFO]    | Connecting to Discord...
+2024-08-08 08:34:33 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 08:34:33 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 08:34:34 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 08:34:34 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 08:34:34 | [INFO]    | Shard 0 : Received READY
+2024-08-08 08:38:43 | [INFO]    | Discordia 2.12.0
+2024-08-08 08:38:43 | [INFO]    | Connecting to Discord...
+2024-08-08 08:38:43 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 08:38:43 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 08:38:44 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 08:38:44 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 08:38:45 | [INFO]    | Shard 0 : Received READY
+2024-08-08 08:39:46 | [ERROR]   | 400 - Bad Request : POST https://discord.com/api/v8/interactions/1270979745273872384/aW50ZXJhY3Rpb246MTI3MDk3OTc0NTI3Mzg3MjM4NDpJWUpRWkNFR1diV2F4RGxVaVcyMXgzZ1NSaHZ4Y29saVkxdEJEeWg3NFBrSldUc1VHZUh0UTJTYnhWVFZWY05FYUUxajVjdTlKd3lyNlVmd0YxRlZSQjhCT3BldXFKbFozS0lLOVhpM2tKVEZFT3ViMWUwVjRjTGc4cnFsUE9PSg/callback
+2024-08-08 08:40:42 | [INFO]    | Discordia 2.12.0
+2024-08-08 08:40:42 | [INFO]    | Connecting to Discord...
+2024-08-08 08:40:42 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 08:40:42 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 08:40:43 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 08:40:43 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 08:40:44 | [INFO]    | Shard 0 : Received READY
+2024-08-08 08:44:21 | [INFO]    | Discordia 2.12.0
+2024-08-08 08:44:21 | [INFO]    | Connecting to Discord...
+2024-08-08 08:44:21 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 08:44:21 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 08:44:22 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 08:44:22 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 08:44:23 | [INFO]    | Shard 0 : Received READY
+2024-08-08 08:58:24 | [INFO]    | Discordia 2.12.0
+2024-08-08 08:58:24 | [INFO]    | Connecting to Discord...
+2024-08-08 08:58:25 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 08:58:25 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 08:58:26 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 08:58:26 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 08:58:26 | [INFO]    | Shard 0 : Received READY
+2024-08-08 12:05:01 | [INFO]    | Discordia 2.12.0
+2024-08-08 12:05:01 | [INFO]    | Connecting to Discord...
+2024-08-08 12:05:01 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 12:05:02 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 12:05:03 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 12:05:03 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 12:05:04 | [INFO]    | Shard 0 : Received READY
+2024-08-08 12:16:00 | [INFO]    | Discordia 2.12.0
+2024-08-08 12:16:00 | [INFO]    | Connecting to Discord...
+2024-08-08 12:16:00 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 12:16:00 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 12:16:01 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 12:16:01 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 12:16:02 | [INFO]    | Shard 0 : Received READY
+2024-08-08 13:37:02 | [INFO]    | Discordia 2.12.0
+2024-08-08 13:37:02 | [INFO]    | Connecting to Discord...
+2024-08-08 13:37:03 | [INFO]    | Authenticated as stdto_underlying_alpha#2678
+2024-08-08 13:37:03 | [INFO]    | Launching shard 0 (1 out of 1)...
+2024-08-08 13:37:04 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2024-08-08 13:37:04 | [INFO]    | Shard 0 : Received HELLO
+2024-08-08 13:37:05 | [INFO]    | Shard 0 : Received READY

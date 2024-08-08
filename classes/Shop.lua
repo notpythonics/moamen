@@ -1,5 +1,6 @@
 local discordia = require('discordia')
 local Enums = require('../Enums')
+local Elements = require('../Elements')
 
 local shop = {}
 
@@ -14,6 +15,7 @@ local function invalid_input(message, author, stage)
     end
     if content == '' and stage ~= 3 then return true end
 end
+
 
 function shop.process_stage(message)
     local author = message.author
@@ -95,26 +97,16 @@ function shop.process_stage(message)
     end
 
 
-    local rooms_buttons = discordia.Components {
-        discordia.Button('request_shop') -- id
-            :label 'ارسال للتقديم'
-            :style 'secondary',
-            discordia.Button('not_saty') -- id
-            :label 'مو راضي فيها'
-            :style 'danger'
-    }
-
-
     local sent_message = p_channel:sendComponents({
             embed = embed
-        }, rooms_buttons)
+        }, Elements.buttons.sendShopRequest_and_notSaty)
 
     local success, interaction = sent_message:waitComponent(2)
 
     if interaction then
         local custom_id = interaction.data.custom_id
 
-        if custom_id == 'request_shop' then
+        if custom_id == 'shop_request' then
             interaction:reply('الإمبد انرسل انتظر القبول والرفض بيجيك اشعار خاص')
             return embed, working_member.to_type, working_member.type_work
         end
@@ -123,6 +115,7 @@ function shop.process_stage(message)
         interaction:reply('الإمبد انحذف سوي إنشاء مرة اخرى لتعيد التعبئة')
     end
 end
+
 
 function shop.append_working(author, to_type)
     local p_channel = author:getPrivateChannel()
@@ -180,6 +173,7 @@ function shop.append_working(author, to_type)
 
         working_members[author.id].stage =  1
 end
+
 
 function shop.send(message, r_embed, to_type)
     local channel_id = nil

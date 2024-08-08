@@ -5,6 +5,7 @@ local Block = require('./Block')
 
 local Shared = require('../Shared')
 local Enums = require('../Enums')
+local Elements = require('../Elements')
 
 local message_handler = {}
 
@@ -57,6 +58,17 @@ function message_handler:handle(message)
     end
 
 
+    if (self.content:sub(1, 11) == 'moamen line') then
+        if not self.author_member:hasPermission('administrator') then return end
+        self.channel:send{embed = {image = Elements.images.line}}
+        return
+    elseif (self.content:sub(1, 13) == 'moamen header') then
+        if not self.author_member:hasPermission('administrator') then return end
+        self.channel:send{embed = {image = Elements.images.header}}
+        return
+    end
+
+
     if (self.content:sub(1, 11) == 'moamen mute')  then
         self:timeOut_command()
 
@@ -94,7 +106,7 @@ function message_handler:handle(message)
         self:shop_embeds_command()
 
     elseif (self.content:sub(1, 15) == 'moamen fe_embed') then
-        self:fe_embed()
+        self:fe_embed_command()
 
 
         --blocking commands
@@ -108,20 +120,27 @@ function message_handler:handle(message)
         self:unblock_command()
 
 
-    elseif (self.channel.id == Enums.channels.your_doings or
-            self.channel.id == Enums.channels.your_games) then
-        pcall(function()
-            self.message:addReaction('👍🏿')
-            self.message:addReaction('👎🏿')
-        end)
+    elseif (self.channel.id == Enums.channels.your_doings) then
+        if self.message.attachment then
+           self:add_like_and_dislike()
+        else
+            if not self.author_member:hasPermission('administrator') then
+                self.message:delete()
+            end
+        end
+    elseif (self.channel.id == Enums.channels.your_games) then
+        self:add_like_and_dislike()
     end
 end
 
+function message_handler:add_like_and_dislike()
+    pcall(function ()
+        self.message:addReaction('👍🏿')
+        self.message:addReaction('👎🏿')
+    end)
+end
 
 function message_handler:shop_embeds_command()
-    if not self.author_member:hasPermission('administrator') then
-        return
-    end
     do
         local rooms_buttons = discordia.Components {
             discordia.Button('fh_request') -- id
@@ -154,7 +173,7 @@ function message_handler:shop_embeds_command()
 end
 
 
-function message_handler:fe_embed()
+function message_handler:fe_embed_command()
     if not self.author_member:hasPermission('administrator') then
         return
     end
@@ -186,13 +205,13 @@ function message_handler:fe_embed()
         return links
     end
 
-    -- check for image attachments
+    -- Check for image attachments
     local attachment = replied_to_msg.attachments[1] -- a table of attachments(an attachment is any file like an image)
     if attachment then
         embed.image = { url = attachment.url }
     end
 
-    --check for links
+    -- Check for links
     local link = find_links(replied_to_msg)[1]
     if link then
         embed.description = embed.description .. '\n' .. string.format('[[video]](%s)', link:gsub(' ', ''))
@@ -227,7 +246,6 @@ function message_handler:roles_embed_command()
     end
 
     local roles_embed = Roles_Embed.new(self.message, self.client)
-    roles_embed:bind_interaction_event()
 
     roles_embed:send()
 end

@@ -49,7 +49,7 @@ function wiki:process_message()
                     url = 'https://i.imgur.com/GsAKmId.png'
                 },
                 title = 'std::pair',
-                description = '```cpp\n#include <utility>\n\n{std::pair p<int, double>{1, 3.1};}\nstd::pair p{1.1, 5};// deduction\n```'
+                description = '```cpp\n#include <utility>\n\n{std::pair p<int, double>{1, 3.1};}\nstd::pair p{1.1, 5}; // deduction\n```\n[learncpp](https://www.learncpp.com/cpp-tutorial/class-templates/)'
             }
         }
         return
@@ -74,7 +74,7 @@ function wiki:process_message()
                     inline = false},
 
                     {name = 'embeds',
-                    value = '`roles_embed` sends an embed for applying to roles (it binds inter event)\n`fe_embed` sends an embed of an attachment or link found in a referenced message\n`erase` stops the process of filling an embed shop',
+                    value = '`roles_embed` sends an embed for applying to roles (it binds inter event)\n`fe_embed` sends an embed of an attachment or link found in a referenced message\n`erase` stops the process of filling an embed shop\n`shop_embeds`',
                     inline = false},
 
                     {name = 'others',

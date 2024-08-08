@@ -2,6 +2,7 @@ local discordia = require('discordia')
 local timer = require('timer')
 local discordia_components = require("discordia-components")
 local Components = discordia_components.Components
+
 local Message_Handler = require('./Message_Handler')
 local Block = require('./Block')
 local Shop = require('./Shop')
@@ -10,6 +11,7 @@ local Roles_Embed = require('./Roles_Embed')
 
 local Shared = require('../Shared')
 local Enums = require('../Enums')
+local Elements = require('../Elements')
 
 local bot = {}
 bot.__index = bot
@@ -49,19 +51,10 @@ function bot:bind_events()
                 local function send(id)
                     local channel =  self.client:getChannel(id)
 
-                    local rooms_buttons = discordia.Components {
-                        discordia.Button('request_accept') -- id
-                            :label 'قبول'
-                            :style 'secondary',
-                            discordia.Button('request_decline') -- id
-                            :label 'رفض'
-                            :style 'danger'
-                    }
-
-                    local sent_message = channel:sendComponents({
-                            content = type_work,
-                            embed = requested_embed
-                        }, rooms_buttons)
+                    channel:sendComponents({
+                        content = type_work,
+                        embed = requested_embed
+                    }, Elements.buttons.accept_and_decline_shop_request)
                 end
 
                 if requested_embed then
@@ -79,7 +72,7 @@ function bot:bind_events()
                 end
                 return
             end
-            ---------------------------------------
+            ------------------------------------------
 
             --blocking members
             local block = Block.new(message.guild.members:get(message.author.id), message.author.id)
