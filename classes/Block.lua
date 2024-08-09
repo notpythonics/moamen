@@ -44,7 +44,7 @@ function block:append()
 end
 
 function block:remove()
-    pcall(function ()
+    pcall(function()
         self.target_member:removeRole(Enums.roles.blocked)
         self.target_member:addRole(Enums.roles.member)
     end)

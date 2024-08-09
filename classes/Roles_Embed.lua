@@ -22,7 +22,6 @@ function roles_embed.new(message, client)
     return self
 end
 
-
 local function is_member(intr)
     if not intr.member:hasPermission('administrator') then
         intr.channel:send('صاحب التقديم ممنوع يحذف التكت')
@@ -32,24 +31,21 @@ local function is_member(intr)
 end
 
 local function handle_shop_embed_button(r_embed, is_accepted, intr, client)
-    intr.message:delete()
-
     if not r_embed then
         return
     end
 
-    intr:replyDeferred(true)
-
     local user = client:getUser(r_embed[1])
-    Shared.REQUESTED_EMBEDS[user.username] = nil
 
     if is_accepted then
+        intr.message:delete()
+        intr:replyDeferred(true)
         intr:reply('انقبلت')
+        Shared.REQUESTED_EMBEDS[user.username] = nil
         Shop.send(intr.message, r_embed[2], r_embed[3])
         user:getPrivateChannel():send('الإمبد انقبل')
     else
-        intr:reply('انحذفت')
-        user:getPrivateChannel():send('الإمبد انرفض')
+        intr:modal(Elements.modals.decline_reason)
     end
 end
 
@@ -62,8 +58,23 @@ function roles_embed:bind_interaction_event()
     self.client:on('interactionCreate', function(intr)
         if not intr.member then return end
 
+        -- Custom ID
         local custom_id = intr.data.custom_id
         print(custom_id)
+
+        -- Modal
+        if custom_id == 'decline_reason_modal' then
+            local textInputValue = intr.data.components[1].components[1].value
+
+            local r_embed = Shared.REQUESTED_EMBEDS[intr.message.embed.author.name]
+            local user = self.client:getUser(r_embed[1])
+
+            Shared.REQUESTED_EMBEDS[user.username] = nil
+            user:getPrivateChannel():send('الإمبد انرفض\n' .. '`السبب: `' .. textInputValue)
+            intr.message:delete()
+            intr:updateDeferred()
+            return
+        end
 
         -- Check if the user is blocked
         if Shared.TABLE_FIND(Block:blocked_members_tbl(), intr.member.user.id) then
@@ -84,6 +95,7 @@ function roles_embed:bind_interaction_event()
             return
         end
 
+
         -- Accept and decline buttons
         if (custom_id == 'request_decline') then
             local r_embed = Shared.REQUESTED_EMBEDS[intr.message.embed.author.name]
@@ -96,7 +108,7 @@ function roles_embed:bind_interaction_event()
             handle_shop_embed_button(r_embed, true, intr, self.client)
             return
         end
-        -------------------------
+        ----------------------------
 
 
         -- Ticket delete
@@ -138,11 +150,11 @@ function roles_embed:bind_interaction_event()
             }
 
             local c_name = intr.channel.name
-            local new_name = string.gsub(c_name , '🔓', '🔒')
+            local new_name = string.gsub(c_name, '🔓', '🔒')
             intr.channel:setName(new_name)
             return
         end
-        --------------------------------------------------------------
+
 
         if (custom_id == 'roles_embed') then
             intr:replyDeferred(true)
@@ -161,12 +173,7 @@ function roles_embed:bind_interaction_event()
 
             --send an emebd to the created_channel
             created_channel:sendComponents({
-                embed = {
-                    title = 'روم التقديم',
-                    description = 'شغلك واعمالك ارسلهم هنا',
-                    image = Elements.images.header,
-                    color = discordia.Color.fromRGB(0, 0, 0).value,
-                }
+                embed = Elements.embeds.roles_embed
             }, Elements.buttons.close_and_delete)
 
             intr:reply('إنشأ روم تحت')

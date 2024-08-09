@@ -33,7 +33,7 @@ function shop.process_stage(message)
     if working_member.stage == 1 then
         working_member.title = message.content
         working_member.stage = working_member.stage + 1
-        p_channel:send{
+        p_channel:send {
             embed = {
                 title = 'الوصف',
                 description = 'اكتب وصف رسالتك'
@@ -45,7 +45,7 @@ function shop.process_stage(message)
     if working_member.stage == 2 then
         working_member.description = message.content
         working_member.stage = working_member.stage + 1
-        p_channel:send{
+        p_channel:send {
             embed = {
                 title = 'صورة',
                 description = 'ارسل صورة لرسالتك\nاكتب `no_image` اذا مافي صورة'
@@ -55,21 +55,60 @@ function shop.process_stage(message)
     end
 
     if working_member.stage == 3 then
-        local l_embed = {title = 'المبلغ', description = 'ارسل المبلغ وبنهايته اكتب R او كردت'}
+        local function send_payment_type()
+            local sent_message = p_channel:sendComponents({ embed = Elements.embeds.payment_type },
+                Elements.menus.payment_type)
+
+            -- wait for the button interaction
+            local success, interaction = sent_message:waitComponent()
+
+            if success then
+                local data = interaction.data.values[1]
+
+                if data == 'Robux' then
+                    working_member.robux = 0
+                else
+                    working_member.credit = 0
+                end
+                working_member.stage = working_member.stage + 1
+                p_channel:send {
+                    embed = {
+                        title = 'المبلغ',
+                        description = 'اكتب المبلغ(رقم فقط) وبالنهاية ضيف `+` اذا المبلغ يزداد'
+                    }
+                }
+                interaction:updateDeferred()
+            end
+        end
 
         local attachment = message.attachment
         if message.content:sub(1, 8) == 'no_image' then
-            working_member.stage = working_member.stage + 1
-            p_channel:send{embed = l_embed}
+            send_payment_type()
             return
         end
-        if not attachment then
-            return
-        end
+
+        if not attachment then return end
+
         working_member.attachment = attachment
-        working_member.stage = working_member.stage + 1
-        p_channel:send{embed = l_embed}
+        send_payment_type()
         return
+    end
+
+
+    local quantity_input = nil
+    if working_member.stage == 4 then
+        local num = message.content:match('%d+')
+
+        if not num then return end
+
+        local plus_sign = message.content:match('+')
+
+        if working_member.robux then
+            quantity_input = 'Robux: ' .. tostring(num) .. plus_sign
+        elseif working_member.credit then
+            quantity_input = 'Credit: ' .. tostring(num) .. plus_sign
+        end
+        working_member.stage = working_member.stage + 1
     end
 
     local embed = {
@@ -82,26 +121,30 @@ function shop.process_stage(message)
         },
 
         fields = {
-            {name = 'المبلغ',
-            value = '`' .. message.content:gsub(' ', '') .. '`',
-            inline = false},
+            {
+                name = 'المبلغ',
+                value = quantity_input,
+                inline = false
+            },
 
-            {name = 'التواصل',
-            value = author.mentionString,
-            inline = false}
+            {
+                name = 'التواصل',
+                value = author.mentionString,
+                inline = false
+            }
         }
     }
 
     if working_member.attachment then
-        embed.image = {url = working_member.attachment.url}
+        embed.image = { url = working_member.attachment.url }
     end
 
 
     local sent_message = p_channel:sendComponents({
-            embed = embed
-        }, Elements.buttons.sendShopRequest_and_notSaty)
+        embed = embed
+    }, Elements.buttons.sendShopRequest_and_notSaty)
 
-    local success, interaction = sent_message:waitComponent(2)
+    local success, interaction = sent_message:waitComponent()
 
     if interaction then
         local custom_id = interaction.data.custom_id
@@ -116,12 +159,10 @@ function shop.process_stage(message)
     end
 end
 
-
 function shop.append_working(author, to_type)
     local p_channel = author:getPrivateChannel()
-    if not p_channel then
-        return
-    end
+
+    if not p_channel then return end
 
     working_members[author.id] = {
         stage = 0,
@@ -129,51 +170,32 @@ function shop.append_working(author, to_type)
         description = '',
         type_work = '',
         attachment = nil,
-        to_type = to_type}
+        to_type = to_type,
+        robux = nil,
+        credit = nil
+    }
 
-        local roles_options = discordia.Components {
-            discordia.SelectMenu('dm_work') -- id
-                :placeholder "اختر العمل"
-                :option('مبرمج', 'programmer', 'يكتب سكربتات', false)
-                :option('مودلر', 'modeler', 'يسوي مجسمات', false)
-                :option('بلدر', 'builder', 'يركب اشياء فوق بعض', false)
-                :option('مصمم جرافيك', 'gfx', 'يسوي صور', false)
-                :option('مؤثرات بصرية', 'vfx', 'يسوي مؤثرات', false)
-                :option('أنيميشن', 'animation', 'يسوي انيميشنات', false)
-                :option('واجهة مستخدم', 'ui', 'يسوي واجهة مستخدم', false)
+    local sent_message = p_channel:sendComponents({
+        embed = Elements.embeds.work_type
+    }, Elements.menus.work_type)
+
+    local success, interaction = sent_message:waitComponent()
+
+    if success then
+        print(interaction.data.values[1])
+        interaction:updateDeferred()
+        working_members[author.id].type_work = interaction.data.values[1]
+    end
+
+    p_channel:send {
+        embed = {
+            title = 'العنوان',
+            description = 'اكتب عنوان رسالتك'
         }
+    }
 
-        local sent_message = p_channel:sendComponents({
-            embed = {
-                title = 'البحث او الخبرة',
-                description = 'ما خبرتك او الخبرة الي تبحث عنها',
-                color = discordia.Color.fromRGB(0, 0, 0).value,
-            }
-        }, roles_options)
-
-        -- wait for the button interaction
-        local success, interaction = sent_message:waitComponent('dm_work')
-
-        if success then
-            interaction:replyDeferred(true)
-            print(interaction.data.values[1])
-            interaction:reply('  اختيرت ' .. interaction.data.values[1])
-            working_members[author.id].type_work = interaction.data.values[1]
-        else
-            working_members[author.id] = nil
-            return
-        end
-
-        p_channel:send{
-            embed = {
-                title = 'العنوان',
-                description = 'اكتب عنوان رسالتك'
-            }
-        }
-
-        working_members[author.id].stage =  1
+    working_members[author.id].stage = 1
 end
-
 
 function shop.send(message, r_embed, to_type)
     local channel_id = nil
@@ -192,7 +214,7 @@ function shop.send(message, r_embed, to_type)
         end
     end
 
-    message.guild:getChannel(channel_id):send{embed = r_embed}
+    message.guild:getChannel(channel_id):send { embed = r_embed }
 end
 
 return shop

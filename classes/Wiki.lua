@@ -42,7 +42,7 @@ function wiki:process_message()
         return
     end
 
-    if(self.msg == 'std::pair') then
+    if (self.msg == 'std::pair') then
         self.channel:send {
             embed = {
                 image = {
@@ -60,26 +60,26 @@ function wiki:process_message()
             embed = {
                 --title = 'commands',
                 fields = {
-                    {name = 'muting',
-                    value = '`mute`\n`unmute`',
-                    inline = true},
+                    { name = 'muting',
+                        value = '`mute`\n`unmute`',
+                        inline = true },
 
                     --block commands
-                    {name = 'blocking',
-                    value = '`blocked_members` number of blocked members\n`block` blocks a member (removes roles)\n`unblock` unblocks a member',
-                    inline = false},
+                    { name = 'blocking',
+                        value = '`blocked_members` number of blocked members\n`block` blocks a member (removes roles)\n`unblock` unblocks a member',
+                        inline = false },
 
-                    {name = 'banning',
-                    value = '`ban` the maximum is 7 days\n`unban`',
-                    inline = false},
+                    { name = 'banning',
+                        value = '`ban` the maximum is 7 days\n`unban`',
+                        inline = false },
 
-                    {name = 'embeds',
-                    value = '`roles_embed` sends an embed for applying to roles (it binds inter event)\n`fe_embed` sends an embed of an attachment or link found in a referenced message\n`erase` stops the process of filling an embed shop\n`shop_embeds`',
-                    inline = false},
+                    { name = 'embeds',
+                        value = '`roles_embed` sends an embed for applying to roles (it binds inter event)\n`fe_embed` sends an embed of an attachment or link found in a referenced message\n`erase` stops the process of filling an embed shop\n`shop_embeds`',
+                        inline = false },
 
-                    {name = 'others',
-                    value = '`assign_member` gives a member role\n`source_code`\n`kick`\n`wiki`',
-                    inline = false},
+                    { name = 'others',
+                        value = '`assign_member` gives a member role\n`source_code`\n`kick`\n`wiki`',
+                        inline = false },
                 }
             }
         }
