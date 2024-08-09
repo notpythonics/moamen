@@ -53,6 +53,12 @@ elements.menus = {
     }
 }
 
+elements.images = {
+    header = { url = 'https://i.imgur.com/cnDU7OJ.png' },
+
+    line = { url = 'https://i.imgur.com/7mpSyyH.png' }
+}
+
 elements.embeds = {
     payment_type = {
         title = 'طرق الدفع',
@@ -88,12 +94,6 @@ elements.modals = {
         id = 'decline_reason_modal',
         elements.textInputs.decline_reason
     })
-}
-
-elements.images = {
-    header = { url = 'https://i.imgur.com/cnDU7OJ.png' },
-
-    line = { url = 'https://i.imgur.com/7mpSyyH.png' }
 }
 
 return elements
