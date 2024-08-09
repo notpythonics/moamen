@@ -60,7 +60,7 @@ function shop.process_stage(message)
                 Elements.menus.payment_type)
 
             -- wait for the button interaction
-            local success, interaction = sent_message:waitComponent()
+            local success, interaction = sent_message:waitComponent(3, 'payment_type')
 
             if success then
                 local data = interaction.data.values[1]
@@ -104,9 +104,9 @@ function shop.process_stage(message)
         local plus_sign = message.content:match('+')
 
         if working_member.robux then
-            quantity_input = 'Robux: ' .. tostring(num) .. plus_sign
+            quantity_input = 'Robux: ' .. num .. (plus_sign or '')
         elseif working_member.credit then
-            quantity_input = 'Credit: ' .. tostring(num) .. plus_sign
+            quantity_input = 'Credit: ' .. num .. (plus_sign or '')
         end
         working_member.stage = working_member.stage + 1
     end
@@ -144,9 +144,9 @@ function shop.process_stage(message)
         embed = embed
     }, Elements.buttons.sendShopRequest_and_notSaty)
 
-    local success, interaction = sent_message:waitComponent()
+    local success, interaction = sent_message:waitComponent(2)
 
-    if interaction then
+    if success then
         local custom_id = interaction.data.custom_id
 
         if custom_id == 'shop_request' then

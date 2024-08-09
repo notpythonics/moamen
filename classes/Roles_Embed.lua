@@ -70,7 +70,7 @@ function roles_embed:bind_interaction_event()
             local user = self.client:getUser(r_embed[1])
 
             Shared.REQUESTED_EMBEDS[user.username] = nil
-            user:getPrivateChannel():send('الإمبد انرفض\n' .. '`السبب: `' .. textInputValue)
+            user:getPrivateChannel():send('الإمبد انرفض\n' .. '`السبب:' .. textInputValue .. '`')
             intr.message:delete()
             intr:updateDeferred()
             return

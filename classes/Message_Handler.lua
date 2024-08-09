@@ -432,25 +432,31 @@ end
 
 
 function message_handler:timeOut_command()
-    local f_mention = self.mentionedUsers.first
-    if not f_mention then return end
+    local success, err = pcall(function()
+        local f_mention = self.mentionedUsers.first
+        if not f_mention then return end
 
-    local f_member = self.guild:getMember(f_mention.id)
+        local f_member = self.guild:getMember(f_mention.id)
 
-    if self:is_invalid_mention(f_member) then
-        return
-    end
+        if self:is_invalid_mention(f_member) then
+            return
+        end
 
-    local duration = Shared.GET_DURATION(self.content) * 60     -- 1 minute if GET_DURATION returns 1
-    f_member:timeoutFor(duration)
+        local duration = Shared.GET_DURATION(self.content) * 60 -- 1 minute if GET_DURATION returns 1
+        f_member:timeoutFor(duration)
 
-    self.channel:send {
-        embed = {
-            title = '✅ ' .. f_member.username .. ' was timedOut',
-            description = self.author_member.username .. ' timedOut a member\nduration: `' .. tostring(duration / 60) .. ' minutes`',
-            color = discordia.Color.fromRGB(0, 0, 0).value,
+        self.channel:send {
+            embed = {
+                title = '✅ ' .. f_member.username .. ' was timedOut',
+                description = self.author_member.username .. ' timedOut a member\nduration: `' .. tostring(duration / 60) .. ' minutes`',
+                color = discordia.Color.fromRGB(0, 0, 0).value,
+            }
         }
-    }
+    end)
+
+    if not success then
+        print('timing out error: ', err)
+    end
 end
 
 return message_handler
