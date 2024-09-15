@@ -1,0 +1,12 @@
+# logs
+discordia.log
+
+# json
+gateway.json
+vscode
+
+# exe
+*.exe
+
+# disocrdia dir
+deps
