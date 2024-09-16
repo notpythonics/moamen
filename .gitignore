@@ -3,7 +3,7 @@ discordia.log
 
 # json
 gateway.json
-vscode
+.vscode
 
 # exe
 *.exe
