@@ -42,6 +42,30 @@ Commands.blocked_members = function(MessageHandlerObj)
     { content = "`" .. Block.NumberOfBlockedIds() .. "` blocked member" }
 end
 
+-- Line
+Commands.line = function(MessageHandlerObj)
+    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
+        MessageHandlerObj.channel:send {
+            embed = { 
+                image = { url = Enums.Images.Line },
+                color = discordia.Color.fromRGB(1, 1, 1).value
+            }
+        }
+    end
+end
+
+-- Header
+Commands.header = function(MessageHandlerObj)
+    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
+        MessageHandlerObj.channel:send {
+            embed = {
+                image = { url = Enums.Images.Header },
+                color = discordia.Color.fromRGB(1, 1, 1).value
+            }
+        }
+    end
+end
+
 -- Bots entry
 Commands.bots_entry = function(MessageHandlerObj)
     MessageHandlerObj.channel:send
