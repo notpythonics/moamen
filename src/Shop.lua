@@ -309,23 +309,14 @@ function shop.send(message, r_embed, custom_id)
         return
     end
 
-    local channel_id = nil
-    local tbl = nil
+    local channel_table = (custom_id == "lfd_request" and Enums.Channels.shop.lfd or Enums.Channels.shop.fh)
 
-    if custom_id == "lfd_request" then
-        tbl = Enums.Channels.shop.lfd
-    else
-        tbl = Enums.Channels.shop.fh
-    end
-
-    for key, v in pairs(tbl) do
-        if message.content == key then
-            channel_id = v
+    for channelName, channelId in pairs(channel_table) do
+        if message.content == channelName then
+            message.guild:getChannel(channelId):send { embed = r_embed }
             break
         end
     end
-
-    message.guild:getChannel(channel_id):send { embed = r_embed }
 end
 
 return shop
