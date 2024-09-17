@@ -382,7 +382,7 @@ end
 
 local function FindFirstRole(content)
     for roleName, id in pairs(Enums.Roles.Levels) do
-        print(roleName, content)
+        --print(roleName, content)
         if content:lower():match(roleName:lower()) then
             return roleName:upper()
         end
