@@ -62,9 +62,17 @@ end
 
 -- memberJoin
 function EventsToBind.memberJoin(member)
-    -- Are they a bot? is bots entry allowed?
-    if member.user.bot and not _G.IsBots_Entry_Allowed then
-        member:kick("Bots entry is disallowed")
+    -- Are they a bot?
+    if member.user.bot then
+        -- Is bots entry allowed?
+        if not _G.IsBots_Entry_Allowed then
+            member:kick("Bots entry is disallowed")
+            return
+        end
+        timer.sleep(3000)
+        pcall(function()
+            member:addRole(Enums.Roles.Bot)
+        end)
         return
     end
 

@@ -58,6 +58,17 @@ Wiki.const_objects = {
     "```cpp\nstruct Date {\n  int year{};\n  int month{};\n\n  void print() {\n    std::cout << year << '/' month;\n  }\n};\n\nvoid something(const Date& date){\n  date.print(); // error\n}\n\nint main(){\n  Date date{1, 3};\n  something(date);\n}```\n[learncpp](https://www.learncpp.com/cpp-tutorial/const-class-objects-and-const-member-functions/)"
 }
 
+Wiki.reseting_state_and_chaining = {
+    image = {
+        url = "https://i.imgur.com/u9bL4xE.png"
+    },
+}
+
+Wiki.delegating_constructors = {
+    description =
+    "```cpp\npublic:\n  Employee(std::string_view name)\n   : Employee{name, 0}{} // delegate initialization to another con\n\nEmployee(std::string_view name, int id)\n   : m_name{ name }, m_id{ id }{}```\n[learncpp](https://www.learncpp.com/cpp-tutorial/delegating-constructors/)\n[what is delegation](https://www.youtube.com/watch?v=PRFQTiFxV-M&t=86s&ab_channel=MatterhornBusinessDevelopment)"
+}
+
 Wiki.cmds = {
     --title = "commands",
     fields = {
