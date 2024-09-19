@@ -330,8 +330,7 @@ Commands.disallow_send_perm = function(MessageHandlerObj)
     local conformed_disallows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
-        MessageHandlerObj.channel:send
-        { content = "please provide a channel" }
+        f_channel = MessageHandlerObj.channel
         return
     end
     local members = ConvertToMembers(MessageHandlerObj)
@@ -359,8 +358,7 @@ Commands.allow_send_perm = function(MessageHandlerObj)
     local conformed_allows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
-        MessageHandlerObj.channel:send
-        { content = "please provide a channel" }
+        f_channel = MessageHandlerObj.channel
         return
     end
     local members = ConvertToMembers(MessageHandlerObj)
@@ -428,8 +426,7 @@ Commands.allow_read_perm = function(MessageHandlerObj)
     local conformed_allows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
-        MessageHandlerObj.channel:send
-        { content = "please provide a channel" }
+        f_channel = MessageHandlerObj.channel
         return
     end
     local members = ConvertToMembers(MessageHandlerObj)
@@ -457,8 +454,7 @@ Commands.disallow_read_perm = function(MessageHandlerObj)
     local conformed_disallows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
-        MessageHandlerObj.channel:send
-        { content = "please provide a channel" }
+        f_channel = MessageHandlerObj.channel
         return
     end
     local members = ConvertToMembers(MessageHandlerObj)
