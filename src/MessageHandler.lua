@@ -66,6 +66,10 @@ function MessageHandler:AddingReactions()
                 self.m_message:delete()
             end
         else
+            if not self.content:find("/games/") and not self.content:find("ExperienceDetails") then
+                self.m_message:delete()
+                return
+            end
             self:Add_like_and_dislike()
         end
     end
