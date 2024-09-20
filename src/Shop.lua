@@ -69,9 +69,10 @@ function shop.process_stage(message)
                     discordia.SelectMenu("payment_type") -- id
                         :placeholder "اختر طريقة الدفع"
                         :minValues(1)                    -- Allow selecting at least 1 option
-                        :maxValues(2)                    -- Allow selecting up to 2 options
+                        :maxValues(3)                    -- Allow selecting up to 2 options
                         :option("روبوكس", "Robux", "الدفع بستخدام روبوكس", false)
                         :option("كردت", "Credit", "الدفع بستخدام كردت", false)
+                        :option("دولار", "Dollar", "الدفع بستخدام دولار", false)
                 })
 
             if not sent_message then return end
@@ -90,17 +91,19 @@ function shop.process_stage(message)
                         working_member.robux_option = option
                     elseif option == "Credit" then
                         working_member.credit_option = option
+                    elseif option == "Dollar" then
+                        working_member.dollar_option = option
                     end
                 end
 
-                print(working_member.robux_option, " ", working_member.credit_option)
+                print(working_member.robux_option, " ", working_member.credit_option, " ", working_member.dollar_option)
 
-                if working_member.robux_option and working_member.credit_option then
+                if working_member.robux_option then
                     l_embed.title = "المبلغ روبوكس"
                 elseif working_member.credit_option then
                     l_embed.title = "المبلغ كردت"
-                else
-                    l_embed.title = "المبلغ روبوكس"
+                elseif working_member.dollar_option then
+                    l_embed.title = "المبلغ دولار"
                 end
 
                 working_member.stage = 4
@@ -133,7 +136,7 @@ function shop.process_stage(message)
         local m_letter = message.content:lower():match("m")
 
 
-        -- Both Credit and Robux
+        -- Credit and Robux
         if working_member.stage == 4 and working_member.robux_option and working_member.credit_option then
             if not num then return end
 
@@ -146,6 +149,54 @@ function shop.process_stage(message)
                 }
             }
             working_member.stage = working_member.stage + 1
+            return
+        end
+
+        -- Robux and Dollar
+        if working_member.stage == 4 and working_member.robux_option and working_member.dollar_option then
+            if not num then return end
+
+            working_member.robux_option = "Robux: " .. num .. (k_letter or m_letter or "") .. (plus_sign or "")
+
+            p_channel:send {
+                embed = {
+                    title = "المبلغ دولار",
+                    description = "اكتب المبلغ(رقم فقط) وبالنهاية ضيف `+` اذا المبلغ يزداد"
+                }
+            }
+            working_member.stage = 6
+            return
+        end
+
+        -- Dollar and Credit and not Robux
+        if working_member.stage == 4 and working_member.credit_option and working_member.dollar_option and not working_member.robux_option then
+            if not num then return end
+
+            working_member.credit_option = "Credit: " .. num .. (k_letter or m_letter or "") .. (plus_sign or "")
+
+            p_channel:send {
+                embed = {
+                    title = "المبلغ دولار",
+                    description = "اكتب المبلغ(رقم فقط) وبالنهاية ضيف `+` اذا المبلغ يزداد"
+                }
+            }
+            working_member.stage = 6
+            return
+        end
+
+        -- Credit and Robux and Dollar
+        if working_member.stage == 5 and working_member.robux_option and working_member.credit_option and working_member.dollar_option then
+            if not num then return end
+
+            working_member.credit_option = "Credit: " .. num .. (k_letter or m_letter or "") .. (plus_sign or "")
+
+            p_channel:send {
+                embed = {
+                    title = "المبلغ دولار",
+                    description = "اكتب المبلغ(رقم فقط) وبالنهاية ضيف `+` اذا المبلغ يزداد"
+                }
+            }
+            working_member.stage = 6
             return
         end
 
@@ -165,11 +216,27 @@ function shop.process_stage(message)
             working_member.stage = working_member.stage + 1
         end
 
-        -- Both Credit and Robux
-        if working_member.stage == 5 and working_member.robux_option and working_member.credit_option then
+        -- Just Dollar
+        if working_member.stage == 4 and working_member.dollar_option then
+            if not num then return end
+
+            working_member.dollar_option = "Dollar: " .. "$" .. num .. (k_letter or m_letter or "") .. (plus_sign or "")
+            working_member.stage = working_member.stage + 1
+        end
+
+        -- Robux and Credit and not Dollar
+        if working_member.stage == 5 and working_member.robux_option and working_member.credit_option and not working_member.dollar_option then
             if not num then return end
 
             working_member.credit_option = "Credit: " .. num .. (k_letter or m_letter or "") .. (plus_sign or "")
+            working_member.stage = 7
+        end
+
+        if working_member.stage == 6 then
+            if not num then return end
+
+            working_member.dollar_option = "Dollar: " .. "$" .. num .. (k_letter or m_letter or "") .. (plus_sign or "")
+            working_member.stage = working_member.stage + 1
         end
     end
 
@@ -188,7 +255,8 @@ function shop.process_stage(message)
             {
                 name = "طرق الدفع",
                 value = (working_member.robux_option and (working_member.robux_option .. "\n") or "") ..
-                    (working_member.credit_option or ""),
+                    (working_member.credit_option and (working_member.credit_option .. "\n") or "") ..
+                    (working_member.dollar_option and (working_member.dollar_option .. "\n") or ""),
                 inline = false
             },
 
@@ -251,7 +319,8 @@ function shop.append_working(author, custom_id)
         attachment = nil,
         custom_id = custom_id,
         robux_option = nil,
-        credit_option = nil
+        credit_option = nil,
+        dollar_option = nil
     }
 
     if custom_id == "fh_request" or custom_id == "lfd_request" then
@@ -264,9 +333,9 @@ function shop.append_working(author, custom_id)
             discordia.Components {
                 discordia.SelectMenu("work_type") -- id
                     :placeholder "اختر العمل"
-                    :option("مبرمج", "programmer", "يكتب سكربتات", false)
-                    :option("مودلر", "modeler", "يسوي مجسمات", false)
-                    :option("بلدر", "builder", "يركب اشياء فوق بعض", false)
+                    :option("مبرمج", "programmer", "يكتب سكربتات برمجية", false)
+                    :option("مودلر", "modeler", "يسوي مجسمات ثلاثية الأبعاد", false)
+                    :option("بلدر", "builder", "يرتب المجسمات ويكون منها بيئة", false)
                     :option("مصمم جرافيك", "gfx", "يسوي صور سينمائية", false)
                     :option("مؤثرات بصرية", "vfx", "يسوي مؤثرات", false)
                     :option("أنيميشن", "animation", "يسوي انيميشنات", false)
@@ -274,7 +343,7 @@ function shop.append_working(author, custom_id)
             })
 
         if not sent_message then return end
-        -- It returns false when the timeout ends not when a predicate returns true
+
         local success, interaction = sent_message:waitComponent("selectMenu", nil, 6000000,
             function() return working_members[author.id] ~= nil end)
 
