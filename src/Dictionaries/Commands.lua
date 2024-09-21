@@ -331,7 +331,6 @@ Commands.disallow_send_perm = function(MessageHandlerObj)
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
         f_channel = MessageHandlerObj.channel
-        return
     end
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
@@ -359,7 +358,6 @@ Commands.allow_send_perm = function(MessageHandlerObj)
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
         f_channel = MessageHandlerObj.channel
-        return
     end
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
@@ -427,7 +425,6 @@ Commands.allow_read_perm = function(MessageHandlerObj)
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
         f_channel = MessageHandlerObj.channel
-        return
     end
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
@@ -455,7 +452,6 @@ Commands.disallow_read_perm = function(MessageHandlerObj)
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
         f_channel = MessageHandlerObj.channel
-        return
     end
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
