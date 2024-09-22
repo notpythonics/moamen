@@ -1,4 +1,4 @@
-local EventsToBind = require("./Dictionaries/EventsToBind")
+local EventsToBind = require("../Dictionary/EventsToBind")
 
 local Bot = {}
 Bot.__index = Bot

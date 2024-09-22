@@ -1,8 +1,8 @@
 local discordia = require("discordia")
 local Interactions = require("./Interactions")
-local MessageHandler = require("../MessageHandler")
-local Shop = require("../Shop")
-local Block = require("../Block")
+local MessageHandler = require("../Classes/MessageHandler")
+local Shop = require("../Utility/Shop")
+local Block = require("../Utility/Block")
 local timer = require("timer")
 
 local EventsToBind = {}

@@ -1,5 +1,5 @@
-local Predicates = require("./Dictionaries/Predicates")
-local Commands = require("./Dictionaries/Commands")
+local Predicates = require("../Dictionary/Predicates")
+local Commands = require("../Dictionary/Commands")
 
 local MessageHandler = {}
 MessageHandler.__index = MessageHandler

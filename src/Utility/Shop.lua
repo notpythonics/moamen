@@ -69,7 +69,7 @@ function shop.process_stage(message)
                     discordia.SelectMenu("payment_type") -- id
                         :placeholder "اختر طريقة الدفع"
                         :minValues(1)                    -- Allow selecting at least 1 option
-                        :maxValues(3)                    -- Allow selecting up to 2 options
+                        :maxValues(3)                    -- Allow selecting up to 3 options
                         :option("روبوكس", "Robux", "الدفع بستخدام روبوكس", false)
                         :option("كردت", "Credit", "الدفع بستخدام كردت", false)
                         :option("دولار", "Dollar", "الدفع بستخدام دولار", false)

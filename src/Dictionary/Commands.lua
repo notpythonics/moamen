@@ -4,8 +4,8 @@ local Components = discordia_components.Components
 
 local Predicates = require("./Predicates")
 local Wiki = require("./Wiki")
-local Block = require("../Block")
-local RoleAdjuster = require("../RoleAdjuster")
+local Block = require("../Utility/Block")
+local RoleAdjuster = require("../Classes/RoleAdjuster")
 
 local Commands = {}
 
@@ -46,7 +46,7 @@ end
 Commands.line = function(MessageHandlerObj)
     if Predicates.isModerator_v(MessageHandlerObj.author_member) then
         MessageHandlerObj.channel:send {
-            embed = { 
+            embed = {
                 image = { url = Enums.Images.Line },
                 color = discordia.Color.fromRGB(1, 1, 1).value
             }
@@ -214,7 +214,12 @@ Commands.rules_embed = function(MessageHandlerObj)
     end
     local channel = MessageHandlerObj.channel
 
-    channel:send { embed = { image = { url = Enums.Images.Header } } }
+    channel:send {
+        embed = {
+            image = { url = Enums.Images.Header },
+            color = discordia.Color.fromRGB(1, 1, 1).value
+        }
+    }
 
     channel:send {
         embed = {
@@ -233,7 +238,8 @@ Commands.rules_embed = function(MessageHandlerObj)
 
 يمنع نشر روابط سيرفرات، وتمنع المتاجرة خارج رومات التجارة.
 يمنع نشر أو اعادة بيع ما بيعَ لك في رومات التجارة.]],
-            image = { url = Enums.Images.Header }
+            image = { url = Enums.Images.Header },
+            color = discordia.Color.fromRGB(1, 1, 1).value
         }
     }
 end

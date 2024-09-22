@@ -1,5 +1,5 @@
 local discordia = require("discordia")
-local Predicates = require("./Dictionaries/Predicates")
+local Predicates = require("../Dictionary/Predicates")
 
 local Block = {}
 

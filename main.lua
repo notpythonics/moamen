@@ -1,7 +1,7 @@
 local discordia = require("discordia")
 
-local Bot = require("./src/Bot.lua")
-local Enums = require("./src/Dictionaries/Enums")
+local Bot = require("./src/Classes/Bot.lua")
+local Enums = require("./src/Dictionary/Enums")
 
 -- Globals
 _G.Prefix = "moamen"
