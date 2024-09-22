@@ -2,7 +2,7 @@ local discordia = require("discordia")
 
 local shop = {}
 
-local working_members = {}
+_G.working_members = {}
 
 local function invalid_input(message, author, stage)
     local content = message.content

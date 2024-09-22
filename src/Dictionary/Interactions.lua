@@ -127,9 +127,9 @@ function Interactions.request_accept(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
     if not r_embed then
-        inter.message:delete()
         inter:replyDeferred(true)
         inter:reply("حدث خطأ")
+        inter.message:delete()
         return
     end
     local user = _G.Client:getUser(embed_author_id)
@@ -139,7 +139,6 @@ function Interactions.request_accept(inter)
     if p_channel then
         p_channel:send("الإمبد انقبل")
     end
-    inter:updateDeferred()
     inter.message:delete()
 
     _G.Client:getChannel(Enums.Channels.Logs.Embeds):send {
