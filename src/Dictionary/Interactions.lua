@@ -3,7 +3,7 @@ local discordia = require("discordia")
 local dModals = require("discordia-modals")
 local timer = require("timer")
 local Predicates = require("./Predicates")
-local Shop = require("../Utility/shop")
+local Shop = require("../Utility/Shop")
 local Block = require("../Utility/Block")
 
 local Interactions = {}
