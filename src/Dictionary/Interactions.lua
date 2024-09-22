@@ -155,9 +155,9 @@ function Interactions.request_decline(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
     if not r_embed then
-        inter.message:delete()
         inter:replyDeferred(true)
         inter:reply("حدث خطأ")
+        inter.message:delete()
         return
     end
     inter:modal(dModals.Modal {
@@ -178,9 +178,9 @@ function Interactions.decline_reason_modal(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
     if not r_embed then
-        inter.message:delete()
         inter:replyDeferred(true)
         inter:reply("حدث خطأ")
+        inter.message:delete()
         return
     end
     local user = _G.Client:getUser(embed_author_id)
