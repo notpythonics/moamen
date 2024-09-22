@@ -1,4 +1,4 @@
-local Predicates = require("../Dictionary/Predicates")
+local Predicates = require("../Utility/Predicates")
 local Commands = require("../Dictionary/Commands")
 
 local MessageHandler = {}

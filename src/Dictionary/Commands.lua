@@ -2,9 +2,9 @@ local discordia = require("discordia")
 local discordia_components = require("discordia-components")
 local Components = discordia_components.Components
 
-local Predicates = require("./Predicates")
 local Wiki = require("./Wiki")
 local Block = require("../Utility/Block")
+local Predicates = require("../Utility/Predicates")
 local RoleAdjuster = require("../Classes/RoleAdjuster")
 
 local Commands = {}
