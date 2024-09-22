@@ -69,6 +69,14 @@ Wiki.delegating_constructors = {
     "```cpp\npublic:\n  Employee(std::string_view name)\n   : Employee{name, 0}{} // delegate initialization to another con\n\nEmployee(std::string_view name, int id)\n   : m_name{ name }, m_id{ id }{}```\n[learncpp](https://www.learncpp.com/cpp-tutorial/delegating-constructors/)\n[what is delegation](https://www.youtube.com/watch?v=PRFQTiFxV-M&t=86s&ab_channel=MatterhornBusinessDevelopment)"
 }
 
+Wiki.static_data_members = {
+    image = {
+        url = "https://i.imgur.com/EpGtRZS.png"
+    },
+    description =
+    "```cpp\nclass Something {\n  // Note: it's private\n  static int s_value; // declaration\n};\n\nint Something::s_value{1}; // definition\n```\n[learncpp](https://www.learncpp.com/cpp-tutorial/static-member-variables/)"
+}
+
 Wiki.cmds = {
     --title = "commands",
     fields = {
