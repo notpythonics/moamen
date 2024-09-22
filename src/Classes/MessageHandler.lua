@@ -1,5 +1,6 @@
 local Predicates = require("../Utility/Predicates")
 local Commands = require("../Dictionary/Commands")
+local Block = require("../Utility/Block")
 
 local MessageHandler = {}
 MessageHandler.__index = MessageHandler
@@ -14,6 +15,7 @@ function MessageHandler.new(message)
     self.channel = message.channel
     self.attachment = message.attachment
     self.mentionedChannels = message.mentionedChannels
+    self.mentionedRoles = message.mentionedRoles
     self.m_message = message
     return self
 end
@@ -75,8 +77,29 @@ function MessageHandler:AddingReactions()
     end
 end
 
+function MessageHandler:Filter()
+    -- Member mentioned moderators?
+    if not Predicates.isModerator_v(self.author_member) then
+        for _, role in ipairs(self.mentionedRoles:toArray()) do
+            if role.id == Enums.Roles.Moderator then
+                self.channel:send {
+                    content = self.author.mentionString .. " إشعارك للمشرفين دون سبب مقنع قد يفضي للكتم "
+                }
+            end
+        end
+    end
+    -- Message from a hacked member?
+    if self.content:sub(1, 14) == '$50 from steam' or self.content:sub(1, 18) == 'Bro steam gift 50$' then
+        self.m_message:delete()
+        Block.Append({ self.author_member }, self.channel)
+    end
+end
+
 function MessageHandler:Process()
-    self:AddingReactions()
+    coroutine.wrap(function()
+        self:AddingReactions()
+        self:Filter()
+    end)()
 
     self.content = self.content:lower()                                                       -- Lower the content
     if self.content:sub(1, 6) ~= _G.Prefix and self.content:sub(1, 2) ~= _G.Another_Prefix then return end
