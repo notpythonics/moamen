@@ -160,6 +160,7 @@ function Interactions.request_decline(inter)
         inter.message:delete()
         return
     end
+    -- This is a reply
     inter:modal(dModals.Modal {
         title = "رفض الإمبد",
         id = "decline_reason_modal", -- id
@@ -170,7 +171,6 @@ function Interactions.request_decline(inter)
             placeholder = ""
         })
     })
-    inter:updateDeferred()
 end
 
 -- Decline modal
