@@ -91,7 +91,7 @@ function MessageHandler:Filter()
     -- Message from a hacked member?
     if self.content:sub(1, 14) == '$50 from steam' or self.content:sub(1, 18) == 'Bro steam gift 50$' then
         self.m_message:delete()
-        Block.Append({ self.author_member }, self.channel)
+        Block.Append({ self.author_member }, self.channel, true)
     end
 end
 

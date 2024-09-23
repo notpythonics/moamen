@@ -27,10 +27,10 @@ function Block.NumberOfBlockedIds()
     return #blocked_IDs
 end
 
-function Block.Append(members, channel)
+function Block.Append(members, channel, forced)
     local conformed_blocks = ""
     for _, member in pairs(members) do
-        if Predicates.isValidToPunch(member) then
+        if Predicates.isValidToPunch(member) or forced then
             conformed_blocks = conformed_blocks .. member.mentionString .. "\n"
             -- Start removing roles in a different thread
             coroutine.wrap(function()
