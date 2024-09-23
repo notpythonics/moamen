@@ -83,7 +83,7 @@ function MessageHandler:Filter()
         for _, role in ipairs(self.mentionedRoles:toArray()) do
             if role.id == Enums.Roles.Moderator then
                 self.channel:send {
-                    content = self.author.mentionString .. " إشعارك للمشرفين دون سبب مقنع قد يفضي للكتم "
+                    content = self.author.mentionString .. " إشعارك للمشرف دون سبب مقنع قد يفضي للكتم "
                 }
             end
         end

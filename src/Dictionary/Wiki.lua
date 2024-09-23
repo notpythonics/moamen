@@ -20,7 +20,7 @@ Wiki.c_structs = {
         url = "https://i.imgur.com/N5ir1GA.png"
     },
     description =
-    "C does not have member functions or constructors; It only has data members. This means every struct in C is an aggregate!\nnote that function members do not make a struct inaggregate but constructors and protected/private members do.\n[learncpp](https://www.learncpp.com/cpp-tutorial/member-functions/)"
+    "C does not have member functions or constructors; It only has data members. This means every struct in C is an aggregate!\nnote that function members do not make a struct non-aggregate but constructors and protected/private members do.\n[learncpp](https://www.learncpp.com/cpp-tutorial/member-functions/)"
 }
 
 Wiki.deleting_functions = {
