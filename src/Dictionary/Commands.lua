@@ -61,7 +61,7 @@ Commands.mythanks = function(MessageHandlerObj)
     local t = stmt:reset():bind(MessageHandlerObj.author.id):step()
     --conn "select * from thanks"
     MessageHandlerObj.channel:send {
-        content = "your thanks: `" .. tostring(t[1]):gsub("L", "") .. "`"
+        content = "your thanks: `" .. tostring(t and t[1] or 0):gsub("L", "") .. "`"
     }
     conn:close()
 end
@@ -74,7 +74,7 @@ Commands.their_thanks = function(MessageHandlerObj)
     local t = stmt:reset():bind(mentionedUser.id):step()
     --conn "select * from thanks"
     MessageHandlerObj.channel:send {
-        content = mentionedUser.username .. "'s thanks: `" .. tostring(t[1]):gsub("L", "") .. "`"
+        content = mentionedUser.username .. "'s thanks: `" .. tostring(t and t[1] or 0):gsub("L", "") .. "`"
     }
     conn:close()
 end
