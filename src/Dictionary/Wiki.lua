@@ -81,6 +81,12 @@ Wiki.cmds = {
     --title = "commands",
     fields = {
         {
+            name = "thanking",
+            value = "`thank`\n`mythanks`\n`their_thanks`",
+            inline = true
+        },
+
+        {
             name = "muting",
             value = "`mute`\n`unmute`",
             inline = true

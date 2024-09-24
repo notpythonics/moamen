@@ -6,6 +6,8 @@ local Wiki = require("./Wiki")
 local Block = require("../Utility/Block")
 local Predicates = require("../Utility/Predicates")
 local RoleAdjuster = require("../Classes/RoleAdjuster")
+local sql = require("./deps/deps/sqlite3")
+local timer = require("timer")
 
 local Commands = {}
 
@@ -15,6 +17,66 @@ local function ConvertToMembers(MessageHandlerObj)
         table.insert(members, MessageHandlerObj.guild:getMember(user.id))
     end
     return members
+end
+
+-- Thank
+local thanks_cooldowns = {}
+
+Commands.thank = function(MessageHandlerObj)
+    local author_id = MessageHandlerObj.author.id
+    if thanks_cooldowns[author_id] then 
+        local set_msg = MessageHandlerObj.channel:send {
+            content = "⏳ CoolDown"
+        }
+        timer.sleep(3000)
+        set_msg:delete()
+        MessageHandlerObj.m_message:addReaction("⏳")
+        return
+    end
+    local mentionedUser = MessageHandlerObj.mentionedUsers.first
+    if not mentionedUser then return end
+    if mentionedUser.id == author_id then return end
+
+    local conn = sql.open("moamen.db")
+    local stmt = conn:prepare "insert or ignore into thanks(owner_id, count) values(?, 0)"
+    stmt:reset():bind(mentionedUser.id):step()
+    local incr = conn:prepare "update thanks set count = count + 1 where owner_id = ?"
+    incr:reset():bind(mentionedUser.id):step()
+    conn:close()
+
+    thanks_cooldowns[author_id] = true
+    MessageHandlerObj.channel:send {
+        content = "🙏🏿 Successfully thanked " .. mentionedUser.username
+    }
+    coroutine.wrap(function()
+        timer.sleep(36000000) -- 10 hours
+        thanks_cooldowns[author_id] = nil
+    end)()
+end
+
+-- MyThanks
+Commands.mythanks = function(MessageHandlerObj)
+    local conn = sql.open("moamen.db")
+    local stmt = conn:prepare "select count from thanks where owner_id = ?"
+    local t = stmt:reset():bind(MessageHandlerObj.author.id):step()
+    --conn "select * from thanks"
+    MessageHandlerObj.channel:send {
+        content = "your thanks: `" .. tostring(t[1]):gsub("L", "") .. "`"
+    }
+    conn:close()
+end
+
+-- TheirThanks
+Commands.their_thanks = function(MessageHandlerObj)
+    local mentionedUser = MessageHandlerObj.mentionedUsers.first
+    local conn = sql.open("moamen.db")
+    local stmt = conn:prepare "select count from thanks where owner_id = ?"
+    local t = stmt:reset():bind(mentionedUser.id):step()
+    --conn "select * from thanks"
+    MessageHandlerObj.channel:send {
+        content = mentionedUser.username .. "'s thanks: `" .. tostring(t[1]):gsub("L", "") .. "`"
+    }
+    conn:close()
 end
 
 -- Block
