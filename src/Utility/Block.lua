@@ -24,7 +24,7 @@ end
 function Block.NumberOfBlockedIds()
     local conn = sql.open("moamen.db")
     local t = conn:exec "select count(*) from blocked_ids"
-    conn "select * from blocked_ids"
+    --conn "select * from blocked_ids"
     conn:close()
     return t[1][1]
 end

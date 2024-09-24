@@ -89,7 +89,7 @@ Wiki.cmds = {
         {
             name = "blocking",
             value =
-            "`blocked_members` number of blocked members\n`blocked_ids` blocked IDs separated by a space\n`block` blocks members (removes roles)\n`unblock` unblocks members",
+            "`blocked_members` number of blocked members\n`block` blocks members (removes roles)\n`unblock` unblocks members",
             inline = false
         },
 
