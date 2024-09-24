@@ -113,7 +113,7 @@ function MessageHandler:Process()
     local raw_message = self.content:match("[%a_]+") -- Find first string
     if self.content == "" then return end
     raw_message = raw_message:gsub(" ", "")          -- Remove spacies
-    print("raw", raw_message, "\nplain", self.content)
+    --print("raw", raw_message, "\nplain", self.content)
 
     if Commands[raw_message] then
         Commands[raw_message](self)

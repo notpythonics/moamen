@@ -1,17 +1,15 @@
 local discordia = require("discordia")
 local Predicates = require("./Predicates")
+local sql = require("./deps/deps/sqlite3")
 
 local Block = {}
 
-local blocked_IDs = {}
-
 function Block.IsIdBlocked(target_id)
-    for i, id in pairs(blocked_IDs) do
-        if id == target_id then
-            return i -- This is true
-        end
-    end
-    return false
+    local conn = sql.open("moamen.db")
+    local stmt = conn:prepare "select * from blocked_ids where id = ?"
+    local t = stmt:reset():bind(target_id):step()
+    conn:close()
+    return t and true or false
 end
 
 function Block.Punch(member)
@@ -24,24 +22,31 @@ function Block.Punch(member)
 end
 
 function Block.NumberOfBlockedIds()
-    return #blocked_IDs
+    local conn = sql.open("moamen.db")
+    local t = conn:exec "select count(*) from blocked_ids"
+    conn "select * from blocked_ids"
+    conn:close()
+    return t[1][1]
 end
 
 function Block.Append(members, channel, forced)
     local conformed_blocks = ""
+    local conn = sql.open("moamen.db")
+    local stmt = conn:prepare "insert or ignore into blocked_ids(id) values(?)"
+
     for _, member in pairs(members) do
         if Predicates.isValidToPunch(member) or forced then
             conformed_blocks = conformed_blocks .. member.mentionString .. "\n"
+
             -- Start removing roles in a different thread
             coroutine.wrap(function()
                 Block.Punch(member)
             end)()
 
-            if not Block.IsIdBlocked(member.id) then
-                table.insert(blocked_IDs, member.id)
-            end
+            stmt:reset():bind(member.id):step()
         end
     end
+    conn:close()
     if conformed_blocks == "" then
         return
     end
@@ -55,29 +60,19 @@ function Block.Append(members, channel, forced)
 end
 
 function Block.Remove(members)
+    local conn = sql.open("moamen.db")
+    local stmt = conn:prepare "delete from blocked_ids where id = ?"
+
     for _, member in pairs(members) do
         local index = Block.IsIdBlocked(member.id)
         if index then
-            table.remove(blocked_IDs, index)
+            stmt:reset():bind(member.id):step()
+
             member:removeRole(Enums.Roles.Blocked)
             member:addRole(Enums.Roles.Member)
         end
     end
-end
-
-function Block.Blocked_IDs(channel)
-    local str = "```"
-    for _, id in ipairs(blocked_IDs) do
-        str = str .. id .. " "
-    end
-    str = str .. "```"
-
-    -- If no blocked IDs's found
-    if str == "``````" then
-        str = "لا محظورين"
-    end
-
-    channel:send { content = str }
+    conn:close()
 end
 
 return Block

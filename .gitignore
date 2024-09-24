@@ -10,3 +10,7 @@ gateway.json
 
 # disocrdia dir
 deps
+
+# data base
+sqlite3.dll
+moamen.db

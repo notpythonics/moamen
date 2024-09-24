@@ -31,15 +31,10 @@ Commands.unblock = function(MessageHandlerObj)
     end
 end
 
--- Blocked IDs
-Commands.blocked_ids = function(MessageHandlerObj)
-    Block.Blocked_IDs(MessageHandlerObj.channel)
-end
-
 -- Blocked members
 Commands.blocked_members = function(MessageHandlerObj)
     MessageHandlerObj.channel:send
-    { content = "`" .. Block.NumberOfBlockedIds() .. "` blocked member" }
+    { content = "`" .. tostring(Block.NumberOfBlockedIds()) .. "` blocked member" }
 end
 
 -- Line
