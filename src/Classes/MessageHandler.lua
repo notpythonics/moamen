@@ -101,22 +101,24 @@ function MessageHandler:Process()
         self:Filter()
     end)()
 
-    self.content = self.content:lower()                                                       -- Lower the content
+    self.content = self.content:lower() -- Lower the content
     if self.content:sub(1, 6) ~= _G.Prefix and self.content:sub(1, 2) ~= _G.Another_Prefix then return end
-    self.content = self.content:gsub(_G.Prefix, ""):gsub(_G.Another_Prefix, ""):gsub(" ", "") -- Erase prefix and spacies
 
-    local raw_message = self.content:match("[%w_]+"):gsub("<", ""):gsub(">", "")
-    -- print("raw", raw_message)
-    -- print("plain", self.content)
+    -- Erasing prefixes
+    self.content = self.content:gsub(_G.Prefix, "")
+    if self.content == "" then return end
+    self.content = self.content:gsub(_G.Another_Prefix, "")
+    if self.content == "" then return end
+    -- char-set https://www.lua.org/pil/20.2.html
+    local raw_message = self.content:match("[%a_]+") -- Find first string
+    if self.content == "" then return end
+    raw_message = raw_message:gsub(" ", "")          -- Remove spacies
+    print("raw", raw_message, "\nplain", self.content)
+
     if Commands[raw_message] then
         Commands[raw_message](self)
         return
     end
-    if Commands[self.content] then
-        Commands[self.content](self)
-        return
-    end
-    if Commands[raw_message:sub(1, 4)] then Commands[raw_message:sub(1, 4)](self) end -- For mute and wiki
 end
 
 return MessageHandler

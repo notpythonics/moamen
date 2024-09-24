@@ -124,7 +124,8 @@ end
 
 -- Wiki
 Commands.wiki = function(MessageHandlerObj)
-    local key = MessageHandlerObj.content:gsub("wiki", "") -- Remove wiki prefix
+    local key = MessageHandlerObj.content:gsub("wiki", ""):match("%a+") -- Remove wiki and find the first string
+
     if Wiki[key] then
         MessageHandlerObj.channel:send
         { embed = Wiki[key] }
