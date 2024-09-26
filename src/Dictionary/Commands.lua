@@ -43,7 +43,7 @@ Commands.thank = function(MessageHandlerObj)
 
     thanks_cooldowns[author_id] = true
     MessageHandlerObj.channel:send {
-        content = "**🙏🏿 Successfully thanked " .. mentionedUser.username .. "** - and thank you for helping improve ArabDevHub.",
+        content = "**🙏🏿 Successfully thanked " .. mentionedUser.username .. "** - and thank you for improving ArabDevHub.",
         reference = {
             message = MessageHandlerObj.m_message,
             mention = false,
@@ -63,7 +63,7 @@ Commands.mythanks = function(MessageHandlerObj)
     conn:close()
     --conn "select * from thanks"
     MessageHandlerObj.channel:send {
-        content = "You have `" .. tostring(t and t[1] or 0):gsub("L", "") .. "` thanks in all of time.",
+        content = "You have `" .. tostring(t and t[1] or 0):gsub("L", "") .. "`",
         reference = {
             message = MessageHandlerObj.m_message,
             mention = false,
