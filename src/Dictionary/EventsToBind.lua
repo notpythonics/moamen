@@ -1,5 +1,6 @@
 local discordia = require("discordia")
 local Interactions = require("./Interactions")
+local SlashCommands = require("./SlashCommands")
 local MessageHandler = require("../Classes/MessageHandler")
 local Shop = require("../Utility/Shop")
 local Block = require("../Utility/Block")
@@ -85,10 +86,18 @@ end
 -- interactionCreate
 function EventsToBind.interactionCreate(inter)
     local custom_id = inter.data.custom_id
-    print("Interaction ID: ", custom_id)
 
     if Interactions[custom_id] then
         Interactions[custom_id](inter, custom_id)
+    end
+end
+
+-- slashCommand
+function EventsToBind.slashCommand(inter, command, args)
+    local command_name = command.name
+
+    if SlashCommands[command_name] then
+        SlashCommands[command_name](inter, command, args)
     end
 end
 

@@ -1,5 +1,6 @@
 local discordia = require("discordia")
 local discordia_components = require("discordia-components")
+local tools = require("discordia-slash").util.tools()
 local Components = discordia_components.Components
 
 local Wiki = require("./Wiki")
@@ -19,60 +20,35 @@ local function ConvertToMembers(MessageHandlerObj)
     return members
 end
 
--- Thank
-local thanks_cooldowns = {}
+-- Create guild app cmds
+Commands.creategpc = function(MessageHandlerObj)
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    do
+        local slashCommand = tools.slashCommand("thank", "Thank a user for helping you!")
+        local option = tools.user("user", "Who do you want to thank?")
+        option:setRequired(true)
+        slashCommand:addOption(option)
 
-Commands.thank = function(MessageHandlerObj)
-    local author_id = MessageHandlerObj.author.id
-    if thanks_cooldowns[author_id] then
-        pcall(function()
-            MessageHandlerObj.m_message:addReaction("⏳")
-        end)
-        return
+        Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
     end
-    local mentionedUser = MessageHandlerObj.mentionedUsers.first
-    if not mentionedUser then return end
-    if mentionedUser.id == author_id then return end
 
-    local conn = sql.open("moamen.db")
-    local stmt = conn:prepare "insert or ignore into thanks(owner_id, count) values(?, 0)"
-    stmt:reset():bind(mentionedUser.id):step()
-    local incr = conn:prepare "update thanks set count = count + 1 where owner_id = ?"
-    incr:reset():bind(mentionedUser.id):step()
-    conn:close()
-
-    thanks_cooldowns[author_id] = true
-    MessageHandlerObj.channel:send {
-        content = "**🙏🏿 Successfully thanked " .. mentionedUser.username .. "** - and thank you for improving ArabDevHub.",
-        reference = {
-            message = MessageHandlerObj.m_message,
-            mention = false,
-        }
-    }
-    coroutine.wrap(function()
-        timer.sleep(36000000) -- 10 hours
-        thanks_cooldowns[author_id] = nil
-    end)()
+    local slashCommand = tools.slashCommand("mythanks", "See how many thanks you have.")
+    Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
 end
 
--- MyThanks
-Commands.mythanks = function(MessageHandlerObj)
-    local conn = sql.open("moamen.db")
-    local stmt = conn:prepare "select count from thanks where owner_id = ?"
-    local t = stmt:reset():bind(MessageHandlerObj.author.id):step()
-    conn:close()
-    --conn "select * from thanks"
-    MessageHandlerObj.channel:send {
-        content = "You have `" .. tostring(t and t[1] or 0):gsub("L", "") .. "`",
-        reference = {
-            message = MessageHandlerObj.m_message,
-            mention = false,
-        }
-    }
+-- Delete guild app cmds
+Commands.deletegpc = function(MessageHandlerObj)
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    local commands = Client:getGuildApplicationCommands(MessageHandlerObj.guild.id)
+
+    for commandId in pairs(commands) do
+        Client:deleteGuildApplicationCommand(MessageHandlerObj.guild.id, commandId)
+    end
 end
 
 -- TheirThanks
 Commands.their_thanks = function(MessageHandlerObj)
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     local mentionedUser = MessageHandlerObj.mentionedUsers.first
     if not mentionedUser then return end
     local conn = sql.open("moamen.db")

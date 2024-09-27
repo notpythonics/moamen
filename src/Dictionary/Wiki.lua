@@ -82,7 +82,7 @@ Wiki.cmds = {
     fields = {
         {
             name = "thanking",
-            value = "`thank`\n`mythanks`\n`their_thanks`",
+            value = "`/thank`\n`/mythanks`\n`their_thanks`",
             inline = true
         },
 
