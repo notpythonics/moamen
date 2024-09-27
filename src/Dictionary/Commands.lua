@@ -48,7 +48,7 @@ end
 
 -- TheirThanks
 Commands.their_thanks = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
     local mentionedUser = MessageHandlerObj.mentionedUsers.first
     if not mentionedUser then return end
     local conn = sql.open("moamen.db")
@@ -69,6 +69,13 @@ end
 Commands.block = function(MessageHandlerObj)
     if Predicates.isModerator_v(MessageHandlerObj.author_member) then
         Block.Append(ConvertToMembers(MessageHandlerObj), MessageHandlerObj.channel)
+    end
+end
+
+-- Fblock
+Commands.fblock = function(MessageHandlerObj)
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
+        Block.Append(ConvertToMembers(MessageHandlerObj), MessageHandlerObj.channel, true)
     end
 end
 

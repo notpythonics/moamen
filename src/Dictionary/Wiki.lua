@@ -95,7 +95,7 @@ Wiki.cmds = {
         {
             name = "blocking",
             value =
-            "`blocked_members` number of blocked members\n`block` blocks members (removes roles)\n`unblock` unblocks members",
+            "`blocked_members` number of blocked members\n`block` blocks members (removes roles)\n`fblock` forced block\n`unblock` unblocks members",
             inline = false
         },
 
@@ -122,7 +122,7 @@ Wiki.cmds = {
         {
             name = "others",
             value =
-            "`give_role` gives a given role to a given member (remove corresponding roles)\n`assign_mods` assigns moderators\n`remove_mods` removes moderators\n`source_code`\n`kick`\n`wiki` see wikihelp for more info\n`wikihelp`",
+            "`give_role` gives a given role to a given member (removes corresponding roles)\n`assign_mods` assigns moderators\n`remove_mods` removes moderators\n`source_code`\n`kick`\n`wiki` see wikihelp for more info\n`wikihelp`",
             inline = false
         },
 
