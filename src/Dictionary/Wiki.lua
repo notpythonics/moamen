@@ -129,7 +129,7 @@ Wiki.cmds = {
         {
             name = "bots",
             value =
-            "`disallow_bots_entry` prevnts bots from joining\n`allow_bots_entry` premit bots from joining\n`bots_entry` a bool that determines if bots entry is allowed",
+            "`disallow_bots_entry` prevnts bots from joining\n`allow_bots_entry` premit bots from joining\n`bots_entry` a bool that determines if bots entry is allowed\n`deletegpc` delete guild app cmds\n`creategpc` create guild app cmds",
             inline = false
         },
     }

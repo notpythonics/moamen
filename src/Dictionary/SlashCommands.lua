@@ -37,7 +37,7 @@ SlashCommands.mythanks = function(inter, command, args)
     local conn = sql.open("moamen.db")
     local stmt = conn:prepare "select count from thanks where owner_id = ?"
     local t = stmt:reset():bind(inter.member.id):step()
-    conn "select * from thanks"
+    --conn "select * from thanks"
     conn:close()
     inter:reply("You have `" .. tostring(t and t[1] or 0):gsub("L", "") .. "` thanks.")
 end
