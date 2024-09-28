@@ -13,7 +13,7 @@ If you are here to read the source code, you should read in this order:
 - Install Luvit: visit https://luvit.io and follow the instructions provided for your platform.
 - Update the IDs allocated in `Enums.lua` and `Commands.lua` for the Roles embed command.
 - Place your token in the token variable allocated in `main.lua`
-- To start the bot: run `luvit main.lua`
+- To start the bot: run `luvit main.lua` or `build.bat`
 
 
 #### Method 2: Full Setup
@@ -36,4 +36,4 @@ git clone https://github.com/Bilal2453/discordia-modals
 ```
 - Update the IDs allocated in `Enums.lua` and `Commands.lua` for the Roles embed command.
 - Place your token in the token variable allocated in `main.lua`
-- To start the bot: run `luvit main.lua`
+- To start the bot: run `luvit main.lua` or `build.bat`
