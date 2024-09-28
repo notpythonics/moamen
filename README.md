@@ -12,8 +12,8 @@ If you are here to read the source code, you should read in this order:
 #### Method 1: Quick Setup
 - Install Luvit: visit https://luvit.io and follow the instructions provided for your platform.
 - Update the IDs allocated in `Enums.lua` and `Commands.lua` for the Roles embed command.
-- Place your token in the token variable allocated in `main.lua`.
-- To start the bot: run `luvit bot.lua`
+- Place your token in the token variable allocated in `main.lua`
+- To start the bot: run `luvit main.lua`
 
 
 #### Method 2: Full Setup
@@ -28,12 +28,12 @@ lit install SinisterRectus/sqlite3
 ```
 
 - Clone extensions:
-```git
+```bat
 git clone https://github.com/GitSparTV/discordia-slash
 git clone https://github.com/Bilal2453/discordia-interactions
 git clone https://github.com/Bilal2453/discordia-components
 git clone https://github.com/Bilal2453/discordia-modals
 ```
 - Update the IDs allocated in `Enums.lua` and `Commands.lua` for the Roles embed command.
-- Place your token in the token variable allocated in `main.lua`.
-- To start the bot: run `luvit bot.lua`
+- Place your token in the token variable allocated in `main.lua`
+- To start the bot: run `luvit main.lua`
