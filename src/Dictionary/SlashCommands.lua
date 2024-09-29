@@ -10,7 +10,7 @@ SlashCommands.thank = function(inter, command, args)
 
     if thanks_cooldowns[inter.member.id] then
         inter:replyDeferred(true)
-        inter:reply("Cool Down ❌")
+        inter:reply("Cooldown ❌")
         return
     end
     if inter.member.id == member_id then

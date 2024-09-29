@@ -34,6 +34,7 @@ git clone https://github.com/Bilal2453/discordia-interactions
 git clone https://github.com/Bilal2453/discordia-components
 git clone https://github.com/Bilal2453/discordia-modals
 ```
+
 - Update the IDs allocated in `Enums.lua` and `Commands.lua` for the Roles embed command.
 - Place your token in the token variable allocated in `main.lua`
 - To start the bot: run `luvit main.lua` or `build.bat`

@@ -71,16 +71,17 @@ function EventsToBind.memberJoin(member)
             return
         end
         timer.sleep(3000)
-        pcall(function()
-            member:addRole(Enums.Roles.Bot)
-        end)
+        member:addRole(Enums.Roles.Bot)
         return
     end
 
     timer.sleep(3000)
-    pcall(function()
-        member:addRole(Enums.Roles.Member)
-    end)
+    -- Are they blocked?
+    if Block.IsIdBlocked(member.id) then
+        Block.Punch(member)
+        return
+    end
+    member:addRole(Enums.Roles.Member)
 end
 
 -- interactionCreate
@@ -98,6 +99,25 @@ function EventsToBind.slashCommand(inter, command, args)
 
     if SlashCommands[command_name] then
         SlashCommands[command_name](inter, command, args)
+    end
+end
+
+-- reactionAdd
+function EventsToBind.reactionAdd(reaction, userid)
+    -- Are they blocked?
+    if Block.IsIdBlocked(userid) then
+        local member = reaction.message.guild:getMember(userid)
+        reaction:delete()
+        Block.Punch(member)
+    end
+end
+
+-- reactionAddUncached
+function EventsToBind.reactionAddUncached(channel, messageid, hash, userid)
+    -- Are they blocked?
+    if Block.IsIdBlocked(userid) then
+        local member = channel.guild:getMember(userid)
+        Block.Punch(member)
     end
 end
 

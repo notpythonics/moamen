@@ -16,7 +16,7 @@ function MessageHandler.new(message)
     self.attachment = message.attachment
     self.mentionedChannels = message.mentionedChannels
     self.mentionedRoles = message.mentionedRoles
-    self.m_message = message
+    self.message = message
     return self
 end
 
@@ -32,8 +32,8 @@ end
 
 function MessageHandler:Add_like_and_dislike()
     pcall(function()
-        self.m_message:addReaction("👍🏿")
-        self.m_message:addReaction("👎🏿")
+        self.message:addReaction("👍🏿")
+        self.message:addReaction("👎🏿")
     end)
 end
 
@@ -42,7 +42,7 @@ function MessageHandler:AddingReactions()
     if (self.content:sub(1, 4) == "what" or
             self.content:sub(1, 3) == "wat") then
         pcall(function()
-            self.m_message:addReaction("what:1268763017257160794")
+            self.message:addReaction("what:1268763017257160794")
         end)
         return
     end
@@ -54,22 +54,22 @@ function MessageHandler:AddingReactions()
         else
             if not self.content:match("fe_embed") then
                 if not self.author_member:hasPermission("administrator") then
-                    self.m_message:delete()
+                    self.message:delete()
                 end
             else
                 if not Predicates.isModerator_v(self.author_member) then
-                    self.m_message:delete()
+                    self.message:delete()
                 end
             end
         end
     elseif (self.channel.id == Enums.Channels.your_games) then
         if #self.FindLinks(self.content) == 0 then -- Zero is true in lua
             if not self.author_member:hasPermission("administrator") then
-                self.m_message:delete()
+                self.message:delete()
             end
         else
             if not self.content:find("/games/") and not self.content:find("ExperienceDetails") then
-                self.m_message:delete()
+                self.message:delete()
                 return
             end
             self:Add_like_and_dislike()
@@ -90,7 +90,7 @@ function MessageHandler:Filter()
     end
     -- Message from a hacked member?
     if self.content:sub(1, 14) == '$50 from steam' or self.content:sub(1, 18) == 'Bro steam gift 50$' then
-        self.m_message:delete()
+        self.message:delete()
         Block.Append({ self.author_member }, self.channel, true)
     end
 end

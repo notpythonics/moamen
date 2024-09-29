@@ -59,7 +59,7 @@ Commands.their_thanks = function(MessageHandlerObj)
     MessageHandlerObj.channel:send {
         content = mentionedUser.username .. " has thanks: `" .. tostring(t and t[1] or 0):gsub("L", "") .. "`",
         reference = {
-            message = MessageHandlerObj.m_message,
+            message = MessageHandlerObj.message,
             mention = false,
         }
     }
@@ -346,11 +346,11 @@ Commands.fe_embed = function(MessageHandlerObj)
     if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
         return
     end
-    if not MessageHandlerObj.m_message then return end
-    local replied_to_msg = MessageHandlerObj.m_message.referencedMessage
+    if not MessageHandlerObj.message then return end
+    local replied_to_msg = MessageHandlerObj.message.referencedMessage
 
     if not replied_to_msg then
-        MessageHandlerObj.m_message:reply("please use this command as a reply to a message")
+        MessageHandlerObj.message:reply("please use this command as a reply to a message")
         return
     end
 
