@@ -102,14 +102,38 @@ function EventsToBind.slashCommand(inter, command, args)
     end
 end
 
+-- Adding Reactions
+local deleteThisConstant = 4
+
+local function deleteThisTarget(message)
+    if message.author.bot then return end
+    local count = 0
+    for _, reac in pairs(message.reactions:toArray()) do
+        if reac.emojiHash == Enums.Emojies.delete_this then
+            count = count + 1
+        end
+    end
+
+    if count >= deleteThisConstant then
+        message.channel:send {
+            content = message.author.mentionString .. " a message of yours was deleted because it had " .. deleteThisConstant .. message.guild:getEmoji(Enums.Emojies.delete_this:match("%d+")).mentionString
+        }
+        message:delete()
+    end
+end
+
 -- reactionAdd
 function EventsToBind.reactionAdd(reaction, userid)
+    local message = reaction.message
     -- Are they blocked?
     if Block.IsIdBlocked(userid) then
-        local member = reaction.message.guild:getMember(userid)
+        local reactionAdderMember = message.guild:getMember(userid)
         reaction:delete()
-        Block.Punch(member)
+        Block.Punch(reactionAdderMember)
+        return
     end
+
+    deleteThisTarget(message)
 end
 
 -- reactionAddUncached
@@ -118,7 +142,11 @@ function EventsToBind.reactionAddUncached(channel, messageid, hash, userid)
     if Block.IsIdBlocked(userid) then
         local member = channel.guild:getMember(userid)
         Block.Punch(member)
+        return
     end
+
+    local message = channel:getMessage(messageid)
+    deleteThisTarget(message)
 end
 
 return EventsToBind

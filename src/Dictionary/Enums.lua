@@ -40,6 +40,20 @@ local Enums = {
         }
     },
 
+    Emojies = {
+        UI1 = "1248610488275828848",
+        VFX1 = "1248610479232909332",
+        GFX1 = "1248610490855325738",
+        MODELER1 = "1248610501118922874",
+        ANIMATION1 = "1248610481606885486",
+
+        BUILDER4 = "1284971140485484576",
+        PROGRAMMER4 = "1248588585590980649",
+
+        what = "what:1268763017257160794",
+        delete_this = "delete_this:1265414312483229706"
+    },
+
     Images = {
         Line = "https://i.imgur.com/7mpSyyH.png",
         Header = "https://i.imgur.com/cnDU7OJ.png"
