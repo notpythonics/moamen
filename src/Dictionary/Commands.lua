@@ -239,13 +239,13 @@ Commands.roles_embed = function(MessageHandlerObj)
     local roles_options = discordia.Components {
         discordia.SelectMenu("roles_embed") -- id
             :placeholder "اختر الرتبة التي تريد التقديم عليها"
-            :option("مبرمج", "programmer", "هذه الرتبة لها 4 تصنيفات", false, guild:getEmoji(Enums.Emojies.PROGRAMMER4))
-            :option("بلدر", "builder", "هذه الرتبة لها 4 تصنيفات", false, guild:getEmoji(Enums.Emojies.BUILDER4))
-            :option("مودلر", "modeler", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojies.MODELER1))
-            :option("مصمم جرافيك", "gfx", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojies.GFX1))
-            :option("مؤثرات بصرية", "vfx", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojies.VFX1))
-            :option("أنيميشن", "animation", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojies.ANIMATION1))
-            :option("واجهة مستخدم", "ui", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojies.UI1))
+            :option("مبرمج", "programmer", "هذه الرتبة لها 4 تصنيفات", false, guild:getEmoji(Enums.Emojis.PROGRAMMER4))
+            :option("بلدر", "builder", "هذه الرتبة لها 4 تصنيفات", false, guild:getEmoji(Enums.Emojis.BUILDER4))
+            :option("مودلر", "modeler", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.MODELER1))
+            :option("مصمم جرافيك", "gfx", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.GFX1))
+            :option("مؤثرات بصرية", "vfx", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.VFX1))
+            :option("أنيميشن", "animation", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.ANIMATION1))
+            :option("واجهة مستخدم", "ui", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.UI1))
     }
     channel:sendComponents({
         embed = {

@@ -42,7 +42,7 @@ function MessageHandler:AddingReactions()
     if (self.content:sub(1, 4) == "what" or
             self.content:sub(1, 3) == "wat") then
         pcall(function()
-            self.message:addReaction(Enums.Emojies.what)
+            self.message:addReaction(Enums.Emojis.what)
         end)
         return
     end
