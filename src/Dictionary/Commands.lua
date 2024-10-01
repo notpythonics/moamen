@@ -433,7 +433,7 @@ Commands.allow_send_perm = function(MessageHandlerObj)
     }
 end
 
-local function FindFirstRole(content)
+local function FindFirstEnumRole(content)
     for roleName, id in pairs(Enums.Roles.Levels) do
         --print(roleName, content)
         if content:lower():match(roleName:lower()) then
@@ -454,7 +454,7 @@ Commands.give_role = function(MessageHandlerObj)
         { content = "please provide a member" }
         return
     end
-    local f_roleName = FindFirstRole(MessageHandlerObj.content)
+    local f_roleName = FindFirstEnumRole(MessageHandlerObj.content)
     if not f_roleName then
         MessageHandlerObj.channel:send
         { content = "please provide a role enum" }

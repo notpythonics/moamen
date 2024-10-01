@@ -49,6 +49,7 @@ local Enums = {
         BUILDER4 = "1284971140485484576",
         PROGRAMMER4 = "1248588585590980649",
 
+        -- Hash
         what = "what:1268763017257160794",
         delete_this = "delete_this:1265414312483229706"
     },
