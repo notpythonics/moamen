@@ -109,14 +109,14 @@ local function deleteThisTarget(message)
     if message.author.bot then return end
     local count = 0
     for _, reac in pairs(message.reactions:toArray()) do
-        if reac.emojiHash == Enums.Emojis.delete_this then
+        if reac.emojiHash == Enums.Emojis.Delete_this then
             count = count + 1
         end
     end
 
     if count >= deleteThisConstant then
         message.channel:send {
-            content = message.author.mentionString .. " a message of yours was deleted because it had " .. deleteThisConstant .. message.guild:getEmoji(Enums.Emojis.delete_this:match("%d+")).mentionString
+            content = message.author.mentionString .. " a message of yours was deleted because it had " .. deleteThisConstant .. message.guild:getEmoji(Enums.Emojis.Delete_this:match("%d+")).mentionString
         }
         message:delete()
     end

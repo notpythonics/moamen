@@ -15,7 +15,7 @@ SlashCommands.thank = function(inter, command, args)
     end
     if inter.member.id == member_id then
         inter:replyDeferred(true)
-        inter:reply("error ❌")
+        inter:reply("You can not thank your self ❌")
         return
     end
 
@@ -28,6 +28,11 @@ SlashCommands.thank = function(inter, command, args)
 
     thanks_cooldowns[inter.member.id] = true
     inter:reply("**🙏🏿 Successfully thanked " .. member.username .. "** - and thank you for improving ArabDevHub.")
+    _G.Client:getChannel(Enums.Channels.Logs.Members_movements):send {
+        embed = {
+            description = "🙏🏿 The user " .. inter.member.mentionString .. " thanked " .. member.mentionString
+        }
+    }
 
     timer.sleep(36000000) -- 10 hours
     thanks_cooldowns[inter.member.id] = nil

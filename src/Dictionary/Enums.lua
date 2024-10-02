@@ -50,8 +50,8 @@ local Enums = {
         PROGRAMMER4 = "1248588585590980649",
 
         -- Hash
-        what = "what:1268763017257160794",
-        delete_this = "delete_this:1265414312483229706"
+        What = "what:1268763017257160794",
+        Delete_this = "delete_this:1265414312483229706"
     },
 
     Images = {
@@ -101,7 +101,8 @@ local Enums = {
         },
 
         Logs = {
-            Embeds = "1273293492818546748"
+            Embeds = "1273293492818546748",
+            Members_movements = "1028991154936614962"
         }
     }
 }

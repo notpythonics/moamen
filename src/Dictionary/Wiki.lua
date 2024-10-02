@@ -161,13 +161,14 @@ do
             {
                 name = "Lua <:Lua:1281249211580551209>",
                 value =
-                "[The Ultimate Scripting Mastery Course](https://t.me/+eLrehE3tH7U2NzNk)\n [Programming in Lua](https://www.lua.org/pil/contents.html)",
+                "[The Ultimate Scripting Mastery Course](https://t.me/+eLrehE3tH7U2NzNk)\n[Programming in Lua](https://www.lua.org/pil/contents.html)",
                 inline = false
             },
 
             {
                 name = "C++ <:cpp:1225864684163305573>",
-                value = "[learncpp](https://www.learncpp.com/)",
+                value =
+                "[learncpp](https://www.learncpp.com/)\n[Principles and practice using c++](https://t.me/+H1cOWd42ocFkMTQ0)",
                 inline = false
             }
         }
