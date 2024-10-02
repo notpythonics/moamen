@@ -57,7 +57,7 @@ Commands.their_thanks = function(MessageHandlerObj)
     conn:close()
     --conn "select * from thanks"
     MessageHandlerObj.channel:send {
-        content = mentionedUser.username .. " has thanks: `" .. tostring(t and t[1] or 0):gsub("L", "") .. "`",
+        content = mentionedUser.username .. " has `" .. tostring(t and t[1] or 0):gsub("L", "") .. "` thanks.",
         reference = {
             message = MessageHandlerObj.message,
             mention = false,

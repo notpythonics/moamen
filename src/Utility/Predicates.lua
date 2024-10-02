@@ -18,7 +18,7 @@ function Predicates.isValidToPunch(member)
 end
 
 function Predicates.isOwner_v(user)
-    if user.id == "1167626422303596645" or user.id == "261969319188103179" then
+    if user.id == "1167626422303596645" or user.id == "1082998290230038607" then
         return true
     end
     return false
