@@ -55,8 +55,8 @@ local Enums = {
     },
 
     Images = {
-        Line = "https://i.imgur.com/7mpSyyH.png",
-        Header = "https://i.imgur.com/cnDU7OJ.png"
+        Header = "https://i.imgur.com/cnDU7OJ.png",
+        BigHeader = "https://i.imgur.com/mJ1Cc83.png"
     },
 
     Categories = {

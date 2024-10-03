@@ -67,7 +67,7 @@ end
 
 -- Block
 Commands.block = function(MessageHandlerObj)
-    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
         Block.Append(ConvertToMembers(MessageHandlerObj), MessageHandlerObj.channel)
     end
 end
@@ -81,7 +81,7 @@ end
 
 -- Unblock
 Commands.unblock = function(MessageHandlerObj)
-    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
         Block.Remove(ConvertToMembers(MessageHandlerObj))
     end
 end
@@ -92,24 +92,24 @@ Commands.blocked_members = function(MessageHandlerObj)
     { content = "`" .. tostring(Block.NumberOfBlockedIds()) .. "` blocked member" }
 end
 
--- Line
-Commands.line = function(MessageHandlerObj)
-    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        MessageHandlerObj.channel:send {
-            embed = {
-                image = { url = Enums.Images.Line },
-                color = discordia.Color.fromRGB(1, 1, 1).value
-            }
-        }
-    end
-end
-
 -- Header
 Commands.header = function(MessageHandlerObj)
     if Predicates.isModerator_v(MessageHandlerObj.author_member) then
         MessageHandlerObj.channel:send {
             embed = {
                 image = { url = Enums.Images.Header },
+                color = discordia.Color.fromRGB(1, 1, 1).value
+            }
+        }
+    end
+end
+
+-- BigHeader
+Commands.bigheader = function(MessageHandlerObj)
+    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
+        MessageHandlerObj.channel:send {
+            embed = {
+                image = { url = Enums.Images.BigHeader },
                 color = discordia.Color.fromRGB(1, 1, 1).value
             }
         }
@@ -184,7 +184,7 @@ end
 
 -- Lock
 Commands.lock = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
         return
     end
     local channel = MessageHandlerObj.channel
@@ -201,7 +201,7 @@ end
 
 -- Unlock
 Commands.unlock = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
         return
     end
     local channel = MessageHandlerObj.channel
@@ -343,7 +343,7 @@ end
 
 -- Featured embed
 Commands.fe_embed = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
         return
     end
     if not MessageHandlerObj.message then return end
