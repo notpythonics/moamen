@@ -39,9 +39,11 @@ function Block.Append(members, channel, forced)
             conformed_blocks = conformed_blocks .. member.mentionString .. "\n"
 
             -- Start removing roles in a different thread
-            coroutine.wrap(function()
-                Block.Punch(member)
-            end)()
+            if forced then
+                coroutine.wrap(function()
+                    Block.Punch(member)
+                end)()
+            end
 
             stmt:reset():bind(member.id):step()
         end
