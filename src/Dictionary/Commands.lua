@@ -15,7 +15,10 @@ local Commands = {}
 local function ConvertToMembers(MessageHandlerObj)
     local members = {}
     for _, user in pairs(MessageHandlerObj.mentionedUsers) do
-        table.insert(members, MessageHandlerObj.guild:getMember(user.id))
+        local member = MessageHandlerObj.guild:getMember(user.id)
+        if member then
+            table.insert(members, member)
+        end
     end
     return members
 end

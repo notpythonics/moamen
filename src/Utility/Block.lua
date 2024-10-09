@@ -13,9 +13,11 @@ function Block.IsIdBlocked(target_id)
 end
 
 function Block.Punch(member)
+    if not member then return end
     member:addRole(Enums.Roles.Blocked)
     for _, role in pairs(member.roles) do
         if role.id ~= Enums.Roles.Blocked then
+            if not member then return end
             member:removeRole(role.id)
         end
     end

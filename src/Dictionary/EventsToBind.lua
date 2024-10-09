@@ -63,6 +63,19 @@ end
 
 -- memberJoin
 function EventsToBind.memberJoin(member)
+    local channel = _G.Client:getChannel(Enums.Channels.Logs.Members_movements)
+
+    channel:send {
+        embed = {
+            author = {
+                name = member.username,
+                icon_url = member.user.avatarURL
+            },
+            description = "✅ " .. member.mentionString .. " Joined the server",
+            color = discordia.Color.fromRGB(1, 1, 1).value
+        }
+    }
+
     -- Are they a bot?
     if member.user.bot then
         -- Is bots entry allowed?
@@ -100,6 +113,21 @@ function EventsToBind.slashCommand(inter, command, args)
     if SlashCommands[command_name] then
         SlashCommands[command_name](inter, command, args)
     end
+end
+
+function EventsToBind.memberLeave(member)
+    local channel = _G.Client:getChannel(Enums.Channels.Logs.Members_movements)
+
+    channel:send {
+        embed = {
+            author = {
+                name = member.username,
+                icon_url = member.user.avatarURL
+            },
+            description = member.mentionString .. " Left the server",
+            color = discordia.Color.fromRGB(1, 1, 1).value
+        }
+    }
 end
 
 -- Adding Reactions
