@@ -165,7 +165,7 @@ function EventsToBind.reactionAdd(reaction, userid)
 end
 
 -- reactionAddUncached
-function EventsToBind.reactionAddUncached(channel, messageid, hash, userid)
+function EventsToBind.reactionAddUncached(channel, messageId, hash, userid)
     -- Are they blocked?
     if Block.IsIdBlocked(userid) then
         local member = channel.guild:getMember(userid)
@@ -173,8 +173,35 @@ function EventsToBind.reactionAddUncached(channel, messageid, hash, userid)
         return
     end
 
-    local message = channel:getMessage(messageid)
+    local message = channel:getMessage(messageId)
     deleteThisTarget(message)
+end
+
+function EventsToBind.messageDelete(message)
+    local channel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
+
+    channel:send {
+        embed = {
+            author = {
+                name = message.author.username,
+                icon_url = message.author.avatarURL
+            },
+            description = "A message sent by " .. message.author.mentionString .. " was deleted\n**content:** " .. message.content,
+            color = discordia.Color.fromRGB(1, 1, 1).value
+        }
+    }
+end
+
+function EventsToBind.messageDeleteUncached(channel, messageId)
+    local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
+    --local message = channel:getMessage(messageId)
+
+    logChannel:send {
+        embed = {
+            description = "An uncached message was deleted\n**message Id:** `" .. messageId .. "`",
+            color = discordia.Color.fromRGB(1, 1, 1).value
+        }
+    }
 end
 
 return EventsToBind
