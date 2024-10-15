@@ -96,12 +96,14 @@ Commands.blocked_members = function(MessageHandlerObj)
 end
 
 -- Send blocked message
-Commands.send_blocked_message = function()
+Commands.send_blocked_message = function(MessageHandlerObj)
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     Block.SendBlockedMessage()
 end
 
 -- Update blocked message
-Commands.update_blocked_message = function()
+Commands.update_blocked_message = function(MessageHandlerObj)
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     Block.UpdateBlockedMessage()
 end
 
