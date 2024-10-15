@@ -95,7 +95,7 @@ Wiki.cmds = {
         {
             name = "blocking",
             value =
-            "`blocked_members` number of blocked members\n`fblock` forced block (removes roles)\n`block` blocks members\n`unblock` unblocks members",
+            "`send_blocked_message`\n`update_blocked_message`\n`blocked_members` number of blocked members\n`fblock` forced block (removes roles)\n`block` blocks members\n`unblock` unblocks members",
             inline = false
         },
 

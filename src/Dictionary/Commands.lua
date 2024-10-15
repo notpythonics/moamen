@@ -92,7 +92,17 @@ end
 -- Blocked members
 Commands.blocked_members = function(MessageHandlerObj)
     MessageHandlerObj.channel:send
-    { content = "`" .. tostring(Block.NumberOfBlockedIds()) .. "` blocked member" }
+    { content = "`" .. Block.NumberOfBlockedIds() .. "` blocked member" }
+end
+
+-- Send blocked message
+Commands.send_blocked_message = function()
+    Block.SendBlockedMessage()
+end
+
+-- Update blocked message
+Commands.update_blocked_message = function()
+    Block.UpdateBlockedMessage()
 end
 
 -- Header

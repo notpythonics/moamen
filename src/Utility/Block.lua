@@ -4,6 +4,40 @@ local sql = require("./deps/deps/sqlite3")
 
 local Block = {}
 
+local blocked_messaged_id = nil
+function Block.SendBlockedMessage()
+    local channel = _G.Client:getChannel(Enums.Channels.Staff.Blocked)
+
+    local msg = channel:send {
+        embed = {
+            description =
+                "تم حظرك بشكل دائم، ولا يوجد وقت محدد لانتهاء الحظر. ستبقى رتبة " .. channel.guild:getRole(Enums.Roles.Blocked).mentionString .. " معك حتى إذا خرجت وعدت للسيرفر. كما أنك لن تتمكن من فتح أي تذكرة.\n\n`mn unblock`\n\n**std::int64_t of blocked members:** `" .. Block.NumberOfBlockedIds() .. "`",
+            color = discordia.Color.fromRGB(1, 1, 1).value
+        }
+    }
+    channel:send {
+        content = "`message ID: " .. msg.id .. "`"
+    }
+
+    blocked_messaged_id = msg.id
+end
+
+function Block.UpdateBlockedMessage()
+    if not blocked_messaged_id then return end
+    local channel = _G.Client:getChannel(Enums.Channels.Staff.Blocked)
+
+    local msg = channel:getMessage(blocked_messaged_id)
+    if not msg then return end
+
+    msg:update {
+        embed = {
+            description =
+                "تم حظرك بشكل دائم، ولا يوجد وقت محدد لانتهاء الحظر. ستبقى رتبة " .. channel.guild:getRole(Enums.Roles.Blocked).mentionString .. " معك حتى إذا خرجت وعدت للسيرفر. كما أنك لن تتمكن من فتح أي تذكرة.\n\n`mn unblock`\n\n**std::int64_t of blocked members:** `" .. Block.NumberOfBlockedIds() .. "`",
+            color = discordia.Color.fromRGB(1, 1, 1).value,
+        }
+    }
+end
+
 function Block.IsIdBlocked(target_id)
     local conn = sql.open("moamen.db")
     local stmt = conn:prepare "select * from blocked_ids where id = ?"
@@ -28,7 +62,7 @@ function Block.NumberOfBlockedIds()
     local t = conn:exec "select count(*) from blocked_ids"
     --conn "select * from blocked_ids"
     conn:close()
-    return t[1][1]
+    return tostring(t[1][1]):gsub("L", "")
 end
 
 function Block.Append(members, channel, forced)
@@ -59,6 +93,7 @@ function Block.Append(members, channel, forced)
             color = discordia.Color.fromRGB(102, 0, 51).value
         }
     }
+    Block.UpdateBlockedMessage()
 end
 
 function Block.Remove(members)
