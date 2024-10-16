@@ -95,7 +95,7 @@ Wiki.cmds = {
         {
             name = "blocking",
             value =
-            "`send_blocked_message`\n`update_blocked_message`\n`blocked_members` number of blocked members\n`fblock` forced block (removes roles)\n`block` blocks members\n`unblock` unblocks members",
+            "`is_id_blocked` takes an ID\n`send_blocked_message`\n`update_blocked_message`\n`blocked_members` number of blocked members\n`fblock` forced block (removes roles)\n`block` blocks members\n`unblock` unblocks members",
             inline = false
         },
 
@@ -161,7 +161,7 @@ do
             {
                 name = "Lua <:Lua:1281249211580551209>",
                 value =
-                "[The Ultimate Scripting Mastery Course](https://t.me/+eLrehE3tH7U2NzNk)\n[Programming in Lua](https://www.lua.org/pil/contents.html)",
+                "[قناة عارف](https://www.youtube.com/@aref_r)\n[Programming in Lua](https://www.lua.org/pil/contents.html)",
                 inline = false
             },
 

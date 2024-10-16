@@ -89,6 +89,14 @@ Commands.unblock = function(MessageHandlerObj)
     end
 end
 
+-- Is id blocked
+Commands.is_id_blocked = function(MessageHandlerObj)
+    MessageHandlerObj.channel:send {
+        content =
+            Block.IsIdBlocked(MessageHandlerObj.content:match("%d+")) and "True `1`" or "False `0`",
+    }
+end
+
 -- Blocked members
 Commands.blocked_members = function(MessageHandlerObj)
     MessageHandlerObj.channel:send
