@@ -89,7 +89,11 @@ function MessageHandler:Filter()
         end
     end
     -- Message from a hacked member?
-    if self.content:sub(1, 14) == '$50 from steam' or self.content:sub(1, 18) == 'Bro steam gift 50$' or self.content:sub(1, 14) == "steam gift 50$" or self.content:find("اخونا ادريس") then
+    if self.content:sub(1, 14) == '50$ from steam'
+    or self.content:sub(1, 14) == '$50 from steam'
+    or self.content:sub(1, 18) == 'Bro steam gift 50$'
+    or self.content:sub(1, 14) == "steam gift 50$"
+    or self.content:find("اخونا ادريس") then -- hehe loser
         self.message:delete()
         Block.Append({ self.author_member }, self.channel, true)
     end
