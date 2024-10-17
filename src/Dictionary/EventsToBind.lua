@@ -5,6 +5,7 @@ local MessageHandler = require("../Classes/MessageHandler")
 local Shop = require("../Utility/Shop")
 local Block = require("../Utility/Block")
 local timer = require("timer")
+local http = require('coro-http')
 
 local EventsToBind = {}
 
@@ -180,16 +181,35 @@ end
 function EventsToBind.messageDelete(message)
     local channel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
 
-    channel:send {
-        embed = {
-            author = {
-                name = message.author.username,
-                icon_url = message.author.avatarURL
-            },
-            description = "A message sent by " .. message.author.mentionString .. " was deleted in " .. message.channel.mentionString .. "\n**content:** " .. message.content,
-            color = discordia.Color.fromRGB(1, 1, 1).value
-        }
+    local embed = {
+        author = {
+            name = message.author.username,
+            icon_url = message.author.avatarURL
+        },
+        description = "A message sent by " ..
+            message.author.mentionString ..
+            " was deleted in " .. message.channel.mentionString .. "\n**content:** " .. message.content,
+        color = discordia.Color.fromRGB(1, 1, 1).value
     }
+
+    if message.attachment then
+        -- http request the file's body
+        local res, body = http.request("GET", message.attachment.url)
+        --res is a table|res.code is a number
+        --print(res, "\n" , body)
+
+        channel:send {
+            file = {
+                "vid.mp4",
+                body
+            },
+
+            embed = embed
+        }
+        return
+    end
+
+    channel:send { embed = embed }
 end
 
 function EventsToBind.messageDeleteUncached(channel, messageId)

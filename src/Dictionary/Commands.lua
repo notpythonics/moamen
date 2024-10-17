@@ -9,6 +9,7 @@ local Predicates = require("../Utility/Predicates")
 local RoleAdjuster = require("../Classes/RoleAdjuster")
 local sql = require("./deps/deps/sqlite3")
 local timer = require("timer")
+local http = require('coro-http')
 
 local Commands = {}
 
@@ -382,35 +383,41 @@ Commands.fe_embed = function(MessageHandlerObj)
             name = replied_to_msg.author.username,
             icon_url = replied_to_msg.author.avatarURL
         },
-        description = "made by " .. replied_to_msg.author.mentionString
+        description = "made by " .. replied_to_msg.author.mentionString,
+        emebd = nil
     }
-
-    -- Check for image attachments
-    local attachments = replied_to_msg.attachments -- a table of attachments(an attachment is any file like an image)
-    if #attachments > 0 then
-        if not attachments[1].content_type:match("image") then
-            MessageHandlerObj.channel:send {
-                content = "Only images are supported by this command",
-                reference = {
-                    message = MessageHandlerObj.message,
-                    mention = false,
-                }
-            }
-            return
-        end
-        embed.image = { url = attachments[1].url }
-    end
 
     -- Check for links
     local links = MessageHandlerObj.FindLinks(replied_to_msg.content)
     if #links > 0 then
         embed.description = embed.description .. "\n" .. string.format("[[video]](%s)", links[1]:gsub(" ", ""))
     end
+    local f_channel = _G.Client:getChannel(Enums.Channels.fetured)
 
-    _G.Client:getChannel(Enums.Channels.fetured):send
-    { embed = embed }
+    -- Check for image attachments
+    local attachments = replied_to_msg.attachments -- A table of attachments(an attachment is any file like an image)
+    if attachments then
+        if attachments[1].content_type:match("image") then
+            embed.image = { url = attachments[1].url }
+        else
+            embed.image = { url = Enums.Images.Header }
+        end
+        if attachments[1].content_type:match("video") then
+            -- http request the file's body
+            local res, body = http.request("GET", attachments[1].url)
+            f_channel:send {
+                file = {
+                    "vid.mp4",
+                    body
+                },
+                embed = embed
+            }
+            return
+        end
+    end
+
+    f_channel:send { embed = embed }
 end
-
 
 -- Disallow send permission
 Commands.disallow_send_perm = function(MessageHandlerObj)
