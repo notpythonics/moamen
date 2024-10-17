@@ -388,6 +388,16 @@ Commands.fe_embed = function(MessageHandlerObj)
     -- Check for image attachments
     local attachments = replied_to_msg.attachments -- a table of attachments(an attachment is any file like an image)
     if #attachments > 0 then
+        if not attachments[1].content_type:match("image") then
+            MessageHandlerObj.channel:send {
+                content = "Only images are supported by this command",
+                reference = {
+                    message = MessageHandlerObj.message,
+                    mention = false,
+                }
+            }
+            return
+        end
         embed.image = { url = attachments[1].url }
     end
 

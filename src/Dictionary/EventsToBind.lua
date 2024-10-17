@@ -186,7 +186,7 @@ function EventsToBind.messageDelete(message)
                 name = message.author.username,
                 icon_url = message.author.avatarURL
             },
-            description = "A message sent by " .. message.author.mentionString .. " was deleted\n**content:** " .. message.content,
+            description = "A message sent by " .. message.author.mentionString .. " was deleted in " .. message.channel.mentionString .. "\n**content:** " .. message.content,
             color = discordia.Color.fromRGB(1, 1, 1).value
         }
     }
@@ -198,7 +198,7 @@ function EventsToBind.messageDeleteUncached(channel, messageId)
 
     logChannel:send {
         embed = {
-            description = "An uncached message was deleted\n**message Id:** `" .. messageId .. "`",
+            description = "An uncached message was deleted in " .. channel.mentionString .. "\n**message Id:** `" .. messageId .. "`",
             color = discordia.Color.fromRGB(1, 1, 1).value
         }
     }
