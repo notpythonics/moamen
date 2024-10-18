@@ -93,7 +93,7 @@ function MessageHandler:Filter()
     -- thanked a member
     if self.content:match("شكرا") then
         self.channel:send {
-            content = "استخدم امر thank\\ لتشكر العضو",
+            content = "استخدم امر thank/ لتشكر العضو",
             reference = {
                 message = self.message,
                 mention = true,
@@ -128,7 +128,7 @@ function MessageHandler:Filter()
                         mention = true,
                     },
                     embed = {
-                        description = "A mkv file was implicitly converted to a mp4",
+                        description = "A mkv file was implicitly converted to an mp4",
                         footer = {
                             icon_url = self.author.avatarURL,
                             text = self.author.username .. "'s"
