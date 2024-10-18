@@ -1,6 +1,8 @@
+local discordia = require("discordia")
 local Predicates = require("../Utility/Predicates")
 local Commands = require("../Dictionary/Commands")
 local Block = require("../Utility/Block")
+local http = require('coro-http')
 
 local MessageHandler = {}
 MessageHandler.__index = MessageHandler
@@ -88,21 +90,61 @@ function MessageHandler:Filter()
             end
         end
     end
+    -- thanked a member
+    if self.content:match("شكرا") then
+        self.channel:send {
+            content = "استخدم امر thank\\ لتشكر العضو",
+            reference = {
+                message = self.message,
+                mention = true,
+            }
+        }
+    end
+
     -- Message from a hacked member?
     if self.content:sub(1, 14) == '50$ from steam'
-    or self.content:sub(1, 14) == '$50 from steam'
-    or self.content:sub(1, 18) == 'Bro steam gift 50$'
-    or self.content:sub(1, 14) == "steam gift 50$"
-    or self.content:find("اخونا ادريس") then -- hehe loser
+        or self.content:sub(1, 14) == '$50 from steam'
+        or self.content:sub(1, 18) == 'Bro steam gift 50$'
+        or self.content:sub(1, 14) == "steam gift 50$"
+        or self.content:find("اخونا ادريس") then -- hehe loser
         self.message:delete()
         Block.Append({ self.author_member }, self.channel, true)
+        return
     end
+
+    coroutine.wrap(function()
+        if self.attachment then
+            if self.attachment.content_type:match("x-matroska") then -- mkv --> video\x-matroska
+                -- http request the file's body
+                local res, body = http.request("GET", self.attachment.url)
+
+                self.channel:send {
+                    file = {
+                        "vid.mp4",
+                        body
+                    },
+                    reference = {
+                        message = self.message,
+                        mention = true,
+                    },
+                    embed = {
+                        description = "A mkv file was implicitly converted to a mp4",
+                        footer = {
+                            icon_url = self.author.avatarURL,
+                            text = self.author.username .. "'s"
+                        },
+                        color = discordia.Color.fromRGB(1, 1, 1).value
+                    }
+                }
+            end
+        end
+    end)()
 end
 
 function MessageHandler:Process()
     coroutine.wrap(function()
-        self:AddingReactions()
         self:Filter()
+        self:AddingReactions()
     end)()
 
     self.content = self.content:lower() -- Lower the content
