@@ -178,6 +178,7 @@ function EventsToBind.reactionAddUncached(channel, messageId, hash, userid)
     deleteThisTarget(message)
 end
 
+-- messageDelete
 function EventsToBind.messageDelete(message)
     local channel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
 
@@ -192,26 +193,27 @@ function EventsToBind.messageDelete(message)
         color = discordia.Color.fromRGB(1, 1, 1).value
     }
 
+    local files = {}
     if message.attachment then
-        -- http request the file's body
-        local res, body = http.request("GET", message.attachment.url)
-        --res is a table|res.code is a number
-        --print(res, "\n" , body)
+        for _, attachment in ipairs(message.attachments) do
+            print(attachment.content_type)
+            -- http request the file's body
+            local res, body = http.request("GET", message.attachment.url)
 
+            table.insert(files, { attachment.content_type, body })
+        end
+    end
+    if #files > 0 then
         channel:send {
-            file = {
-                "vid.mp4",
-                body
-            },
-
+            files = files,
             embed = embed
         }
-        return
     end
 
     channel:send { embed = embed }
 end
 
+-- messageDeleteUncached
 function EventsToBind.messageDeleteUncached(channel, messageId)
     local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
     --local message = channel:getMessage(messageId)

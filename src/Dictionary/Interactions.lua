@@ -133,11 +133,17 @@ function Interactions.request_accept(inter)
         return
     end
     local user = _G.Client:getUser(embed_author_id)
-    Shop.send(inter.message, r_embed[1], r_embed[2])
+    local message_link = Shop.send(inter.message, r_embed[1], r_embed[2])
 
     local p_channel = user:getPrivateChannel()
     if p_channel then
-        p_channel:send("الإمبد انقبل")
+        p_channel:send {
+            embed = {
+                title = "الإمبد انقبل",
+                description = "رابط الإمبد " .. message_link,
+                color = discordia.Color.fromRGB(21, 73, 64).value
+            }
+        }
     end
     inter.message:delete()
 
@@ -190,7 +196,13 @@ function Interactions.decline_reason_modal(inter)
 
     local p_channel = user:getPrivateChannel()
     if p_channel then
-        p_channel:send("الإمبد انرفض\n" .. "`السبب:" .. textInputValue .. "`")
+        p_channel:send {
+            embed = {
+                title = "الإمبد انرفض",
+                description = "السبب: " .. textInputValue,
+                color = discordia.Color.fromRGB(146, 27, 56).value
+            }
+        }
     end
     inter:updateDeferred()
     inter.message:delete()

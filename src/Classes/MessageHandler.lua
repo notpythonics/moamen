@@ -16,6 +16,7 @@ function MessageHandler.new(message)
     self.guild = message.guild
     self.channel = message.channel
     self.attachment = message.attachment
+    self.attachments = message.attachments
     self.mentionedChannels = message.mentionedChannels
     self.mentionedRoles = message.mentionedRoles
     self.message = message
@@ -111,40 +112,44 @@ function MessageHandler:Filter()
         Block.Append({ self.author_member }, self.channel, true)
         return
     end
+end
 
-    coroutine.wrap(function()
-        if self.attachment then
-            if self.attachment.content_type:match("x-matroska") then -- mkv --> video\x-matroska
+function MessageHandler:ConvertToMp4()
+    local files = {}
+    if self.attachment then
+        for _, attachment in ipairs(self.attachments) do
+            if attachment.content_type:match("x-matroska") then -- mkv --> video\x-matroska
                 -- http request the file's body
                 local res, body = http.request("GET", self.attachment.url)
 
-                self.channel:send {
-                    file = {
-                        "vid.mp4",
-                        body
-                    },
-                    reference = {
-                        message = self.message,
-                        mention = true,
-                    },
-                    embed = {
-                        description = "A mkv file was implicitly converted to an mp4",
-                        footer = {
-                            icon_url = self.author.avatarURL,
-                            text = self.author.username .. "'s"
-                        },
-                        color = discordia.Color.fromRGB(1, 1, 1).value
-                    }
-                }
+                table.insert(files, { "vid.mp4", body })
             end
         end
-    end)()
+    end
+    if #files > 0 then
+        self.channel:send {
+            files = files,
+            reference = {
+                message = self.message,
+                mention = true,
+            },
+            embed = {
+                description = "A mkv file was implicitly converted to an mp4",
+                footer = {
+                    icon_url = self.author.avatarURL,
+                    text = self.author.username .. "'s"
+                },
+                color = discordia.Color.fromRGB(1, 1, 1).value
+            }
+        }
+    end
 end
 
 function MessageHandler:Process()
     coroutine.wrap(function()
         self:Filter()
         self:AddingReactions()
+        self:ConvertToMp4()
     end)()
 
     self.content = self.content:lower() -- Lower the content

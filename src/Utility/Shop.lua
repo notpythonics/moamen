@@ -372,18 +372,19 @@ function shop.append_working(author, custom_id)
     working_members[author.id].stage = 1
 end
 
+-- returns a link to the sent embed/message
 function shop.send(message, r_embed, custom_id)
     if custom_id == "sell_request" then
-        message.guild:getChannel(Enums.Channels.shop.sell):send { embed = r_embed }
-        return
+        local sent_embed = message.guild:getChannel(Enums.Channels.shop.sell):send { embed = r_embed }
+        return sent_embed.link
     end
 
     local channel_table = (custom_id == "lfd_request" and Enums.Channels.shop.lfd or Enums.Channels.shop.fh)
 
     for channelName, channelId in pairs(channel_table) do
         if message.content == channelName then
-            message.guild:getChannel(channelId):send { embed = r_embed }
-            break
+            local sent_embed = message.guild:getChannel(channelId):send { embed = r_embed }
+            return sent_embed.link
         end
     end
 end
