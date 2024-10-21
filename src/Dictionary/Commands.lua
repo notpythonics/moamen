@@ -198,7 +198,7 @@ end
 
 -- Wiki
 Commands.wiki = function(MessageHandlerObj)
-    local key = MessageHandlerObj.content:gsub("wiki", ""):match("%a+") -- Remove wiki and find the first string
+    local key = MessageHandlerObj.content:gsub("wiki", ""):match("[%a_]+") -- Remove wiki
 
     if Wiki[key] then
         MessageHandlerObj.channel:send
@@ -384,7 +384,7 @@ Commands.fe_embed = function(MessageHandlerObj)
             icon_url = replied_to_msg.author.avatarURL
         },
         description = "made by " .. replied_to_msg.author.mentionString,
-        emebd = nil
+        image = { url = Enums.Images.Header }
     }
 
     -- Check for links
@@ -399,8 +399,6 @@ Commands.fe_embed = function(MessageHandlerObj)
     if attachments then
         if attachments[1].content_type:match("image") then
             embed.image = { url = attachments[1].url }
-        else
-            embed.image = { url = Enums.Images.Header }
         end
         if attachments[1].content_type:match("video") then
             -- http request the file's body

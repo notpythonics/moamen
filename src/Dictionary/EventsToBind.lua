@@ -189,7 +189,11 @@ function EventsToBind.messageDelete(message)
         },
         description = "A message sent by " ..
             message.author.mentionString ..
-            " was deleted in " .. message.channel.mentionString .. "\n**content:** " .. message.content,
+            " was deleted in " ..
+            message.channel.mentionString ..
+            "\n\n**content:** " ..
+            message.content ..
+            "\n**referenced message: **" .. (message.referencedMessage and message.referencedMessage.link or "nil"),
         color = discordia.Color.fromRGB(1, 1, 1).value
     }
 
