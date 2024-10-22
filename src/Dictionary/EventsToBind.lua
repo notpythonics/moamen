@@ -200,11 +200,10 @@ function EventsToBind.messageDelete(message)
     local files = {}
     if message.attachment then
         for _, attachment in ipairs(message.attachments) do
-            print(attachment.content_type)
             -- http request the file's body
             local res, body = http.request("GET", message.attachment.url)
 
-            table.insert(files, { attachment.content_type, body })
+            table.insert(files, { (attachment.content_type or "unknownType"), body })
         end
     end
     if #files > 0 then
@@ -212,6 +211,7 @@ function EventsToBind.messageDelete(message)
             files = files,
             embed = embed
         }
+        return
     end
 
     channel:send { embed = embed }

@@ -118,11 +118,13 @@ function MessageHandler:ConvertToMp4()
     local files = {}
     if self.attachment then
         for _, attachment in ipairs(self.attachments) do
-            if attachment.content_type:match("x-matroska") then -- mkv --> video\x-matroska
-                -- http request the file's body
-                local res, body = http.request("GET", self.attachment.url)
+            if attachment.content_type then
+                if attachment.content_type:match("x-matroska") then -- mkv --> video\x-matroska
+                    -- http request the file's body
+                    local res, body = http.request("GET", self.attachment.url)
 
-                table.insert(files, { "vid.mp4", body })
+                    table.insert(files, { "vid.mp4", body })
+                end
             end
         end
     end
