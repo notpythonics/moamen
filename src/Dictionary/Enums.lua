@@ -1,4 +1,14 @@
+local discordia = require("discordia")
+
 local Enums = {
+    Colors = {
+        Default = discordia.Color.fromRGB(1, 1, 1).value,
+        ModeratorAction = discordia.Color.fromRGB(27, 57, 74).value,
+        Permission = discordia.Color.fromRGB(122, 78, 192).value,
+        Block = discordia.Color.fromRGB(102, 0, 51).value,
+        Giving_Roles = discordia.Color.fromRGB(60, 119, 80).value
+    },
+
     Roles = {
         Moderator = "1028991149844729907",
         Blocked = "1266515724252483606",

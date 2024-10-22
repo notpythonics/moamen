@@ -139,7 +139,7 @@ function MessageHandler:ConvertToMp4()
                     icon_url = self.author.avatarURL,
                     text = self.author.username .. "'s"
                 },
-                color = discordia.Color.fromRGB(1, 1, 1).value
+                color = Enums.Colors.Default
             }
         }
     end

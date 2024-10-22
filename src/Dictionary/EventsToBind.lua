@@ -73,7 +73,7 @@ function EventsToBind.memberJoin(member)
                 icon_url = member.user.avatarURL
             },
             description = "✅ " .. member.mentionString .. " Joined the server",
-            color = discordia.Color.fromRGB(1, 1, 1).value
+            color = Enums.Colors.Default
         }
     }
 
@@ -126,7 +126,7 @@ function EventsToBind.memberLeave(member)
                 icon_url = member.user.avatarURL
             },
             description = member.mentionString .. " Left the server",
-            color = discordia.Color.fromRGB(1, 1, 1).value
+            color = Enums.Colors.Default
         }
     }
 end
@@ -194,7 +194,7 @@ function EventsToBind.messageDelete(message)
             "\n\n**content:** " ..
             message.content ..
             "\n**referenced message: **" .. (message.referencedMessage and message.referencedMessage.link or "nil"),
-        color = discordia.Color.fromRGB(1, 1, 1).value
+        color = Enums.Colors.Default
     }
 
     local files = {}
@@ -225,7 +225,7 @@ function EventsToBind.messageDeleteUncached(channel, messageId)
     logChannel:send {
         embed = {
             description = "An uncached message was deleted in " .. channel.mentionString .. "\n**message Id:** `" .. messageId .. "`",
-            color = discordia.Color.fromRGB(1, 1, 1).value
+            color = Enums.Colors.Default
         }
     }
 end

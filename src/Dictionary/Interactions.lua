@@ -34,7 +34,7 @@ function Interactions.roles_embed(inter)
             title = "روم التقديم",
             description = "شغلك واعمالك ارسلهم هنا",
             image = { url = Enums.Images.Header },
-            color = discordia.Color.fromRGB(1, 1, 1).value,
+            color = Enums.Colors.Default
         }
     }, discordia.Components {
         discordia.Button("delete") -- id
@@ -84,7 +84,7 @@ function Interactions.close(inter)
         embed = {
             title = "🔒 " .. inter.member.username .. " closed this channel",
             description = "you can't reopen this channel via any commands\n`note:`the owner of the ticket can still see the channel",
-            color = discordia.Color.fromRGB(1, 1, 1).value,
+            color = Enums.Colors.Default
         }
     }
 

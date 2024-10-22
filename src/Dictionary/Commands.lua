@@ -122,7 +122,7 @@ Commands.header = function(MessageHandlerObj)
         MessageHandlerObj.channel:send {
             embed = {
                 image = { url = Enums.Images.Header },
-                color = discordia.Color.fromRGB(1, 1, 1).value
+                color = Enums.Colors.Default
             }
         }
     end
@@ -134,7 +134,7 @@ Commands.bigheader = function(MessageHandlerObj)
         MessageHandlerObj.channel:send {
             embed = {
                 image = { url = Enums.Images.BigHeader },
-                color = discordia.Color.fromRGB(1, 1, 1).value
+                color = Enums.Colors.Default
             }
         }
     end
@@ -180,7 +180,7 @@ Commands.remove_mods = function(MessageHandlerObj)
         embed = {
             title = "مشرفين سٌلبت حقوقهم للتو",
             description = conformed_removes,
-            color = discordia.Color.fromRGB(88, 101, 241).value
+            color = Enums.Colors.Giving_Roles
         }
     }
 end
@@ -218,7 +218,7 @@ Commands.lock = function(MessageHandlerObj)
     channel:send {
         embed = {
             description = "القناة غُلقت مؤقتاً\n`mn unlock` لفتح القناة",
-            color = discordia.Color.fromRGB(124, 78, 73).value
+            color = Enums.Colors.Permission
         }
     }
 end
@@ -235,7 +235,7 @@ Commands.unlock = function(MessageHandlerObj)
     channel:send {
         embed = {
             description = "القناة لم تعد مغلقة\n`mn lock` لغلق القناة",
-            color = discordia.Color.fromRGB(124, 78, 73).value
+            color = Enums.Colors.Permission
         }
     }
 end
@@ -277,7 +277,7 @@ Commands.roles_embed = function(MessageHandlerObj)
             description =
             "يمكنك هنا التقدم للحصول على احدى رتب المطورين\nتنقسم الرتب إلى ثلاث او اربعة مستويات، كل منها يعكس مستوى المهارة والخبرة\n\n🔻 Scripter I\n🔻 Scripter II\n🔻 Scripter III\n🔻 Scripter IIII\n\nسيتم تقييم طلبك بناءً على اعمالك المرسلة\nحظًا موفقًا في تقديمك!",
             image = { url = Enums.Images.Header },
-            color = discordia.Color.fromRGB(1, 1, 1).value,
+            color = Enums.Colors.Default
         }
     }, roles_options)
 end
@@ -292,7 +292,7 @@ Commands.rules_embed = function(MessageHandlerObj)
     channel:send {
         embed = {
             image = { url = Enums.Images.Header },
-            color = discordia.Color.fromRGB(1, 1, 1).value
+            color = Enums.Colors.Default
         }
     }
 
@@ -314,7 +314,7 @@ Commands.rules_embed = function(MessageHandlerObj)
 يمنع نشر روابط سيرفرات، وتمنع المتاجرة خارج رومات التجارة.
 يمنع نشر أو اعادة بيع ما بيعَ لك في رومات التجارة.]],
             image = { url = Enums.Images.Header },
-            color = discordia.Color.fromRGB(1, 1, 1).value
+            color = Enums.Colors.Default
         }
     }
 end
@@ -436,7 +436,7 @@ Commands.disallow_send_perm = function(MessageHandlerObj)
         embed = {
             title = "مُنعوا من الإرسال " .. f_channel.mentionString,
             description = conformed_disallows,
-            color = discordia.Color.fromRGB(122, 78, 192).value,
+            color = Enums.Colors.Permission,
             footer = {
                 text = "❌"
             }
@@ -463,7 +463,7 @@ Commands.allow_send_perm = function(MessageHandlerObj)
         embed = {
             title = "سُمح لهم بالإرسال " .. f_channel.mentionString,
             description = conformed_allows,
-            color = discordia.Color.fromRGB(122, 78, 192).value,
+            color = Enums.Colors.Permission,
             footer = {
                 text = "✔️"
             }
@@ -506,7 +506,7 @@ Commands.give_role = function(MessageHandlerObj)
         embed = {
             title = f_member.username .. "أٌعطا رتبة ",
             description = "الرتب المتوافقة حٌذفت" .. "\n" .. "الرتبة المعطاة هي " .. MessageHandlerObj.guild:getRole(Enums.Roles.Levels[f_roleName]).mentionString,
-            color = discordia.Color.fromRGB(60, 119, 80).value
+            color = Enums.Colors.Giving_Roles,
         }
     }
 end
@@ -530,7 +530,7 @@ Commands.allow_read_perm = function(MessageHandlerObj)
         embed = {
             title = "سُمح لهم بالرؤية " .. f_channel.mentionString,
             description = conformed_allows,
-            color = discordia.Color.fromRGB(122, 78, 192).value,
+            color = Enums.Colors.Permission,
             footer = {
                 text = "✔️"
             }
@@ -557,7 +557,7 @@ Commands.disallow_read_perm = function(MessageHandlerObj)
         embed = {
             title = "مُنعوا من الرؤية " .. f_channel.mentionString,
             description = conformed_disallows,
-            color = discordia.Color.fromRGB(122, 78, 192).value,
+            color = Enums.Colors.Permission,
             footer = {
                 text = "❌"
             }
@@ -610,7 +610,7 @@ Commands.mute = function(MessageHandlerObj)
                     embed = {
                         title = "انكتمت للتو",
                         description = "إقرأ [القوانين](https://discord.com/channels/1028991149806981140/1028991151467933751) لتفادي الكتم. وتذكر أن الحظر قد يكون الخطوة التالية.",
-                        color = discordia.Color.fromRGB(27, 57, 74).value,
+                        color = Enums.Colors.ModeratorAction,
                     }
                 }
             end
@@ -629,7 +629,7 @@ Commands.mute = function(MessageHandlerObj)
         embed = {
             title = "مجموعة انكتمت ل" .. duration .. " " .. suff,
             description = conformed_timeouts,
-            color = discordia.Color.fromRGB(27, 57, 74).value,
+            color = Enums.Colors.ModeratorAction,
             footer = { text = "👨🏿‍🌾" }
         }
     }

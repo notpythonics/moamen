@@ -12,7 +12,7 @@ function Block.SendBlockedMessage()
         embed = {
             description =
                 "تم حظرك بشكل دائم، ولا يوجد وقت محدد لانتهاء الحظر. ستبقى رتبة " .. channel.guild:getRole(Enums.Roles.Blocked).mentionString .. " معك حتى إذا خرجت وعدت للسيرفر. كما أنك لن تتمكن من فتح أي تذكرة.\n\n`mn unblock`\n\n**std::int64_t of blocked members:** `" .. Block.NumberOfBlockedIds() .. "`",
-            color = discordia.Color.fromRGB(1, 1, 1).value
+            color = Enums.Colors.Default
         }
     }
     channel:send {
@@ -33,7 +33,7 @@ function Block.UpdateBlockedMessage()
         embed = {
             description =
                 "تم حظرك بشكل دائم، ولا يوجد وقت محدد لانتهاء الحظر. ستبقى رتبة " .. channel.guild:getRole(Enums.Roles.Blocked).mentionString .. " معك حتى إذا خرجت وعدت للسيرفر. كما أنك لن تتمكن من فتح أي تذكرة.\n\n`mn unblock`\n\n**std::int64_t of blocked members:** `" .. Block.NumberOfBlockedIds() .. "`",
-            color = discordia.Color.fromRGB(1, 1, 1).value,
+            color = Enums.Colors.Default,
         }
     }
 end
@@ -90,7 +90,7 @@ function Block.Append(members, channel, forced)
         embed = {
             title = "محظورين للتو",
             description = conformed_blocks,
-            color = discordia.Color.fromRGB(102, 0, 51).value
+            color = Enums.Colors.Block
         }
     }
     Block.UpdateBlockedMessage()
