@@ -24,6 +24,27 @@ local function ConvertToMembers(MessageHandlerObj)
     return members
 end
 
+-- AI
+Commands.ai = function(MessageHandlerObj)
+    MessageHandlerObj.channel:send {
+        embed = {
+            title = "AI",
+            image = {
+                url = "https://i.imgur.com/t9vFgpO.png"
+            },
+            description =
+            [[نوصي بشدة بعدم استخدام الذكاء الاصطناعي وأي نموذج ذكي لأن
+
+        النماذج الذكية ليست جيدة في ++C أو Lua
+        النماذج الذكية تكون خاطئة في كثير من الأحيان
+        النماذج الذكية تجيب بثقة كاملة حتى عندما تكون الإجابات خاطئة
+
+        > إذا كنت جديدًا في البرمجة، فمن المحتمل أنك لا تعرف بما فيه الكفاية لتحديد متى تكون الإجابات خاطئة]],
+            color = Enums.Colors.Default, -- 💩
+        }
+    }
+end
+
 -- Create guild app cmds
 Commands.creategpc = function(MessageHandlerObj)
     if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
