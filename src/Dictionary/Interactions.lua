@@ -145,6 +145,7 @@ function Interactions.request_accept(inter)
             }
         }
     end
+    inter:updateDeferred()
     inter.message:delete()
 
     _G.Client:getChannel(Enums.Channels.Logs.Embeds):send {
