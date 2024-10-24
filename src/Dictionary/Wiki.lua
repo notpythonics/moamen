@@ -122,7 +122,7 @@ Wiki.cmds = {
         {
             name = "others",
             value =
-            "`give_role` gives a given role to a given member (removes corresponding roles)\n`assign_mods` assigns moderators\n`remove_mods` removes moderators\n`source_code`\n`kick`\n`wiki` see wikihelp for more info\n`wikihelp`\n`header`\n`bigheader`",
+            "`give_role` gives a given role to a given member (removes corresponding roles)\n`assign_mods` assigns moderators\n`remove_mods` removes moderators\n`source_code`\n`kick`\n`wiki` see wikihelp for more info\n`wikihelp`\n`header`\n`bigheader`\n`/docs`",
             inline = false
         },
 

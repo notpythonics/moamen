@@ -62,8 +62,8 @@ Commands.creategpc = function(MessageHandlerObj)
         Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
     end
 
-    local slashCommand = tools.slashCommand("docs", "check the documentation!")
-    local option = tools.string("object", "pick a class/enum to read the docs on!")
+    local slashCommand = tools.slashCommand("docs", "Check the documentation!")
+    local option = tools.string("object", "Pick a class/enum to read the docs on!")
     option:setAutocomplete(true)
     option:setRequired(true)
     slashCommand:addOption(option)
