@@ -48,6 +48,7 @@ end
 -- Create guild app cmds
 Commands.creategpc = function(MessageHandlerObj)
     if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    Commands.deletegpc(MessageHandlerObj)
     do
         local slashCommand = tools.slashCommand("thank", "Thank a user for helping you!")
         local option = tools.user("user", "Who do you want to thank?")
