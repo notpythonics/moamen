@@ -249,7 +249,7 @@ function EventsToBind.slashCommandAutocomplete(inter, cmd, focused)
         for title in pairs(Docs) do
             if #value > 0 then
                 if title:lower():find(value:lower()) or value:sub(1, 1) == title:sub(1, 1) then
-                    table.insert(ac, tools.choice(title, ""))
+                    table.insert(ac, tools.choice(title, title))
                 end
             end
             if #ac == 25 then
