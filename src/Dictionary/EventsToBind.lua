@@ -6,6 +6,7 @@ local Shop = require("../Utility/Shop")
 local Block = require("../Utility/Block")
 local timer = require("timer")
 local http = require('coro-http')
+local tools = require("discordia-slash").util.tools()
 
 local EventsToBind = {}
 
@@ -228,6 +229,36 @@ function EventsToBind.messageDeleteUncached(channel, messageId)
             color = Enums.Colors.Default
         }
     }
+end
+
+-- ready
+function EventsToBind.ready()
+    local res, body = http.request("GET", "https://create.roblox.com/docs/reference/engine/classes")
+
+    for title, path in string.gmatch(body, '{"title":"(.-)","path":"(.-)"}') do
+        Docs[title] = "https://create.roblox.com/docs" .. path
+    end
+end
+
+-- slashCommandAutocomplete
+function EventsToBind.slashCommandAutocomplete(inter, cmd, focused)
+    if cmd.name == "docs" then
+        local ac = {}
+        local value = focused.value
+
+        for title in pairs(Docs) do
+            if #value > 0 then
+                if title:lower():find(value:lower()) or value:sub(1, 1) == title:sub(1, 1) then
+                    table.insert(ac, tools.choice(title, ""))
+                end
+            end
+            if #ac == 25 then
+                break
+            end
+        end
+
+        inter:autocomplete(ac)
+    end
 end
 
 return EventsToBind

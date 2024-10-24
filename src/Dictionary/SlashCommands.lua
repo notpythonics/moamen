@@ -53,4 +53,19 @@ SlashCommands.mythanks = function(inter, command, args)
     inter:reply("You have `" .. tostring(t and t[1] or 0):gsub("L", "") .. "` thanks.")
 end
 
+SlashCommands.docs = function(inter, command, args)
+    local obj = args["object"]
+    obj = string.upper(obj:sub(1, 1)) .. obj:sub(2)
+
+    if Docs[obj] then
+        inter:reply(Docs[obj])
+    else
+        inter:reply {
+            embed = {
+                description = "That class/enum doesn't exist, or at least I can't find it...\nTo view the full docs, visit them [here](https://create.roblox.com/docs/reference/engine)!"
+            }
+        }
+    end
+end
+
 return SlashCommands
