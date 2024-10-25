@@ -55,10 +55,12 @@ end
 
 SlashCommands.docs = function(inter, command, args)
     local obj = args["object"]
-    obj = string.upper(obj:sub(1, 1)) .. obj:sub(2)
+    local firstCabital_obj = string.upper(obj:sub(1, 1)) .. obj:sub(2)
 
     if Docs[obj] then
         inter:reply(Docs[obj])
+    elseif Docs[firstCabital_obj] then
+        inter:reply(Docs[firstCabital_obj])
     else
         inter:reply {
             embed = {
