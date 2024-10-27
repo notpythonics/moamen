@@ -85,6 +85,7 @@ end
 -- TheirThanks
 Commands.their_thanks = function(MessageHandlerObj)
     if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
     local mentionedUser = MessageHandlerObj.mentionedUsers.first
     if not mentionedUser then return end
     local conn = sql.open("moamen.db")
@@ -150,26 +151,24 @@ end
 
 -- Header
 Commands.header = function(MessageHandlerObj)
-    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        MessageHandlerObj.channel:send {
-            embed = {
-                image = { url = Enums.Images.Header },
-                color = Enums.Colors.Default
-            }
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+    MessageHandlerObj.channel:send {
+        embed = {
+            image = { url = Enums.Images.Header },
+            color = Enums.Colors.Default
         }
-    end
+    }
 end
 
 -- BigHeader
 Commands.bigheader = function(MessageHandlerObj)
-    if Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        MessageHandlerObj.channel:send {
-            embed = {
-                image = { url = Enums.Images.BigHeader },
-                color = Enums.Colors.Default
-            }
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+    MessageHandlerObj.channel:send {
+        embed = {
+            image = { url = Enums.Images.BigHeader },
+            color = Enums.Colors.Default
         }
-    end
+    }
 end
 
 -- Bots entry
@@ -194,9 +193,8 @@ end
 
 -- Remove mods
 Commands.remove_mods = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
     local conformed_removes = ""
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
@@ -219,9 +217,8 @@ end
 
 -- Assign mods
 Commands.assign_mods = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author) then return end
+
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
         member:addRole(Enums.Roles.Moderator)
@@ -240,9 +237,8 @@ end
 
 -- Lock
 Commands.lock = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
     local channel = MessageHandlerObj.channel
 
     channel:getPermissionOverwriteFor(MessageHandlerObj.guild:getRole(Enums.Roles.Everyone)):denyPermissions(
@@ -257,9 +253,8 @@ end
 
 -- Unlock
 Commands.unlock = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
     local channel = MessageHandlerObj.channel
 
     channel:getPermissionOverwriteFor(MessageHandlerObj.guild:getRole(Enums.Roles.Everyone)):allowPermissions(
@@ -287,9 +282,8 @@ end
 
 -- Roles embed
 Commands.roles_embed = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
     local guild = MessageHandlerObj.guild
     local channel = MessageHandlerObj.channel
     local roles_options = discordia.Components {
@@ -316,9 +310,8 @@ end
 
 -- Rules embed
 Commands.rules_embed = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
     local channel = MessageHandlerObj.channel
 
     channel:send {
@@ -353,9 +346,7 @@ end
 
 -- Shop embed
 Commands.shop_embeds = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
 
     local function CraeteButtonComponentWithId(id)
         return discordia.Components {
@@ -399,9 +390,8 @@ end
 
 -- Featured embed
 Commands.fe_embed = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
     if not MessageHandlerObj.message then return end
     local replied_to_msg = MessageHandlerObj.message.referencedMessage
 
@@ -451,9 +441,8 @@ end
 
 -- Disallow send permission
 Commands.disallow_send_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
     local conformed_disallows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
@@ -478,9 +467,8 @@ end
 
 -- Allow send permission
 Commands.allow_send_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
     local conformed_allows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
@@ -515,9 +503,8 @@ do
 
     -- Give role
     Commands.give_role = function(MessageHandlerObj)
-        if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-            return
-        end
+        if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+
         local first_mention = MessageHandlerObj.mentionedUsers.first
         local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)
         if not f_member then
@@ -547,9 +534,8 @@ end
 
 -- Allow read permission
 Commands.allow_read_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
     local conformed_allows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
@@ -574,9 +560,8 @@ end
 
 -- Disallow read permission
 Commands.disallow_read_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
     local conformed_disallows = ""
     local f_channel = MessageHandlerObj.mentionedChannels.first
     if not f_channel then
@@ -627,9 +612,8 @@ do
 
     -- Mute
     Commands.mute = function(MessageHandlerObj)
-        if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-            return
-        end
+        if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
         local suff, duration = FindDuration(MessageHandlerObj.content)
         duration = math.min(duration, 604800)
         local conformed_timeouts = ""
@@ -673,9 +657,8 @@ end
 
 -- Unmute
 Commands.unmute = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+
     local members = ConvertToMembers(MessageHandlerObj)
     for _, member in pairs(members) do
         member:removeTimeout()
