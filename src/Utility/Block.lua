@@ -71,7 +71,7 @@ function Block.Append(members, channel, forced)
     local stmt = conn:prepare "insert or ignore into blocked_ids(id) values(?)"
 
     for _, member in pairs(members) do
-        if Predicates.isValidToPunch(member) or forced then
+        if Predicates.isValidToPunch_v(member) or forced then
             conformed_blocks = conformed_blocks .. member.mentionString .. "\n"
 
             -- Start removing roles in a different thread

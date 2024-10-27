@@ -47,61 +47,63 @@ function Interactions.roles_embed(inter)
     inter:reply("إنشأ روم تحت")
 end
 
-local function is_member(inter)
-    if not Predicates.isModerator_v(inter.member) then
-        if string.find(inter.channel.name, "🔒") then
+do
+    local function is_member(inter)
+        if not Predicates.isModerator_v(inter.member) then
+            if string.find(inter.channel.name, "🔒") then
+                inter:updateDeferred()
+                return true
+            end
+            inter.channel:send("صاحب التقديم ممنوع يحذف التكت")
             inter:updateDeferred()
             return true
         end
-        inter.channel:send("صاحب التقديم ممنوع يحذف التكت")
+        return false
+    end
+
+    -- Close ticket
+    function Interactions.close(inter)
+        if is_member(inter) then return end
+
+        if string.find(inter.channel.name, "🔒") then
+            inter:replyDeferred(true)
+            inter:reply("الروم مقفل اساسا")
+            return
+        end
+
+        local user_who_made_channel = inter.channel:getFirstMessage().mentionedUsers.first
+        if not user_who_made_channel then
+            inter.channel:send("👩🏿‍🦱 صاحب التكت مو موجود")
+            return
+        end
         inter:updateDeferred()
-        return true
-    end
-    return false
-end
+        local member_who_made_channel = inter.guild:getMember(user_who_made_channel.id)
 
--- Close ticket
-function Interactions.close(inter)
-    if is_member(inter) then return end
-
-    if string.find(inter.channel.name, "🔒") then
-        inter:replyDeferred(true)
-        inter:reply("الروم مقفل اساسا")
-        return
-    end
-
-    local user_who_made_channel = inter.channel:getFirstMessage().mentionedUsers.first
-    if not user_who_made_channel then
-        inter.channel:send("👩🏿‍🦱 صاحب التكت مو موجود")
-        return
-    end
-    inter:updateDeferred()
-    local member_who_made_channel = inter.guild:getMember(user_who_made_channel.id)
-
-    --print(user_who_made_channel.name, '\n', member_who_made_channel.name)
-    inter.channel:getPermissionOverwriteFor(member_who_made_channel):denyPermissions("sendMessages")
-    inter.channel:send {
-        embed = {
-            title = "🔒 " .. inter.member.username .. " closed this channel",
-            description = "you can't reopen this channel via any commands\n`note:`the owner of the ticket can still see the channel",
-            color = Enums.Colors.Default
+        --print(user_who_made_channel.name, '\n', member_who_made_channel.name)
+        inter.channel:getPermissionOverwriteFor(member_who_made_channel):denyPermissions("sendMessages")
+        inter.channel:send {
+            embed = {
+                title = "🔒 " .. inter.member.username .. " closed this channel",
+                description = "you can't reopen this channel via any commands\n`note:`the owner of the ticket can still see the channel",
+                color = Enums.Colors.Default
+            }
         }
-    }
 
-    local c_name = inter.channel.name
-    local new_name = string.gsub(c_name, "🔓", "🔒")
-    inter.channel:setName(new_name)
-end
+        local c_name = inter.channel.name
+        local new_name = string.gsub(c_name, "🔓", "🔒")
+        inter.channel:setName(new_name)
+    end
 
--- Delete ticket
-function Interactions.delete(inter)
-    if is_member(inter) then return end
+    -- Delete ticket
+    function Interactions.delete(inter)
+        if is_member(inter) then return end
 
-    pcall(function()
-        inter.channel:send("الروم ينحذف بعد 3 ثواني")
-        timer.sleep(3000)
-        inter.channel:delete()
-    end)
+        pcall(function()
+            inter.channel:send("الروم ينحذف بعد 3 ثواني")
+            timer.sleep(3000)
+            inter.channel:delete()
+        end)
+    end
 end
 
 -- Shop
@@ -132,6 +134,13 @@ function Interactions.request_accept(inter)
         inter.message:delete()
         return
     end
+
+    if not Predicates.isEmbedApprover_v(inter.member) then
+        inter:replyDeferred(true)
+        inter:reply("أنت مو مسؤولاً عن الإمبد")
+        return
+    end
+
     local user = _G.Client:getUser(embed_author_id)
     local message_link = Shop.send(inter.message, r_embed[1], r_embed[2])
 

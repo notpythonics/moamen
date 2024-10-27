@@ -1,19 +1,29 @@
 local Predicates = {}
 
-function Predicates.isModerator_v(member)
-    if member:hasPermission("administrator") then
-        return true
-    end
-    local array = member.roles:toArray()
+local function FindRole(array, roleID)
     for _, role in ipairs(array) do
-        if role.id == _G.Enums.Roles.Moderator then
+        if role.id == roleID then
             return true
         end
     end
     return false
 end
 
-function Predicates.isValidToPunch(member)
+function Predicates.isModerator_v(member)
+    if member:hasPermission("administrator") then return true end
+
+    local array = member.roles:toArray()
+    return FindRole(array, _G.Enums.Roles.Moderator)
+end
+
+function Predicates.isEmbedApprover_v(member)
+    if member:hasPermission("administrator") then return true end
+
+    local array = member.roles:toArray()
+    return FindRole(array, _G.Enums.Roles.EmbedsApprover)
+end
+
+function Predicates.isValidToPunch_v(member)
     return not Predicates.isModerator_v(member) and not Predicates.isOwner_v(member)
 end
 

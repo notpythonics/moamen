@@ -90,12 +90,13 @@ function EventsToBind.memberJoin(member)
         return
     end
 
-    timer.sleep(3000)
     -- Are they blocked?
     if Block.IsIdBlocked(member.id) then
         Block.Punch(member)
         return
     end
+
+    timer.sleep(3000)
     member:addRole(Enums.Roles.Member)
 end
 
@@ -132,51 +133,53 @@ function EventsToBind.memberLeave(member)
     }
 end
 
--- Adding Reactions
-local deleteThisConstant = 4
+do
+    -- how many delete this emoji to delete a message
+    local DELETE_THIS_COUNT = 4
 
-local function deleteThisTarget(message)
-    if message.author.bot then return end
-    local count = 0
-    for _, reac in pairs(message.reactions:toArray()) do
-        if reac.emojiHash == Enums.Emojis.Delete_this then
-            count = count + 1
+    local function deleteThisTarget(message)
+        if message.author.bot then return end
+        local count = 0
+        for _, reac in pairs(message.reactions:toArray()) do
+            if reac.emojiHash == Enums.Emojis.Delete_this then
+                count = count + 1
+            end
+        end
+
+        if count >= DELETE_THIS_COUNT then
+            message.channel:send {
+                content = message.author.mentionString .. " a message of yours was deleted because it had " .. DELETE_THIS_COUNT .. message.guild:getEmoji(Enums.Emojis.Delete_this:match("%d+")).mentionString
+            }
+            message:delete()
         end
     end
 
-    if count >= deleteThisConstant then
-        message.channel:send {
-            content = message.author.mentionString .. " a message of yours was deleted because it had " .. deleteThisConstant .. message.guild:getEmoji(Enums.Emojis.Delete_this:match("%d+")).mentionString
-        }
-        message:delete()
-    end
-end
+    -- reactionAdd
+    function EventsToBind.reactionAdd(reaction, userid)
+        local message = reaction.message
+        -- Are they blocked?
+        if Block.IsIdBlocked(userid) then
+            local reactionAdderMember = message.guild:getMember(userid)
+            reaction:delete()
+            Block.Punch(reactionAdderMember)
+            return
+        end
 
--- reactionAdd
-function EventsToBind.reactionAdd(reaction, userid)
-    local message = reaction.message
-    -- Are they blocked?
-    if Block.IsIdBlocked(userid) then
-        local reactionAdderMember = message.guild:getMember(userid)
-        reaction:delete()
-        Block.Punch(reactionAdderMember)
-        return
+        deleteThisTarget(message)
     end
 
-    deleteThisTarget(message)
-end
+    -- reactionAddUncached
+    function EventsToBind.reactionAddUncached(channel, messageId, hash, userid)
+        -- Are they blocked?
+        if Block.IsIdBlocked(userid) then
+            local member = channel.guild:getMember(userid)
+            Block.Punch(member)
+            return
+        end
 
--- reactionAddUncached
-function EventsToBind.reactionAddUncached(channel, messageId, hash, userid)
-    -- Are they blocked?
-    if Block.IsIdBlocked(userid) then
-        local member = channel.guild:getMember(userid)
-        Block.Punch(member)
-        return
+        local message = channel:getMessage(messageId)
+        deleteThisTarget(message)
     end
-
-    local message = channel:getMessage(messageId)
-    deleteThisTarget(message)
 end
 
 -- messageDelete

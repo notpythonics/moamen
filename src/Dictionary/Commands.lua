@@ -503,44 +503,46 @@ Commands.allow_send_perm = function(MessageHandlerObj)
     }
 end
 
-local function FindFirstEnumRole(content)
-    for roleName, id in pairs(Enums.Roles.Levels) do
-        --print(roleName, content)
-        if content:lower():match(roleName:lower()) then
-            return roleName:upper()
+do
+    local function FindFirstEnumRole(content)
+        for roleName, id in pairs(Enums.Roles.Levels) do
+            --print(roleName, content)
+            if content:lower():match(roleName:lower()) then
+                return roleName:upper()
+            end
         end
     end
-end
 
--- Give role
-Commands.give_role = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
-    local first_mention = MessageHandlerObj.mentionedUsers.first
-    local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)
-    if not f_member then
-        MessageHandlerObj.channel:send
-        { content = "please provide a member" }
-        return
-    end
-    local f_roleName = FindFirstEnumRole(MessageHandlerObj.content)
-    if not f_roleName then
-        MessageHandlerObj.channel:send
-        { content = "please provide a role enum" }
-        return
-    end
+    -- Give role
+    Commands.give_role = function(MessageHandlerObj)
+        if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
+            return
+        end
+        local first_mention = MessageHandlerObj.mentionedUsers.first
+        local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)
+        if not f_member then
+            MessageHandlerObj.channel:send
+            { content = "please provide a member" }
+            return
+        end
+        local f_roleName = FindFirstEnumRole(MessageHandlerObj.content)
+        if not f_roleName then
+            MessageHandlerObj.channel:send
+            { content = "please provide a role enum" }
+            return
+        end
 
-    local roleAdjusterObj = RoleAdjuster.new(f_member, f_roleName)
-    roleAdjusterObj:Adjust()
+        local roleAdjusterObj = RoleAdjuster.new(f_member, f_roleName)
+        roleAdjusterObj:Adjust()
 
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = f_member.username .. "أٌعطا رتبة ",
-            description = "الرتب المتوافقة حٌذفت" .. "\n" .. "الرتبة المعطاة هي " .. MessageHandlerObj.guild:getRole(Enums.Roles.Levels[f_roleName]).mentionString,
-            color = Enums.Colors.Giving_Roles,
+        MessageHandlerObj.channel:send {
+            embed = {
+                title = f_member.username .. "أٌعطا رتبة ",
+                description = "الرتب المتوافقة حٌذفت" .. "\n" .. "الرتبة المعطاة هي " .. MessageHandlerObj.guild:getRole(Enums.Roles.Levels[f_roleName]).mentionString,
+                color = Enums.Colors.Giving_Roles,
+            }
         }
-    }
+    end
 end
 
 -- Allow read permission
@@ -598,73 +600,75 @@ Commands.disallow_read_perm = function(MessageHandlerObj)
 end
 
 
--- It ignores larg numbers(IDs?)
-local function FindDuration(content)
-    local temp_content = content
-    local suffix = content:match("h") or content:match("d") or "m"
-    while true do
-        local num = temp_content:match("%d+")
-        if not num then
-            return "دقيقة", 3 * 60
-        end
-        temp_content = temp_content:gsub(num, "")
-        num = tonumber(num)
+do
+    -- It ignores large numbers(IDs?)
+    local function FindDuration(content)
+        local temp_content = content
+        local suffix = content:match("h") or content:match("d") or "m"
+        while true do
+            local num = temp_content:match("%d+")
+            if not num then
+                return "دقيقة", 3 * 60
+            end
+            temp_content = temp_content:gsub(num, "")
+            num = tonumber(num)
 
-        if num <= 10080 then
-            if suffix == "h" then
-                return "ساعة", num * 60 * 60
-            elseif suffix == "d" then
-                return "يوم", num * 60 * 60 * 24
-            else
-                return "دقيقة", num * 60
+            if num <= 10080 then
+                if suffix == "h" then
+                    return "ساعة", num * 60 * 60
+                elseif suffix == "d" then
+                    return "يوم", num * 60 * 60 * 24
+                else
+                    return "دقيقة", num * 60
+                end
             end
         end
     end
-end
 
--- Mute
-Commands.mute = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
-        return
-    end
-    local suff, duration = FindDuration(MessageHandlerObj.content)
-    duration = math.min(duration, 604800)
-    local conformed_timeouts = ""
+    -- Mute
+    Commands.mute = function(MessageHandlerObj)
+        if not Predicates.isModerator_v(MessageHandlerObj.author_member) then
+            return
+        end
+        local suff, duration = FindDuration(MessageHandlerObj.content)
+        duration = math.min(duration, 604800)
+        local conformed_timeouts = ""
 
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        if Predicates.isValidToPunch(member) then
-            member:timeoutFor(duration)
-            conformed_timeouts = conformed_timeouts .. member.mentionString .. "\n"
-            local p_channel = member.user:getPrivateChannel()
-            if p_channel then
-                p_channel:send {
-                    embed = {
-                        title = "انكتمت للتو",
-                        description = "إقرأ [القوانين](https://discord.com/channels/1028991149806981140/1028991151467933751) لتفادي الكتم. وتذكر أن الحظر قد يكون الخطوة التالية.",
-                        color = Enums.Colors.ModeratorAction,
+        local members = ConvertToMembers(MessageHandlerObj)
+        for _, member in pairs(members) do
+            if Predicates.isValidToPunch_v(member) then
+                member:timeoutFor(duration)
+                conformed_timeouts = conformed_timeouts .. member.mentionString .. "\n"
+                local p_channel = member.user:getPrivateChannel()
+                if p_channel then
+                    p_channel:send {
+                        embed = {
+                            title = "انكتمت للتو",
+                            description = "إقرأ [القوانين](https://discord.com/channels/1028991149806981140/1028991151467933751) لتفادي الكتم. وتذكر أن الحظر قد يكون الخطوة التالية.",
+                            color = Enums.Colors.ModeratorAction,
+                        }
                     }
-                }
+                end
             end
         end
-    end
 
-    if suff == "ساعة" then
-        duration = duration / 60 / 60
-    elseif suff == "يوم" then
-        duration = duration / 60 / 60 / 24
-    else
-        duration = duration / 60
-    end
+        if suff == "ساعة" then
+            duration = duration / 60 / 60
+        elseif suff == "يوم" then
+            duration = duration / 60 / 60 / 24
+        else
+            duration = duration / 60
+        end
 
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "مجموعة انكتمت ل" .. duration .. " " .. suff,
-            description = conformed_timeouts,
-            color = Enums.Colors.ModeratorAction,
-            footer = { text = "👨🏿‍🌾" }
+        MessageHandlerObj.channel:send {
+            embed = {
+                title = "مجموعة انكتمت ل" .. duration .. " " .. suff,
+                description = conformed_timeouts,
+                color = Enums.Colors.ModeratorAction,
+                footer = { text = "👨🏿‍🌾" }
+            }
         }
-    }
+    end
 end
 
 -- Unmute
