@@ -147,16 +147,24 @@ do
             {
                 name = "Lua <:Lua:1281249211580551209>",
                 value =
-                "[قناة عارف](https://www.youtube.com/@aref_r)\n[Programming in Lua](https://www.lua.org/pil/contents.html)",
+                "[قناة عارف](https://www.youtube.com/@aref_r)\n[Programming in Lua](https://www.lua.org/pil/contents.html)\n[The Ultimate Scripting Mastery Course](https://t.me/+eLrehE3tH7U2NzNk)\n[Roblox Beginners Scripting Tutorial](https://youtube.com/playlist?list=PLQ1Qd31Hmi3W_CGDzYOp7enyHlOuO3MtC&si=7s0gzEjVE2DwOeZy)",
                 inline = false
             },
 
             {
                 name = "C++ <:cpp:1225864684163305573>",
                 value =
-                "[learncpp](https://www.learncpp.com/)\n[Principles and practice using c++](https://t.me/+H1cOWd42ocFkMTQ0)",
+                "[learncpp](https://www.learncpp.com/)\n[Principles and Practice Using C++](https://t.me/+H1cOWd42ocFkMTQ0)",
+                inline = false
+            },
+
+            {
+                name = "مشورة",
+                value =
+                "> شوف القناة الي تعجبك وكمل معها",
                 inline = false
             }
+
         }
     }
 
