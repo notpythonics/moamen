@@ -147,7 +147,7 @@ do
             {
                 name = "Lua <:Lua:1281249211580551209>",
                 value =
-                "[قناة عارف](https://www.youtube.com/@aref_r)\n[Programming in Lua](https://www.lua.org/pil/contents.html)\n[The Ultimate Scripting Mastery Course](https://t.me/+eLrehE3tH7U2NzNk)\n[Roblox Beginners Scripting Tutorial](https://youtube.com/playlist?list=PLQ1Qd31Hmi3W_CGDzYOp7enyHlOuO3MtC&si=7s0gzEjVE2DwOeZy)",
+                "[قناة عارف](https://www.youtube.com/@aref_r)\n[Programming in Lua](https://www.lua.org/pil/contents.html)\n[The Ultimate Scripting Mastery Course](https://t.me/+eLrehE3tH7U2NzNk)\n[Roblox Beginners Scripting Tutorial](https://youtube.com/playlist?list=PLQ1Qd31Hmi3W_CGDzYOp7enyHlOuO3MtC&si=7s0gzEjVE2DwOeZy)\n[Beginner's Roblox Scripting Tutorial](https://youtube.com/playlist?list=PLhieaQmOk7nIfMZ1UmvKGPrwuwQVwAvFa&si=Re_z9JhNGaHsb_Rs)",
                 inline = false
             },
 
