@@ -503,7 +503,7 @@ do
 
     -- Give role
     Commands.give_role = function(MessageHandlerObj)
-        if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+        if not Predicates.isRolesApprover_v(MessageHandlerObj.author_member) then return end
 
         local first_mention = MessageHandlerObj.mentionedUsers.first
         local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)

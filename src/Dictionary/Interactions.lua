@@ -21,7 +21,7 @@ function Interactions.roles_embed(inter)
     created_channel:getPermissionOverwriteFor(inter.guild:getRole(Enums.Roles.Everyone)):denyPermissions(
         "readMessages")
     -- Make it visible to mods and the maker
-    created_channel:getPermissionOverwriteFor(inter.guild:getRole(Enums.Roles.Moderator)):allowPermissions(
+    created_channel:getPermissionOverwriteFor(inter.guild:getRole(Enums.Roles.RolesApprover)):allowPermissions(
         "readMessages")
     created_channel:getPermissionOverwriteFor(inter.member):allowPermissions("readMessages")
 
@@ -49,7 +49,7 @@ end
 
 do
     local function is_member(inter)
-        if not Predicates.isModerator_v(inter.member) then
+        if not Predicates.isRolesApprover_v(inter.member) then
             if string.find(inter.channel.name, "🔒") then
                 inter:updateDeferred()
                 return true
@@ -176,6 +176,13 @@ function Interactions.request_decline(inter)
         inter.message:delete()
         return
     end
+
+    if not Predicates.isEmbedApprover_v(inter.member) then
+        inter:replyDeferred(true)
+        inter:reply("أنت مو مسؤولاً عن الإمبد")
+        return
+    end
+
     -- This is a reply
     inter:modal(dModals.Modal {
         title = "رفض الإمبد",
