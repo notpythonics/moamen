@@ -3,45 +3,53 @@ local timer = require("timer")
 
 local SlashCommands = {}
 
-local thanks_cooldowns = {}
-SlashCommands.thank = function(inter, command, args)
-    local member = args["user"]
-    local member_id = member.id
+do
+    local THANK_HOURS_COOLDOWN = 9
+    local thanks_cooldowns = {}
 
-    if thanks_cooldowns[inter.member.id] then
-        inter:replyDeferred(true)
-        inter:reply("Cooldown ❌")
-        return
-    end
-    if inter.member.id == member_id then
-        inter:replyDeferred(true)
-        inter:reply("You can not thank your self ❌")
-        return
-    end
+    SlashCommands.thank = function(inter, command, args)
+        local member = args["user"]
+        local member_id = member.id
 
-    if member.user.bot then
-        inter:replyDeferred(true)
-        inter:reply("You can not thank a bot 🤖❌")
-        return
-    end
+        if thanks_cooldowns[inter.member.id] then
+            inter:replyDeferred(true)
+            inter:reply("Cooldown ❌  " .. thanks_cooldowns[inter.member.id] .. " hours left.")
+            return
+        end
+        if inter.member.id == member_id then
+            inter:replyDeferred(true)
+            inter:reply("You can not thank your self ❌")
+            return
+        end
 
-    local conn = sql.open("moamen.db")
-    local stmt = conn:prepare "insert or ignore into thanks(owner_id, count) values(?, 0)"
-    stmt:reset():bind(member_id):step()
-    local incr = conn:prepare "update thanks set count = count + 1 where owner_id = ?"
-    incr:reset():bind(member_id):step()
-    conn:close()
+        if member.user.bot then
+            inter:replyDeferred(true)
+            inter:reply("You can not thank a bot 🤖❌")
+            return
+        end
 
-    thanks_cooldowns[inter.member.id] = true
-    inter:reply("**🙏🏿 Successfully thanked " .. member.username .. "** - and thank you for improving Roblox Studio AR.")
-    _G.Client:getChannel(Enums.Channels.Logs.Members_movements):send {
-        embed = {
-            description = "🙏🏿 The user " .. inter.member.mentionString .. " thanked " .. member.mentionString
+        local conn = sql.open("moamen.db")
+        local stmt = conn:prepare "insert or ignore into thanks(owner_id, count) values(?, 0)"
+        stmt:reset():bind(member_id):step()
+        local incr = conn:prepare "update thanks set count = count + 1 where owner_id = ?"
+        incr:reset():bind(member_id):step()
+        conn:close()
+
+        inter:reply("**🙏🏿 Successfully thanked " ..
+        member.username .. "** - and thank you for improving Roblox Studio AR.")
+        _G.Client:getChannel(Enums.Channels.Logs.Members_movements):send {
+            embed = {
+                description = "🙏🏿 The user " .. inter.member.mentionString .. " thanked " .. member.mentionString
+            }
         }
-    }
 
-    timer.sleep(36000000) -- 10 hours
-    thanks_cooldowns[inter.member.id] = nil
+        thanks_cooldowns[inter.member.id] = THANK_HOURS_COOLDOWN
+        for i = THANK_HOURS_COOLDOWN, 0, -1 do
+            timer.sleep(1000 * 60 * 60 * 60) -- 1 hour
+            thanks_cooldowns[inter.member.id] = i
+        end
+        thanks_cooldowns[inter.member.id] = nil
+    end
 end
 
 SlashCommands.mythanks = function(inter, command, args)
