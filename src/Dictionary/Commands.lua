@@ -6,7 +6,7 @@ local Components = discordia_components.Components
 local Wiki = require("./Wiki")
 local Block = require("../Utility/Block")
 local Predicates = require("../Utility/Predicates")
-local RoleAdjuster = require("../Classes/RoleAdjuster")
+local RoleAdjuster = require("../Utility/RoleAdjuster")
 local sql = require("./deps/deps/sqlite3")
 local timer = require("timer")
 local http = require('coro-http')
@@ -519,8 +519,7 @@ do
             return
         end
 
-        local roleAdjusterObj = RoleAdjuster.new(f_member, f_roleName)
-        roleAdjusterObj:Adjust()
+        RoleAdjuster.SetTierRoleByNameWithCleanup(f_member, f_roleName)
 
         MessageHandlerObj.channel:send {
             embed = {
