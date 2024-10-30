@@ -23,6 +23,13 @@ function Predicates.isEmbedApprover_v(member)
     return FindRole(array, _G.Enums.Roles.EmbedsApprover)
 end
 
+function Predicates.isRolesApprover_v(member)
+    if member:hasPermission("administrator") then return true end
+
+    local array = member.roles:toArray()
+    return FindRole(array, _G.Enums.Roles.RolesApprover)
+end
+
 function Predicates.isValidToPunch_v(member)
     return not Predicates.isModerator_v(member) and not Predicates.isOwner_v(member)
 end
