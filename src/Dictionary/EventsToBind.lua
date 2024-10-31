@@ -118,6 +118,7 @@ function EventsToBind.slashCommand(inter, command, args)
     end
 end
 
+-- memberLeave
 function EventsToBind.memberLeave(member)
     local channel = _G.Client:getChannel(Enums.Channels.Logs.Members_movements)
 
@@ -251,7 +252,7 @@ function EventsToBind.slashCommandAutocomplete(inter, cmd, focused)
 
         for title in pairs(Docs) do
             if #value > 0 then
-                if title:lower():find(value:lower()) or value:sub(1, 1) == title:sub(1, 1) then
+                if title:lower():find(value:lower()) or value:sub(1, 1):lower() == title:sub(1, 1):lower() then
                     table.insert(ac, tools.choice(title, title))
                 end
             end
