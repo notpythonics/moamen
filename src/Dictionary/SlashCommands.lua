@@ -14,19 +14,19 @@ do
 
         if thanks_cooldowns[inter.member.id] then
             inter:replyDeferred(true)
-            inter:reply("Cooldown ❌  " .. thanks_cooldowns[inter.member.id] .. " hours left.")
+            inter:reply("انتظر " .. thanks_cooldowns[inter.member.id] .. "ساعة قبل أن تشكر عضواً مرة أخرى 🫂" )
             return
         end
 
         if inter.member.id == member_id then
             inter:replyDeferred(true)
-            inter:reply("You can not thank your self ❌")
+            inter:reply("ممنوع تشكر نفسك 🫂")
             return
         end
 
         if member.user.bot then
             inter:replyDeferred(true)
-            inter:reply("You can not thank a bot 🤖❌")
+            inter:reply("ممنوع تشكر بوتاً 🤖🫂💀")
             return
         end
 

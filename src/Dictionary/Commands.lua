@@ -328,7 +328,7 @@ Commands.shop_embeds = function(MessageHandlerObj)
     _G.Client:getChannel(Enums.Channels.lfd_embed_channel):sendComponents({
         embed = {
             title = "طلب خدمة",
-            description = "ابحث عن مطورين لمساعدتك في تطوير لعبتك"
+            description = "ابحث عن مطورين لمساعدتك في تطوير مشروعك أو لعبتك"
         }
     }, CraeteButtonComponentWithId("lfd_request"))
 end
