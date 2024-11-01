@@ -15,4 +15,4 @@ _G.Docs = {}
 _G.Shop_Requests = {}
 
 local token = ""
-local botObj = Bot(token)
+--[[local botObj = ]]Bot(token)
