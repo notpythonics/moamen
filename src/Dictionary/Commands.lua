@@ -96,19 +96,19 @@ end
 
 -- Block
 Commands.block = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel)
 end
 
 -- Fblock
 Commands.fblock = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel, true)
 end
 
 -- Unblock
 Commands.unblock = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     Block.Remove(convert_to_members_or_ids(MessageHandlerObj))
 end
 
@@ -168,13 +168,13 @@ end
 
 -- Allow bots entry
 Commands.allow_bots_entry = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     _G.IsBots_Entry_Allowed = true
 end
 
 -- Disallow bots entry
 Commands.disallow_bots_entry = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     _G.IsBots_Entry_Allowed = false
 end
 
