@@ -1,5 +1,6 @@
 local sql = require("./deps/deps/sqlite3")
 local timer = require("timer")
+local HowTo = require("./HowTo")
 
 local SlashCommands = {}
 
@@ -16,6 +17,7 @@ do
             inter:reply("Cooldown ❌  " .. thanks_cooldowns[inter.member.id] .. " hours left.")
             return
         end
+
         if inter.member.id == member_id then
             inter:replyDeferred(true)
             inter:reply("You can not thank your self ❌")
@@ -36,13 +38,14 @@ do
         conn:close()
 
         inter:reply("**🙏🏿 Successfully thanked " ..
-        member.username .. "** - and thank you for improving Roblox Studio AR.")
+            member.username .. "** - and thank you for improving Roblox Studio AR.")
         _G.Client:getChannel(Enums.Channels.Logs.Members_movements):send {
             embed = {
                 description = "🙏🏿 The user " .. inter.member.mentionString .. " thanked " .. member.mentionString
             }
         }
 
+        -- Start the cooldown
         thanks_cooldowns[inter.member.id] = THANK_HOURS_COOLDOWN
         for i = THANK_HOURS_COOLDOWN, 0, -1 do
             timer.sleep(1000 * 60 * 60 * 60) -- 1 hour
@@ -75,6 +78,20 @@ SlashCommands.docs = function(inter, command, args)
                 description = "That class/enum doesn't exist, or at least I can't find it...\nTo view the full docs, visit them [here](https://create.roblox.com/docs/reference/engine)!"
             }
         }
+    end
+end
+
+SlashCommands.howto = function(inter, command, args)
+    local query = args["query"]
+    local firstCabital_query = string.upper(query:sub(1, 1)) .. query:sub(2)
+
+    if HowTo[query] then
+        inter:reply { embed = HowTo[query] }
+    elseif HowTo[firstCabital_query] then
+        inter:reply { embed = HowTo[firstCabital_query] }
+    else
+        inter:replyDeferred(true)
+        inter:reply { content = "Couldn't find article" }
     end
 end
 

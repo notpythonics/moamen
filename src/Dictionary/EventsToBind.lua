@@ -1,6 +1,7 @@
 local discordia = require("discordia")
 local Interactions = require("./Interactions")
 local SlashCommands = require("./SlashCommands")
+local HowTo = require("./HowTo")
 local MessageHandler = require("../Classes/MessageHandler")
 local Shop = require("../Utility/Shop")
 local Block = require("../Utility/Block")
@@ -185,6 +186,8 @@ end
 
 -- messageDelete
 function EventsToBind.messageDelete(message)
+    if message.author.bot then return end
+
     local channel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
 
     local embed = {
@@ -225,7 +228,7 @@ end
 -- messageDeleteUncached
 function EventsToBind.messageDeleteUncached(channel, messageId)
     local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
-    --local message = channel:getMessage(messageId)
+    --local message = channel:getMessage(messageId) -- errors
 
     logChannel:send {
         embed = {
@@ -246,11 +249,11 @@ end
 
 -- slashCommandAutocomplete
 function EventsToBind.slashCommandAutocomplete(inter, cmd, focused)
-    if cmd.name == "docs" then
+    local function suggestOptions(source)
         local ac = {}
         local value = focused.value
 
-        for title in pairs(Docs) do
+        for title in pairs(source) do
             if #value > 0 then
                 if title:lower():find(value:lower()) or value:sub(1, 1):lower() == title:sub(1, 1):lower() then
                     table.insert(ac, tools.choice(title, title))
@@ -262,6 +265,12 @@ function EventsToBind.slashCommandAutocomplete(inter, cmd, focused)
         end
 
         inter:autocomplete(ac)
+    end
+
+    if cmd.name == "docs" then
+        suggestOptions(Docs)
+    elseif cmd.name == "howto" then
+        suggestOptions(HowTo)
     end
 end
 

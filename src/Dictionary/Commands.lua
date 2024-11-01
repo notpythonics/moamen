@@ -2,8 +2,6 @@ local discordia = require("discordia")
 local discordia_components = require("discordia-components")
 local tools = require("discordia-slash").util.tools()
 local Components = discordia_components.Components
-
-local Wiki = require("./Wiki")
 local Block = require("../Utility/Block")
 local Predicates = require("../Utility/Predicates")
 local RoleAdjuster = require("../Utility/RoleAdjuster")
@@ -13,36 +11,17 @@ local http = require('coro-http')
 
 local Commands = {}
 
-local function ConvertToMembers(MessageHandlerObj)
-    local members = {}
+local function convert_to_members_or_ids(MessageHandlerObj)
+    local members_and_ids = {}
     for _, user in pairs(MessageHandlerObj.mentionedUsers) do
         local member = MessageHandlerObj.guild:getMember(user.id)
         if member then
-            table.insert(members, member)
+            table.insert(members_and_ids, member)
+        else
+            table.insert(members_and_ids, user.id)
         end
     end
-    return members
-end
-
--- AI
-Commands.ai = function(MessageHandlerObj)
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "AI",
-            image = {
-                url = "https://i.imgur.com/t9vFgpO.png"
-            },
-            description =
-            [[نوصي بشدة بعدم استخدام الذكاء الاصطناعي وأي نموذج ذكي لأن
-
-        النماذج الذكية ليست جيدة في ++C أو Lua
-        النماذج الذكية تكون خاطئة في كثير من الأحيان
-        النماذج الذكية تجيب بثقة كاملة حتى عندما تكون الإجابات خاطئة
-
-        > إذا كنت جديدًا في البرمجة، فمن المحتمل أنك لا تعرف بما فيه الكفاية لتحديد متى تكون الإجابات خاطئة]],
-            color = Enums.Colors.Default, -- 💩
-        }
-    }
+    return members_and_ids
 end
 
 -- Create guild app cmds
@@ -50,8 +29,8 @@ Commands.creategpc = function(MessageHandlerObj)
     if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
     Commands.deletegpc(MessageHandlerObj)
     do
-        local slashCommand = tools.slashCommand("thank", "Thank a user for helping you!")
-        local option = tools.user("user", "Who do you want to thank?")
+        local slashCommand = tools.slashCommand("thank", "اشكر عضواً لمساعدته لك")
+        local option = tools.user("user", "من العضو الذي تود توجيه الشكر له؟")
         option:setRequired(true)
         slashCommand:addOption(option)
 
@@ -59,17 +38,29 @@ Commands.creategpc = function(MessageHandlerObj)
     end
 
     do
-        local slashCommand = tools.slashCommand("mythanks", "See how many thanks you have.")
+        local slashCommand = tools.slashCommand("mythanks", "اعرض عدد الشكر الذي حصلت عليه")
         Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
     end
 
-    local slashCommand = tools.slashCommand("docs", "Check the documentation!")
-    local option = tools.string("object", "Pick a class/enum to read the docs on!")
-    option:setAutocomplete(true)
-    option:setRequired(true)
-    slashCommand:addOption(option)
+    do
+        local slashCommand = tools.slashCommand("docs", "Check the documentation!")
+        local option = tools.string("object", "Pick a class/enum to read the docs on!")
+        option:setAutocomplete(true)
+        option:setRequired(true)
+        slashCommand:addOption(option)
 
-    Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
+        Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
+    end
+
+    do
+        local slashCommand = tools.slashCommand("howto", "استرجع مقالاً من طاولة كيفَ")
+        local option = tools.string("query", "اسم المقال")
+        option:setAutocomplete(true)
+        option:setRequired(true)
+        slashCommand:addOption(option)
+
+        Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
+    end
 end
 
 -- Delete guild app cmds
@@ -88,6 +79,7 @@ Commands.their_thanks = function(MessageHandlerObj)
 
     local mentionedUser = MessageHandlerObj.mentionedUsers.first
     if not mentionedUser then return end
+
     local conn = sql.open("moamen.db")
     local stmt = conn:prepare "select count from thanks where owner_id = ?"
     local t = stmt:reset():bind(mentionedUser.id):step()
@@ -104,23 +96,20 @@ end
 
 -- Block
 Commands.block = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        Block.Append(ConvertToMembers(MessageHandlerObj), MessageHandlerObj.channel)
-    end
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel)
 end
 
 -- Fblock
 Commands.fblock = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        Block.Append(ConvertToMembers(MessageHandlerObj), MessageHandlerObj.channel, true)
-    end
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel, true)
 end
 
 -- Unblock
 Commands.unblock = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        Block.Remove(ConvertToMembers(MessageHandlerObj))
-    end
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    Block.Remove(convert_to_members_or_ids(MessageHandlerObj))
 end
 
 -- Is id blocked
@@ -179,16 +168,14 @@ end
 
 -- Allow bots entry
 Commands.allow_bots_entry = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        _G.IsBots_Entry_Allowed = true
-    end
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    _G.IsBots_Entry_Allowed = true
 end
 
 -- Disallow bots entry
 Commands.disallow_bots_entry = function(MessageHandlerObj)
-    if Predicates.isOwner_v(MessageHandlerObj.author_member) then
-        _G.IsBots_Entry_Allowed = false
-    end
+    if Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+    _G.IsBots_Entry_Allowed = false
 end
 
 -- Remove mods
@@ -196,16 +183,17 @@ Commands.remove_mods = function(MessageHandlerObj)
     if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
 
     local conformed_removes = ""
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        if Predicates.isModerator_v(member) then
-            member:removeRole(Enums.Roles.Moderator)
-            conformed_removes = conformed_removes .. member.mentionString .. "\n"
+    local members_and_ids = convert_to_members_or_ids(MessageHandlerObj)
+
+    for _, obj in pairs(members_and_ids) do
+        if type(obj) == "table" then
+            if Predicates.isModerator_v(obj) then
+                obj:removeRole(Enums.Roles.Moderator)
+                conformed_removes = conformed_removes .. obj.mentionString .. "\n"
+            end
         end
     end
-    if conformed_removes == "" then
-        return
-    end
+
     MessageHandlerObj.channel:send {
         embed = {
             title = "مشرفين سٌلبت حقوقهم للتو",
@@ -213,26 +201,6 @@ Commands.remove_mods = function(MessageHandlerObj)
             color = Enums.Colors.Giving_Roles
         }
     }
-end
-
--- Assign mods
-Commands.assign_mods = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author) then return end
-
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        member:addRole(Enums.Roles.Moderator)
-    end
-end
-
--- Wiki
-Commands.wiki = function(MessageHandlerObj)
-    local key = MessageHandlerObj.content:gsub("wiki", ""):match("[%a_]+") -- Remove wiki
-
-    if Wiki[key] then
-        MessageHandlerObj.channel:send
-        { embed = Wiki[key] }
-    end
 end
 
 -- Lock
@@ -263,19 +231,6 @@ Commands.unlock = function(MessageHandlerObj)
         embed = {
             description = "القناة لم تعد مغلقة\n`mn lock` لغلق القناة",
             color = Enums.Colors.Permission
-        }
-    }
-end
-
--- Wiki help
-Commands.wikihelp = function(MessageHandlerObj)
-    local cmds = ""
-    for key, _ in pairs(Wiki) do
-        cmds = cmds .. "\n" .. key
-    end
-    MessageHandlerObj.channel:send {
-        embed = {
-            description = cmds
         }
     }
 end
@@ -378,16 +333,6 @@ Commands.shop_embeds = function(MessageHandlerObj)
     }, CraeteButtonComponentWithId("lfd_request"))
 end
 
--- Source code
-Commands.source_code = function(MessageHandlerObj)
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "source code",
-            description = "repo: [moamen](https://github.com/notpythonics/moamen)\n`git clone https://github.com/notpythonics/moamen`\n-->change enums and replace token\n->run batch file\nyou can't be a contributor go away"
-        }
-    }
-end
-
 -- Featured embed
 Commands.fe_embed = function(MessageHandlerObj)
     if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
@@ -439,59 +384,8 @@ Commands.fe_embed = function(MessageHandlerObj)
     f_channel:send { embed = embed }
 end
 
--- Disallow send permission
-Commands.disallow_send_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
-
-    local conformed_disallows = ""
-    local f_channel = MessageHandlerObj.mentionedChannels.first
-    if not f_channel then
-        f_channel = MessageHandlerObj.channel
-    end
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        f_channel:getPermissionOverwriteFor(member):denyPermissions("sendMessages")
-        conformed_disallows = conformed_disallows .. member.mentionString .. "\n"
-    end
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "مُنعوا من الإرسال " .. f_channel.mentionString,
-            description = conformed_disallows,
-            color = Enums.Colors.Permission,
-            footer = {
-                text = "❌"
-            }
-        }
-    }
-end
-
--- Allow send permission
-Commands.allow_send_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
-
-    local conformed_allows = ""
-    local f_channel = MessageHandlerObj.mentionedChannels.first
-    if not f_channel then
-        f_channel = MessageHandlerObj.channel
-    end
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        f_channel:getPermissionOverwriteFor(member):allowPermissions("sendMessages")
-        conformed_allows = conformed_allows .. member.mentionString .. "\n"
-    end
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "سُمح لهم بالإرسال " .. f_channel.mentionString,
-            description = conformed_allows,
-            color = Enums.Colors.Permission,
-            footer = {
-                text = "✔️"
-            }
-        }
-    }
-end
-
-do
+-- Give role
+Commands.give_role = function(MessageHandlerObj)
     local function FindFirstEnumRole(content)
         for roleName, id in pairs(Enums.Roles.Levels) do
             --print(roleName, content)
@@ -501,128 +395,73 @@ do
         end
     end
 
-    -- Give role
-    Commands.give_role = function(MessageHandlerObj)
-        if not Predicates.isRolesApprover_v(MessageHandlerObj.author_member) then return end
+    if not Predicates.isRolesApprover_v(MessageHandlerObj.author_member) then return end
 
-        local first_mention = MessageHandlerObj.mentionedUsers.first
-        local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)
-        if not f_member then
-            MessageHandlerObj.channel:send
-            { content = "please provide a member" }
-            return
-        end
-        local f_roleName = FindFirstEnumRole(MessageHandlerObj.content)
-        if not f_roleName then
-            MessageHandlerObj.channel:send
-            { content = "please provide a role enum" }
-            return
-        end
-
-        RoleAdjuster.SetTierRoleByNameWithCleanup(f_member, f_roleName)
-
-        MessageHandlerObj.channel:send {
-            embed = {
-                title = f_member.username .. "أٌعطا رتبة ",
-                description = "الرتب المتوافقة حٌذفت" .. "\n" .. "الرتبة المعطاة هي " .. MessageHandlerObj.guild:getRole(Enums.Roles.Levels[f_roleName]).mentionString,
-                color = Enums.Colors.Giving_Roles,
-            }
-        }
+    local first_mention = MessageHandlerObj.mentionedUsers.first
+    local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)
+    if not f_member then
+        MessageHandlerObj.channel:send
+        { content = "please provide a member" }
+        return
     end
-end
-
--- Allow read permission
-Commands.allow_read_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
-
-    local conformed_allows = ""
-    local f_channel = MessageHandlerObj.mentionedChannels.first
-    if not f_channel then
-        f_channel = MessageHandlerObj.channel
+    local f_roleName = FindFirstEnumRole(MessageHandlerObj.content)
+    if not f_roleName then
+        MessageHandlerObj.channel:send
+        { content = "please provide a role enum" }
+        return
     end
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        f_channel:getPermissionOverwriteFor(member):allowPermissions("readMessages")
-        conformed_allows = conformed_allows .. member.mentionString .. "\n"
-    end
+
+    RoleAdjuster.SetTierRoleByNameWithCleanup(f_member, f_roleName)
+
     MessageHandlerObj.channel:send {
         embed = {
-            title = "سُمح لهم بالرؤية " .. f_channel.mentionString,
-            description = conformed_allows,
-            color = Enums.Colors.Permission,
-            footer = {
-                text = "✔️"
-            }
+            title = f_member.username .. "أٌعطا رتبة ",
+            description = "الرتب المتوافقة حٌذفت" .. "\n" .. "الرتبة المعطاة هي " .. MessageHandlerObj.guild:getRole(Enums.Roles.Levels[f_roleName]).mentionString,
+            color = Enums.Colors.Giving_Roles,
         }
     }
 end
 
--- Disallow read permission
-Commands.disallow_read_perm = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+-- It ignores large numbers(IDs?)
+local function FindDuration(content)
+    local temp_content = content
+    local suffix = content:match("h") or content:match("d") or "m"
+    while true do
+        local num = temp_content:match("%d+")
+        if not num then
+            return "دقيقة", 3 * 60
+        end
+        temp_content = temp_content:gsub(num, "")
+        num = tonumber(num)
 
-    local conformed_disallows = ""
-    local f_channel = MessageHandlerObj.mentionedChannels.first
-    if not f_channel then
-        f_channel = MessageHandlerObj.channel
-    end
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        f_channel:getPermissionOverwriteFor(member):denyPermissions("readMessages")
-        conformed_disallows = conformed_disallows .. member.mentionString .. "\n"
-    end
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "مُنعوا من الرؤية " .. f_channel.mentionString,
-            description = conformed_disallows,
-            color = Enums.Colors.Permission,
-            footer = {
-                text = "❌"
-            }
-        }
-    }
-end
-
-
-do
-    -- It ignores large numbers(IDs?)
-    local function FindDuration(content)
-        local temp_content = content
-        local suffix = content:match("h") or content:match("d") or "m"
-        while true do
-            local num = temp_content:match("%d+")
-            if not num then
-                return "دقيقة", 3 * 60
-            end
-            temp_content = temp_content:gsub(num, "")
-            num = tonumber(num)
-
-            if num <= 10080 then
-                if suffix == "h" then
-                    return "ساعة", num * 60 * 60
-                elseif suffix == "d" then
-                    return "يوم", num * 60 * 60 * 24
-                else
-                    return "دقيقة", num * 60
-                end
+        if num <= 10080 then
+            if suffix == "h" then
+                return "ساعة", num * 60 * 60
+            elseif suffix == "d" then
+                return "يوم", num * 60 * 60 * 24
+            else
+                return "دقيقة", num * 60
             end
         end
     end
+end
 
-    -- Mute
-    Commands.mute = function(MessageHandlerObj)
-        if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+-- Mute
+Commands.mute = function(MessageHandlerObj)
+    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
 
-        local suff, duration = FindDuration(MessageHandlerObj.content)
-        duration = math.min(duration, 604800)
-        local conformed_timeouts = ""
+    local suff, duration = FindDuration(MessageHandlerObj.content)
+    duration = math.min(duration, 604800)
 
-        local members = ConvertToMembers(MessageHandlerObj)
-        for _, member in pairs(members) do
-            if Predicates.isValidToPunch_v(member) then
-                member:timeoutFor(duration)
-                conformed_timeouts = conformed_timeouts .. member.mentionString .. "\n"
-                local p_channel = member.user:getPrivateChannel()
+    local conformed_timeouts = ""
+    local members_and_ids = convert_to_members_or_ids(MessageHandlerObj)
+
+    for _, obj in pairs(members_and_ids) do
+        if type(obj) == "table" then
+            if Predicates.isValidToPunch_v(obj) then
+                obj:timeoutFor(duration)
+                conformed_timeouts = conformed_timeouts .. obj.mentionString .. "\n"
+                local p_channel = obj.user:getPrivateChannel()
                 if p_channel then
                     p_channel:send {
                         embed = {
@@ -634,33 +473,35 @@ do
                 end
             end
         end
-
-        if suff == "ساعة" then
-            duration = duration / 60 / 60
-        elseif suff == "يوم" then
-            duration = duration / 60 / 60 / 24
-        else
-            duration = duration / 60
-        end
-
-        MessageHandlerObj.channel:send {
-            embed = {
-                title = "مجموعة انكتمت ل" .. duration .. " " .. suff,
-                description = conformed_timeouts,
-                color = Enums.Colors.ModeratorAction,
-                footer = { text = "👨🏿‍🌾" }
-            }
-        }
     end
+
+    if suff == "ساعة" then
+        duration = duration / 60 / 60
+    elseif suff == "يوم" then
+        duration = duration / 60 / 60 / 24
+    else
+        duration = duration / 60
+    end
+
+    MessageHandlerObj.channel:send {
+        embed = {
+            title = "مجموعة انكتمت ل" .. duration .. " " .. suff,
+            description = conformed_timeouts,
+            color = Enums.Colors.ModeratorAction,
+            footer = { text = "👨🏿‍🌾" }
+        }
+    }
 end
 
 -- Unmute
 Commands.unmute = function(MessageHandlerObj)
     if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
 
-    local members = ConvertToMembers(MessageHandlerObj)
-    for _, member in pairs(members) do
-        member:removeTimeout()
+    local members_and_ids = convert_to_members_or_ids(MessageHandlerObj)
+    for _, obj in pairs(members_and_ids) do
+        if type(obj) == "table" then
+            obj:removeTimeout()
+        end
     end
 end
 

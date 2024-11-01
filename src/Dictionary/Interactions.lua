@@ -76,6 +76,7 @@ do
             inter.channel:send("👩🏿‍🦱 صاحب التكت مو موجود")
             return
         end
+
         inter:updateDeferred()
         local member_who_made_channel = inter.guild:getMember(user_who_made_channel.id)
 
@@ -128,6 +129,7 @@ Interactions.sell_request = foo
 function Interactions.request_accept(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
+
     if not r_embed then
         inter:replyDeferred(true)
         inter:reply("حدث خطأ")
@@ -137,7 +139,7 @@ function Interactions.request_accept(inter)
 
     if not Predicates.isEmbedApprover_v(inter.member) then
         inter:replyDeferred(true)
-        inter:reply("أنت مو مسؤولاً عن الإمبد")
+        inter:reply("أنت مو مسؤول عن الإمبد")
         return
     end
 
@@ -170,6 +172,7 @@ end
 function Interactions.request_decline(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
+
     if not r_embed then
         inter:replyDeferred(true)
         inter:reply("حدث خطأ")
@@ -179,7 +182,7 @@ function Interactions.request_decline(inter)
 
     if not Predicates.isEmbedApprover_v(inter.member) then
         inter:replyDeferred(true)
-        inter:reply("أنت مو مسؤولاً عن الإمبد")
+        inter:reply("أنت مو مسؤول عن الإمبد")
         return
     end
 
@@ -200,15 +203,17 @@ end
 function Interactions.decline_reason_modal(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
+
     if not r_embed then
         inter:replyDeferred(true)
         inter:reply("حدث خطأ")
         inter.message:delete()
         return
     end
+
     local user = _G.Client:getUser(embed_author_id)
 
-    -- Get what"s in the textInput
+    -- Get what's in the textInput
     local textInputValue = inter.data.components[1].components[1].value
 
     local p_channel = user:getPrivateChannel()

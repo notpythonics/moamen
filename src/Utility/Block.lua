@@ -4,7 +4,7 @@ local sql = require("./deps/deps/sqlite3")
 
 local Block = {}
 
-local blocked_messaged_id = nil
+local BLOCKED_MESSAGE_ID = nil
 function Block.SendBlockedMessage()
     local channel = _G.Client:getChannel(Enums.Channels.Staff.Blocked)
 
@@ -19,14 +19,14 @@ function Block.SendBlockedMessage()
         content = "`message ID: " .. msg.id .. "`"
     }
 
-    blocked_messaged_id = msg.id
+    BLOCKED_MESSAGE_ID = msg.id
 end
 
 function Block.UpdateBlockedMessage()
-    if not blocked_messaged_id then return end
+    if not BLOCKED_MESSAGE_ID then return end
     local channel = _G.Client:getChannel(Enums.Channels.Staff.Blocked)
 
-    local msg = channel:getMessage(blocked_messaged_id)
+    local msg = channel:getMessage(BLOCKED_MESSAGE_ID)
     if not msg then return end
 
     msg:update {
@@ -47,7 +47,6 @@ function Block.IsIdBlocked(target_id)
 end
 
 function Block.Punch(member)
-    if not member then return end
     member:addRole(Enums.Roles.Blocked)
     for _, role in pairs(member.roles) do
         if role.id ~= Enums.Roles.Blocked then
@@ -65,27 +64,30 @@ function Block.NumberOfBlockedIds()
     return tostring(t[1][1]):gsub("L", "")
 end
 
-function Block.Append(members, channel, forced)
+function Block.Append(members_and_ids, channel, forced)
     local conformed_blocks = ""
     local conn = sql.open("moamen.db")
     local stmt = conn:prepare "insert or ignore into blocked_ids(id) values(?)"
 
-    for _, member in pairs(members) do
-        if Predicates.isValidToPunch_v(member) or forced then
-            conformed_blocks = conformed_blocks .. member.mentionString .. "\n"
+    for _, obj in pairs(members_and_ids) do
+        if type(obj) == "table" then
+            if Predicates.isValidToPunch_v(obj) or forced then
+                conformed_blocks = conformed_blocks .. obj.mentionString .. "\n"
 
-            -- Start removing roles in a different thread
-            coroutine.wrap(function()
-                Block.Punch(member)
-            end)()
+                -- Start removing roles in a different thread
+                coroutine.wrap(function()
+                    Block.Punch(obj)
+                end)()
 
-            stmt:reset():bind(member.id):step()
+                stmt:reset():bind(obj.id):step()
+            end
+        elseif type(obj) == "number" then
+            stmt:reset():bind(obj):step()
+            conformed_blocks = conformed_blocks .. obj .. "\n"
         end
     end
     conn:close()
-    if conformed_blocks == "" then
-        return
-    end
+
     channel:send {
         embed = {
             title = "محظورين للتو",
@@ -96,17 +98,22 @@ function Block.Append(members, channel, forced)
     Block.UpdateBlockedMessage()
 end
 
-function Block.Remove(members)
+function Block.Remove(members_and_ids)
     local conn = sql.open("moamen.db")
     local stmt = conn:prepare "delete from blocked_ids where id = ?"
 
-    for _, member in pairs(members) do
-        local index = Block.IsIdBlocked(member.id)
-        if index then
-            stmt:reset():bind(member.id):step()
+    for _, obj in pairs(members_and_ids) do
+        if type(obj) == "table" then
+            if Block.IsIdBlocked(obj.id) then
+                stmt:reset():bind(obj.id):step()
 
-            member:removeRole(Enums.Roles.Blocked)
-            member:addRole(Enums.Roles.Member)
+                obj:removeRole(Enums.Roles.Blocked)
+                obj:addRole(Enums.Roles.Member)
+            end
+        elseif type(obj) == "number" then
+            if Block.IsIdBlocked(obj) then
+                stmt:reset():bind(obj):step()
+            end
         end
     end
     conn:close()
