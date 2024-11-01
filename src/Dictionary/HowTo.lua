@@ -17,11 +17,10 @@ HowTo["خوارزمية صاحب التكت"] = {
 }
 
 HowTo["Source Code"] = {
-    embed = {
-        title = "source code",
-        description =
-        "repo: [moamen](https://github.com/notpythonics/moamen)\n`git clone https://github.com/notpythonics/moamen`\n-->change enums and replace token\n->run batch file\nyou can't be a contributor go away"
-    }
+    color = Enums.Colors.Default,
+    title = "source code",
+    description =
+    "repo: [moamen](https://github.com/notpythonics/moamen)\n`git clone https://github.com/notpythonics/moamen`\n-->change enums and replace token\n->run batch file\nyou can't be a contributor go away"
 }
 
 HowTo["C Structs"] = {
