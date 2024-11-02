@@ -8,7 +8,7 @@ local function invalid_input(message, author, stage)
     local content = message.content
     if content:sub(1, 12) == "moamen erase" then
         working_members[author.id] = nil
-        message:reply("الإمبد انحذف سوي إنشاء مرة اخرى لتعيد التعبئة")
+        message:reply("الإمبد انحذف، سوي إنشاء مرة أُخرى لتعيد التعبئة")
         return true
     end
     if content == "" and stage ~= 3 then return true end
@@ -280,7 +280,7 @@ function shop.process_stage(message)
         },
         discordia.Components {
             discordia.Button("shop_request") -- id
-                :label "ارسال للتقديم"
+                :label "ارسال للمسؤولين عن الإمبد"
                 :style "secondary",
             discordia.Button("not_saty") -- id
                 :label "مو راضي فيها"
@@ -296,12 +296,12 @@ function shop.process_stage(message)
         local custom_id = interaction.data.custom_id
 
         if custom_id == "shop_request" then
-            interaction:reply("الإمبد انرسل انتظر القبول والرفض بيجيك اشعار خاص")
+            interaction:reply("الإمبد انرسل، انتظر القبول والرفض بيجيك اشعار خاص")
             return created_embed, working_member.custom_id, working_member.type_work
         end
 
         working_member = nil
-        interaction:reply("الإمبد انحذف سوي إنشاء مرة اخرى لتعيد التعبئة")
+        interaction:reply("الإمبد انحذف، سوي إنشاء مرة أُخرى لتعيد التعبئة")
     else
         return
     end

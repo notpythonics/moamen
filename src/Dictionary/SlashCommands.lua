@@ -14,7 +14,7 @@ do
 
         if thanks_cooldowns[inter.member.id] then
             inter:replyDeferred(true)
-            inter:reply("انتظر " .. thanks_cooldowns[inter.member.id] .. "ساعة قبل أن تشكر عضواً مرة أخرى 🫂" )
+            inter:reply("انتظر " .. thanks_cooldowns[inter.member.id] .. "ساعة قبل أن تشكر عضواً مرة أُخرى 🫂" )
             return
         end
 
