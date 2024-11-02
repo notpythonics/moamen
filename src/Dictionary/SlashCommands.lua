@@ -48,7 +48,7 @@ do
         -- Start the cooldown
         thanks_cooldowns[inter.member.id] = THANK_HOURS_COOLDOWN
         for i = THANK_HOURS_COOLDOWN, 0, -1 do
-            timer.sleep(1000 * 60 * 60 * 60) -- 1 hour
+            timer.sleep(1000 * 60 * 60) -- 1 hour
             thanks_cooldowns[inter.member.id] = i
         end
         thanks_cooldowns[inter.member.id] = nil
