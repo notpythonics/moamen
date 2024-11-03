@@ -90,7 +90,7 @@ function Block.Append(members_and_ids, channel, forced)
 
     channel:send {
         embed = {
-            title = "محظورين للتو",
+            title = "محظورون للتو",
             description = conformed_blocks,
             color = Enums.Colors.Block
         }

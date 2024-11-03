@@ -289,7 +289,7 @@ Commands.rules_embed = function(MessageHandlerObj)
 
 لا تتردد في نشر رسالتك حتى لو كان هناك مستخدمون آخرون يتحدثون.
 إذا لم تحصل على رد فوري، فهذا لا يعني أن سؤالك قد تم تجاهله.
-إذا كان الأمر محبطًا للغاية، يمكنك إنشاء thread في [مساعدة أعمق](https://i.imgur.com/JYO824F.png)
+إذا كان الأمر محبطًا للغاية، يمكنك إنشاء thread في [مساعدة أعمق](https://discord.com/channels/1028991149806981140/1193100820162543636)
 
 يمنع نشر روابط سيرفرات، وتمنع المتاجرة خارج رومات التجارة.
 يمنع نشر أو اعادة بيع ما بيعَ لك في رومات التجارة.]],
@@ -404,6 +404,7 @@ Commands.give_role = function(MessageHandlerObj)
         { content = "please provide a member" }
         return
     end
+
     local f_roleName = FindFirstEnumRole(MessageHandlerObj.content)
     if not f_roleName then
         MessageHandlerObj.channel:send
@@ -411,7 +412,8 @@ Commands.give_role = function(MessageHandlerObj)
         return
     end
 
-    RoleAdjuster.SetTierRoleByNameWithCleanup(f_member, f_roleName)
+    RoleAdjuster.RemoveTierRoles(f_member, f_roleName)
+    RoleAdjuster.SetTierRole(f_member, f_roleName)
 
     MessageHandlerObj.channel:send {
         embed = {

@@ -14,7 +14,7 @@ do
 
         if thanks_cooldowns[inter.member.id] then
             inter:replyDeferred(true)
-            inter:reply("انتظر " .. thanks_cooldowns[inter.member.id] .. "ساعة قبل أن تشكر عضواً مرة أُخرى 🫂" )
+            inter:reply("انتظر " .. thanks_cooldowns[inter.member.id] .. " ساعة قبل أن تشكر عضواً مرة أُخرى 🫂" )
             return
         end
 
@@ -91,7 +91,7 @@ SlashCommands.howto = function(inter, command, args)
         inter:reply { embed = HowTo[firstCabital_query] }
     else
         inter:replyDeferred(true)
-        inter:reply { content = "Couldn't find article" }
+        inter:reply { content = "مالقيت المقال 💀\nتأكد من كتابة اسم المقال بطريقة صحيحة" }
     end
 end
 
