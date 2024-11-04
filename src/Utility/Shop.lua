@@ -2,12 +2,13 @@ local discordia = require("discordia")
 
 local shop = {}
 
-_G.working_members = {}
+local TIME_UNTIL_COMPONENT_STOPS_WAITING = 1000 * 60 * 10 -- 10 minutes
+_G.Working_members = {}
 
 local function invalid_input(message, author, stage)
     local content = message.content
     if content:sub(1, 12) == "moamen erase" then
-        working_members[author.id] = nil
+        Working_members[author.id] = nil
         message:reply("الإمبد انحذف، سوي إنشاء مرة أُخرى لتعيد التعبئة")
         return true
     end
@@ -17,7 +18,7 @@ end
 function shop.process_stage(message)
     local author = message.author
     local p_channel = author:getPrivateChannel()
-    local working_member = working_members[author.id]
+    local working_member = Working_members[author.id]
 
     if not working_member then return end
 
@@ -77,8 +78,8 @@ function shop.process_stage(message)
 
             if not sent_message then return end
 
-            local success, interaction = sent_message:waitComponent("selectMenu", nil, 6000000,
-                function() return working_members[author.id] ~= nil end)
+            local success, interaction = sent_message:waitComponent("selectMenu", nil, TIME_UNTIL_COMPONENT_STOPS_WAITING,
+                function() return Working_members[author.id] ~= nil end)
 
             if success then
                 local l_embed = {
@@ -288,8 +289,8 @@ function shop.process_stage(message)
         })
 
     if not sent_message then return end
-    local success, interaction = sent_message:waitComponent("button", nil, 6000000,
-        function() return working_members[author.id] ~= nil end)
+    local success, interaction = sent_message:waitComponent("button", nil, TIME_UNTIL_COMPONENT_STOPS_WAITING,
+        function() return Working_members[author.id] ~= nil end)
 
 
     if success then
@@ -311,7 +312,7 @@ function shop.append_working(author, custom_id)
     local p_channel = author:getPrivateChannel()
     if not p_channel then return end
 
-    working_members[author.id] = {
+    Working_members[author.id] = {
         stage = 0,
         title = "",
         description = "",
@@ -344,20 +345,20 @@ function shop.append_working(author, custom_id)
 
         if not sent_message then return end
 
-        local success, interaction = sent_message:waitComponent("selectMenu", nil, 6000000,
-            function() return working_members[author.id] ~= nil end)
+        local success, interaction = sent_message:waitComponent("selectMenu", nil, TIME_UNTIL_COMPONENT_STOPS_WAITING,
+            function() return Working_members[author.id] ~= nil end)
 
         if success then
             print(interaction.data.values[1])
             interaction:updateDeferred()
-            working_members[author.id].type_work = interaction.data.values[1]
+            Working_members[author.id].type_work = interaction.data.values[1]
         else
             return
         end
     end
 
     if custom_id == "sell_request" then
-        working_members[author.id].type_work = custom_id
+        Working_members[author.id].type_work = custom_id
     end
 
 
@@ -369,7 +370,7 @@ function shop.append_working(author, custom_id)
         }
     }
 
-    working_members[author.id].stage = 1
+    Working_members[author.id].stage = 1
 end
 
 -- returns a link to the sent embed/message

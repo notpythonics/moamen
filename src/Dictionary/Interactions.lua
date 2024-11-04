@@ -107,23 +107,35 @@ do
     end
 end
 
--- Shop
-local function foo(inter, custom_id)
-    inter:replyDeferred(true)
-    if _G.Shop_Requests[inter.user.id] then
-        inter:reply("في إمبد مرسلة")
-        return
+do
+    local SHOP_MINUTES_COOLDOWN = 30
+    local shop_cooldowns = {}
+    -- Shop
+    local function foo(inter, custom_id)
+        inter:replyDeferred(true)
+        if shop_cooldowns[inter.user.id] then
+            inter:reply("انتظر " .. shop_cooldowns[inter.user.id] .. " دقيقة قبل أن تنشأ إمبد مرة أُخرى 💀")
+            return
+        end
+        if Block.IsIdBlocked(inter.user.id) then
+            inter:reply("أنت محظور")
+            return
+        end
+        inter:reply("خاص")
+        Shop.append_working(inter.member.user, custom_id)
+
+        -- Start the cooldown
+        shop_cooldowns[inter.member.id] = SHOP_MINUTES_COOLDOWN
+        for i = SHOP_MINUTES_COOLDOWN, 0, -1 do
+            timer.sleep(1000 * 60) -- 1 minute
+            shop_cooldowns[inter.member.id] = i
+        end
+        shop_cooldowns[inter.member.id] = nil
     end
-    if Block.IsIdBlocked(inter.user.id) then
-        inter:reply("أنت محظور")
-        return
-    end
-    inter:reply("خاص")
-    Shop.append_working(inter.member.user, custom_id)
+    Interactions.lfd_request = foo
+    Interactions.fh_request = foo
+    Interactions.sell_request = foo
 end
-Interactions.lfd_request = foo
-Interactions.fh_request = foo
-Interactions.sell_request = foo
 
 -- Request accept
 function Interactions.request_accept(inter)

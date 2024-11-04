@@ -36,15 +36,11 @@ function EventsToBind.messageCreate(message)
         end
 
         if created_embed then
-            if _G.Shop_Requests[message.author.id] then
-                return
-            else
-                _G.Shop_Requests[message.author.id] = {
-                    created_embed,
-                    custom_id,
-                    message.author
-                }
-            end
+            _G.Shop_Requests[message.author.id] = {
+                created_embed,
+                custom_id,
+                message.author
+            }
 
             local shop_prefix = custom_id:match("lfd") or custom_id:match("fh") or custom_id:match("sell")
             send(Enums.Channels[shop_prefix .. "_server"])
@@ -245,6 +241,18 @@ function EventsToBind.ready()
     for title, path in string.gmatch(body, '{"title":"(.-)","path":"(.-)"}') do
         Docs[title] = "https://create.roblox.com/docs" .. path
     end
+end
+
+-- typingStart
+function EventsToBind.typingStart(userId, channelId, timestamp)
+    local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Stalking_members)
+
+    logChannel:send {
+        embed = {
+            description = _G.Client:getUser(userId).mentionString .. " started typing at `" .. timestamp .. "` in " .. _G.Client:getChannel(channelId).mentionString,
+            color = Enums.Colors.Default
+        }
+    }
 end
 
 -- slashCommandAutocomplete

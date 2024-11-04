@@ -115,7 +115,8 @@ local Enums = {
         Logs = {
             Embeds = "1273293492818546748",
             Members_movements = "1028991154936614962",
-            Message_holder = "1028991154936614966"
+            Message_holder = "1028991154936614966",
+            Stalking_members = "1302813043679301685"
         },
 
         Staff = {
