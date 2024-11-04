@@ -258,9 +258,12 @@ end
 function EventsToBind.typingStart(userId, channelId, timestamp)
     local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Stalking_members)
 
+    local user = _G.Client:getUser(userId)
+    local channel = _G.Client:getChannel(channelId)
+
     logChannel:send {
         embed = {
-            description = _G.Client:getUser(userId).mentionString .. " started typing at `" .. timestamp .. "` in " .. _G.Client:getChannel(channelId).mentionString,
+            description = (user and user.mentionString or userId) .. " started typing at `" .. timestamp .. "` in " .. (channel and channel.mentionString or channelId),
             color = Enums.Colors.Default
         }
     }
