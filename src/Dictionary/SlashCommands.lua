@@ -26,7 +26,7 @@ do
 
         if member.user.bot then
             inter:replyDeferred(true)
-            inter:reply("ممنوع تشكر بوتاً 🤖🫂💀")
+            inter:reply("ممنوع تشكر بوت 🤖🫂💀")
             return
         end
 

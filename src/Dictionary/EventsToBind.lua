@@ -11,7 +11,24 @@ local tools = require("discordia-slash").util.tools()
 
 local EventsToBind = {}
 
--- messageCreate
+function EventsToBind.threadCreate(threadChannel)
+    if threadChannel.parent.id == Enums.Channels.your_doings then
+        threadChannel:send {
+            embed = {
+                description = "القناة الفرعية نُشئت للتحدث عن العمل المذكور أعلاه",
+                color = Enums.Colors.Default
+            }
+        }
+    elseif threadChannel.parent.id == Enums.Channels.your_games then
+        threadChannel:send {
+            embed = {
+                description = "القناة الفرعية نُشئت للتحدث عن اللعبة المذكورة أعلاه",
+                color = Enums.Colors.Default
+            }
+        }
+    end
+end
+
 function EventsToBind.messageCreate(message)
     if message.author.bot then return end
 
@@ -60,7 +77,6 @@ function EventsToBind.messageCreate(message)
     MessageHandlerObj:Process()
 end
 
--- memberJoin
 function EventsToBind.memberJoin(member)
     local channel = _G.Client:getChannel(Enums.Channels.Logs.Members_movements)
 
@@ -97,7 +113,7 @@ function EventsToBind.memberJoin(member)
     member:addRole(Enums.Roles.Member)
 end
 
--- interactionCreate
+-- interactionCreate event
 function EventsToBind.interactionCreate(inter)
     local custom_id = inter.data.custom_id
 
@@ -106,7 +122,7 @@ function EventsToBind.interactionCreate(inter)
     end
 end
 
--- slashCommand
+-- slashCommand event
 function EventsToBind.slashCommand(inter, command, args)
     local command_name = command.name
 
@@ -115,7 +131,6 @@ function EventsToBind.slashCommand(inter, command, args)
     end
 end
 
--- memberLeave
 function EventsToBind.memberLeave(member)
     local channel = _G.Client:getChannel(Enums.Channels.Logs.Members_movements)
 
@@ -152,7 +167,7 @@ do
         end
     end
 
-    -- reactionAdd
+    -- reactionAdd event
     function EventsToBind.reactionAdd(reaction, userid)
         local message = reaction.message
         -- Are they blocked?
@@ -166,7 +181,7 @@ do
         deleteThisTarget(message)
     end
 
-    -- reactionAddUncached
+    -- reactionAddUncached event
     function EventsToBind.reactionAddUncached(channel, messageId, hash, userid)
         -- Are they blocked?
         if Block.IsIdBlocked(userid) then
@@ -180,7 +195,6 @@ do
     end
 end
 
--- messageDelete
 function EventsToBind.messageDelete(message)
     if message.author.bot then return end
 
@@ -221,7 +235,6 @@ function EventsToBind.messageDelete(message)
     channel:send { embed = embed }
 end
 
--- messageDeleteUncached
 function EventsToBind.messageDeleteUncached(channel, messageId)
     local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Message_holder)
     --local message = channel:getMessage(messageId) -- errors
@@ -234,7 +247,6 @@ function EventsToBind.messageDeleteUncached(channel, messageId)
     }
 end
 
--- ready
 function EventsToBind.ready()
     local res, body = http.request("GET", "https://create.roblox.com/docs/reference/engine/classes")
 
@@ -243,7 +255,6 @@ function EventsToBind.ready()
     end
 end
 
--- typingStart
 function EventsToBind.typingStart(userId, channelId, timestamp)
     local logChannel = _G.Client:getChannel(Enums.Channels.Logs.Stalking_members)
 
@@ -255,7 +266,6 @@ function EventsToBind.typingStart(userId, channelId, timestamp)
     }
 end
 
--- slashCommandAutocomplete
 function EventsToBind.slashCommandAutocomplete(inter, cmd, focused)
     local function suggestOptions(source)
         local ac = {}

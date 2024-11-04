@@ -40,6 +40,14 @@ function MessageHandler:Add_like_and_dislike()
     end)
 end
 
+function MessageHandler:CreateThread()
+    pcall(function()
+        self.channel:startThread({
+            name = self.author.username -- only required input
+        }, self.message)
+    end)
+end
+
 function MessageHandler:AddingReactions()
     -- Adding what reaction
     if (self.content:sub(1, 4) == "what" or
@@ -54,6 +62,7 @@ function MessageHandler:AddingReactions()
     if (self.channel.id == Enums.Channels.your_doings) then
         if self.attachment or #self.FindLinks(self.content) > 0 then
             self:Add_like_and_dislike()
+            self:CreateThread()
         else
             if not self.content:match("fe_embed") then
                 if not self.author_member:hasPermission("administrator") then
@@ -76,6 +85,7 @@ function MessageHandler:AddingReactions()
                 return
             end
             self:Add_like_and_dislike()
+            self:CreateThread()
         end
     end
 end

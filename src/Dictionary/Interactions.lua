@@ -8,7 +8,6 @@ local Block = require("../Utility/Block")
 
 local Interactions = {}
 
--- Roles embed
 function Interactions.roles_embed(inter)
     inter:replyDeferred(true)
 
@@ -61,7 +60,7 @@ do
         return false
     end
 
-    -- Close ticket
+    -- Close ticket interaction
     function Interactions.close(inter)
         if is_member(inter) then return end
 
@@ -95,7 +94,7 @@ do
         inter.channel:setName(new_name)
     end
 
-    -- Delete ticket
+    -- Delete ticket interaction
     function Interactions.delete(inter)
         if is_member(inter) then return end
 
@@ -137,7 +136,6 @@ do
     Interactions.sell_request = foo
 end
 
--- Request accept
 function Interactions.request_accept(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
@@ -180,7 +178,6 @@ function Interactions.request_accept(inter)
     _G.Shop_Requests[embed_author_id] = nil
 end
 
--- Request decline
 function Interactions.request_decline(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
@@ -211,7 +208,6 @@ function Interactions.request_decline(inter)
     })
 end
 
--- Decline modal
 function Interactions.decline_reason_modal(inter)
     local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
     local r_embed = _G.Shop_Requests[embed_author_id]
