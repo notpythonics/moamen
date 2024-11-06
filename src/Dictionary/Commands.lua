@@ -8,6 +8,7 @@ local RoleAdjuster = require("../Utility/RoleAdjuster")
 local sql = require("./deps/deps/sqlite3")
 local timer = require("timer")
 local http = require('coro-http')
+local C_Command = require("../Classes/Command")
 
 local Commands = {}
 
@@ -24,10 +25,9 @@ local function convert_to_members_or_ids(MessageHandlerObj)
     return members_and_ids
 end
 
--- Create guild app cmds
-Commands.creategpc = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-    Commands.deletegpc(MessageHandlerObj)
+-- Create Guild APP Commands
+Commands.creategpc = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
+    Commands.deletegpc:Execute(MessageHandlerObj)
     do
         local slashCommand = tools.slashCommand("thank", "اشكر عضواً لمساعدته لك")
         local option = tools.user("user", "من العضو الذي تود توجيه الشكر له؟")
@@ -62,29 +62,19 @@ Commands.creategpc = function(MessageHandlerObj)
         Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
     end
 
-    MessageHandlerObj.channel:send {
-        content = "الأوامر جاهزة يا مؤمن",
-        reference = {
-            message = MessageHandlerObj.message,
-            mention = false,
-        }
-    }
-end
+    MessageHandlerObj.channel:send { content = "الأوامر جاهزة يا مؤمن" }
+end)
 
--- Delete guild app cmds
-Commands.deletegpc = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+-- Delete Guild APP Commands
+Commands.deletegpc = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     local commands = Client:getGuildApplicationCommands(MessageHandlerObj.guild.id)
 
     for commandId in pairs(commands) do
         Client:deleteGuildApplicationCommand(MessageHandlerObj.guild.id, commandId)
     end
-end
+end)
 
--- TheirThanks
-Commands.their_thanks = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
-
+Commands.their_thanks = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
     local mentionedUser = MessageHandlerObj.mentionedUsers.first
     if not mentionedUser then return end
 
@@ -100,155 +90,96 @@ Commands.their_thanks = function(MessageHandlerObj)
             mention = false,
         }
     }
-end
+end)
 
--- Block
-Commands.block = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-    Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel)
-end
+Commands.block = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
+    Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel, false)
+end)
 
--- Fblock
-Commands.fblock = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+Commands.fblock = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     Block.Append(convert_to_members_or_ids(MessageHandlerObj), MessageHandlerObj.channel, true)
-end
+end)
 
--- Unblock
-Commands.unblock = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
+Commands.unblock = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     Block.Remove(convert_to_members_or_ids(MessageHandlerObj))
-end
+end)
 
--- Is id blocked
-Commands.is_id_blocked = function(MessageHandlerObj)
+Commands.is_id_blocked = C_Command.new(Predicates.isMember_v, function(MessageHandlerObj)
     MessageHandlerObj.channel:send {
         content =
             Block.IsIdBlocked(MessageHandlerObj.content:match("%d+")) and "True `1`" or "False `0`",
     }
-end
+end)
 
--- Blocked members
-Commands.blocked_members = function(MessageHandlerObj)
+Commands.blocked_members = C_Command.new(Predicates.isMember_v, function(MessageHandlerObj)
     MessageHandlerObj.channel:send
     { content = "`" .. Block.NumberOfBlockedIds() .. "` blocked member" }
-end
+end)
 
--- Send blocked message
-Commands.send_blocked_message = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-    Block.SendBlockedMessage()
-end
+Commands.send_blocked_message = C_Command.new(Predicates.isOwner_v,
+    function(MessageHandlerObj) Block.SendBlockedMessage() end)
+Commands.update_blocked_message = C_Command.new(Predicates.isOwner_v,
+    function(MessageHandlerObj) Block.UpdateBlockedMessage() end)
 
--- Update blocked message
-Commands.update_blocked_message = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-    Block.UpdateBlockedMessage()
-end
-
--- Header
-Commands.header = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+Commands.header = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
     MessageHandlerObj.channel:send {
         embed = {
             image = { url = Enums.Images.Header },
             color = Enums.Colors.Default
         }
     }
-end
+end)
 
--- BigHeader
-Commands.bigheader = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
+Commands.bigheader = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
     MessageHandlerObj.channel:send {
         embed = {
             image = { url = Enums.Images.BigHeader },
             color = Enums.Colors.Default
         }
     }
-end
+end)
 
--- Bots entry
-Commands.bots_entry = function(MessageHandlerObj)
+Commands.bots_entry = C_Command.new(Predicates.isMember_v, function(MessageHandlerObj)
     MessageHandlerObj.channel:send
     { content = _G.IsBots_Entry_Allowed and "allowed `1`" or "disallowed `0`" }
-end
+end)
 
--- Allow bots entry
-Commands.allow_bots_entry = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-    _G.IsBots_Entry_Allowed = true
-end
+Commands.allow_bots_entry = C_Command.new(Predicates.isOwner_v,
+    function(MessageHandlerObj) _G.IsBots_Entry_Allowed = true end)
 
--- Disallow bots entry
-Commands.disallow_bots_entry = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-    _G.IsBots_Entry_Allowed = false
-end
+Commands.disallow_bots_entry = C_Command.new(Predicates.isOwner_v,
+    function(MessageHandlerObj) _G.IsBots_Entry_Allowed = false end)
 
--- Remove mods
-Commands.remove_mods = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
-    local conformed_removes = ""
-    local members_and_ids = convert_to_members_or_ids(MessageHandlerObj)
-
-    for _, obj in pairs(members_and_ids) do
-        if type(obj) == "table" then
-            if Predicates.isModerator_v(obj) then
-                obj:removeRole(Enums.Roles.Moderator)
-                conformed_removes = conformed_removes .. obj.mentionString .. "\n"
-            end
-        end
-    end
-
-    MessageHandlerObj.channel:send {
-        embed = {
-            title = "مشرفين سٌلبت حقوقهم للتو",
-            description = conformed_removes,
-            color = Enums.Colors.Giving_Roles
-        }
-    }
-end
-
--- Lock
-Commands.lock = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
+Commands.lock = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
     local channel = MessageHandlerObj.channel
 
-    channel:getPermissionOverwriteFor(MessageHandlerObj.guild:getRole(Enums.Roles.Everyone)):denyPermissions(
-        "sendMessages")
+    channel:getPermissionOverwriteFor(MessageHandlerObj.guild:getRole(Enums.Roles.Everyone))
+        :denyPermissions("sendMessages")
     channel:send {
         embed = {
             description = "القناة غُلقت مؤقتاً\n`mn unlock` لفتح القناة",
             color = Enums.Colors.Permission
         }
     }
-end
+end)
 
--- Unlock
-Commands.unlock = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
+Commands.unlock = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
     local channel = MessageHandlerObj.channel
 
-    channel:getPermissionOverwriteFor(MessageHandlerObj.guild:getRole(Enums.Roles.Everyone)):allowPermissions(
-        "sendMessages")
+    channel:getPermissionOverwriteFor(MessageHandlerObj.guild:getRole(Enums.Roles.Everyone))
+        :allowPermissions("sendMessages")
     channel:send {
         embed = {
             description = "القناة لم تعد مغلقة\n`mn lock` لغلق القناة",
             color = Enums.Colors.Permission
         }
     }
-end
+end)
 
--- Roles embed
-Commands.roles_embed = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
+Commands.roles_embed = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     local guild = MessageHandlerObj.guild
     local channel = MessageHandlerObj.channel
+
     local roles_options = discordia.Components {
         discordia.SelectMenu("roles_embed") -- id
             :placeholder "اختر الرتبة التي تريد التقديم عليها"
@@ -260,6 +191,7 @@ Commands.roles_embed = function(MessageHandlerObj)
             :option("أنيميشن", "animation", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.ANIMATION1))
             :option("واجهة مستخدم", "ui", "هذه الرتبة لها 3 تصنيفات", false, guild:getEmoji(Enums.Emojis.UI1))
     }
+
     channel:sendComponents({
         embed = {
             title = "طلب رتب المطورين",
@@ -269,12 +201,9 @@ Commands.roles_embed = function(MessageHandlerObj)
             color = Enums.Colors.Default
         }
     }, roles_options)
-end
+end)
 
--- Rules embed
-Commands.rules_embed = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
+Commands.rules_embed = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     local channel = MessageHandlerObj.channel
 
     channel:send {
@@ -306,12 +235,9 @@ Commands.rules_embed = function(MessageHandlerObj)
             color = Enums.Colors.Default
         }
     }
-end
+end)
 
--- Shop embed
-Commands.shop_embeds = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
+Commands.shop_embeds = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     local function CraeteButtonComponentWithId(id)
         return discordia.Components {
             discordia.Button(id) -- id
@@ -340,12 +266,9 @@ Commands.shop_embeds = function(MessageHandlerObj)
             description = "ابحث عن مطورين لمساعدتك في تطوير مشروعك أو لعبتك"
         }
     }, CraeteButtonComponentWithId("lfd_request"))
-end
+end)
 
--- Featured embed
-Commands.fe_embed = function(MessageHandlerObj)
-    if not Predicates.isOwner_v(MessageHandlerObj.author_member) then return end
-
+Commands.fe_embed = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)
     if not MessageHandlerObj.message then return end
     local replied_to_msg = MessageHandlerObj.message.referencedMessage
 
@@ -391,10 +314,9 @@ Commands.fe_embed = function(MessageHandlerObj)
     end
 
     f_channel:send { embed = embed }
-end
+end)
 
--- Give role
-Commands.give_role = function(MessageHandlerObj)
+Commands.give_role = C_Command.new(Predicates.isRolesApprover_v, function(MessageHandlerObj)
     local function FindFirstEnumRole(content)
         for roleName, id in pairs(Enums.Roles.Levels) do
             --print(roleName, content)
@@ -403,8 +325,6 @@ Commands.give_role = function(MessageHandlerObj)
             end
         end
     end
-
-    if not Predicates.isRolesApprover_v(MessageHandlerObj.author_member) then return end
 
     local first_mention = MessageHandlerObj.mentionedUsers.first
     local f_member = first_mention and MessageHandlerObj.guild:getMember(first_mention.id)
@@ -431,35 +351,32 @@ Commands.give_role = function(MessageHandlerObj)
             color = Enums.Colors.Giving_Roles,
         }
     }
-end
+end)
 
--- It ignores large numbers(IDs?)
-local function FindDuration(content)
-    local temp_content = content
-    local suffix = content:match("h") or content:match("d") or "m"
-    while true do
-        local num = temp_content:match("%d+")
-        if not num then
-            return "دقيقة", 3 * 60
-        end
-        temp_content = temp_content:gsub(num, "")
-        num = tonumber(num)
+Commands.mute = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
+    -- It ignores large numbers(IDs?)
+    local function FindDuration(content)
+        local temp_content = content
+        local suffix = content:match("h") or content:match("d") or "m"
+        while true do
+            local num = temp_content:match("%d+")
+            if not num then
+                return "دقيقة", 3 * 60
+            end
+            temp_content = temp_content:gsub(num, "")
+            num = tonumber(num)
 
-        if num <= 10080 then
-            if suffix == "h" then
-                return "ساعة", num * 60 * 60
-            elseif suffix == "d" then
-                return "يوم", num * 60 * 60 * 24
-            else
-                return "دقيقة", num * 60
+            if num <= 10080 then
+                if suffix == "h" then
+                    return "ساعة", num * 60 * 60
+                elseif suffix == "d" then
+                    return "يوم", num * 60 * 60 * 24
+                else
+                    return "دقيقة", num * 60
+                end
             end
         end
     end
-end
-
--- Mute
-Commands.mute = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
 
     local suff, duration = FindDuration(MessageHandlerObj.content)
     duration = math.min(duration, 604800)
@@ -502,18 +419,15 @@ Commands.mute = function(MessageHandlerObj)
             footer = { text = "👨🏿‍🌾" }
         }
     }
-end
+end)
 
--- Unmute
-Commands.unmute = function(MessageHandlerObj)
-    if not Predicates.isModerator_v(MessageHandlerObj.author_member) then return end
-
+Commands.unmute = C_Command.new(Predicates.isModerator_v, function(MessageHandlerObj)
     local members_and_ids = convert_to_members_or_ids(MessageHandlerObj)
     for _, obj in pairs(members_and_ids) do
         if type(obj) == "table" then
             obj:removeTimeout()
         end
     end
-end
+end)
 
 return Commands

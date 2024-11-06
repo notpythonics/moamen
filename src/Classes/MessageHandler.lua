@@ -179,8 +179,7 @@ function MessageHandler:Process()
     --print("raw", raw_message, "\nplain", self.content)
 
     if Commands[raw_message] then
-        Commands[raw_message](self)
-        return
+        Commands[raw_message]:Execute(self)
     end
 end
 

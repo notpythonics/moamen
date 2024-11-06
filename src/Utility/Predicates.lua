@@ -34,6 +34,9 @@ function Predicates.isValidToPunch_v(member)
     return not Predicates.isModerator_v(member) and not Predicates.isOwner_v(member)
 end
 
+-- I know it's pointless but needed
+function Predicates.isMember_v() return true end
+
 function Predicates.isOwner_v(user)
     if user.id == "1167626422303596645" or user.id == "1082998290230038607" then
         return true

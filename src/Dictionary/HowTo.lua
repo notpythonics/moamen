@@ -1,4 +1,6 @@
 local Enums = require("./Enums")
+local Predicates = require("../Utility/Predicates")
+local Commands = require("../Dictionary/Commands")
 
 local HowTo = {}
 
@@ -170,6 +172,26 @@ HowTo["Line, Segment and Point"] = {
     **Point**: A point is like a dot except that it actually has no size at all; or you can say that it’s infinitely small (except that even saying infinitely small makes a point sound larger than it really is). Essentially, a point is zero-dimensional, with no height, length, or width, but you draw it as a dot, anyway. You name a point with a single uppercase letter, as with points A, D, and T in Figure 2-1.
     ]]
 }
+
+do
+    local CommandsAndPrdicates = ""
+
+    for c_commandName, c_command in pairs(Commands) do
+        for predicateName, predicate in pairs(Predicates) do
+            if c_command.predicate == predicate then
+                CommandsAndPrdicates = CommandsAndPrdicates ..
+                    c_commandName .. " `|` " .. predicateName:gsub("[_isv]+", "") .. "\n"
+                break
+            end
+        end
+    end
+
+    HowTo["Commands"] = {
+        color = Enums.Colors.Default,
+        title = "Bot Commands",
+        description = CommandsAndPrdicates
+    }
+end
 -- classes/images/first_mention.png
 
 return HowTo
