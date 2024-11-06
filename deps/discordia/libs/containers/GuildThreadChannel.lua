@@ -307,6 +307,17 @@ function GuildThreadChannel:setInvitable(invitable)
 	return self:_modify({invitable = invitable})
 end
 
+--[=[
+@m setName
+@t http
+@p name string
+@r boolean
+@d Changes the name of the thread.
+]=]
+function GuildThreadChannel:setName(name)
+    return self:_modify({name = name})
+end
+
 -- TODO: this will probably require explicit ForumChannel support
 -- function GuildThreadChannel:setAppliesTags(tags)
 -- 	return self:_modify({applied_tags = tags or json.null})

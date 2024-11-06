@@ -113,7 +113,7 @@ do
     local function foo(inter, custom_id)
         inter:replyDeferred(true)
         if shop_cooldowns[inter.user.id] then
-            inter:reply("انتظر " .. shop_cooldowns[inter.user.id] .. " دقيقة قبل أن تنشأ إمبد مرة أُخرى 💀")
+            inter:reply("انتظر " .. shop_cooldowns[inter.user.id] .. " دقيقة قبل أن تنشأ إمبد مرة أُخرى")
             return
         end
         if Block.IsIdBlocked(inter.user.id) then
