@@ -5,6 +5,8 @@ discordia.log
 gateway.json
 .vscode
 
+# When this repo gets cloned, these extenstions gets erased.
+# So I ingore them and you should install them your self.
 # extensions
 deps/discordia-components/
 deps/discordia-interactions/
