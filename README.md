@@ -8,7 +8,7 @@ If you are here to read the source code, you should read in this order:
 `main.lua`, `Bot.lua`, `EventsToBind.lua`, and then whatever.
 
 ### How To Build
-- Clone this repo and move to moamen dir.
+- Clone this repo and move to moamen dir:
 ```bat
 git clone https://github.com/notpythonics/moamen
 cd .\.moamen\
