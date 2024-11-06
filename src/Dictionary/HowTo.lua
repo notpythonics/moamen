@@ -155,6 +155,21 @@ HowTo["ذكاء الاصطناعي"] = {
 
     > إذا كنت جديدًا في البرمجة، فمن المحتمل أنك لا تعرف بما فيه الكفاية لتحديد متى تكون الإجابات خاطئة]],
 }
+
+HowTo["Line, Segment and Point"] = {
+    color = Enums.Colors.Default,
+    title = "Line, Segment and Point",
+    image = {
+        url = "https://i.imgur.com/FJtMSfp.png"
+    },
+    description =
+    [[**line**: A line is like a thin, straight wire (although really it’s infinitely thin — or better yet, it has no width at all). Lines have length, so they’re one-dimensional. Remember that a line goes on forever in both directions, which is why you use the little double-headed arrow as in AB (read as line AB). Check out `Figure 2-1`. Lines are usually named using any two points on the line, with the letters in any order. So MQ is the same line as QM, MN is the same as NM, and QN is the same as NQ. Occasionally, lines are named with a single, italicized, lowercase letter, such as lines f and g.
+
+    **Line segment (or just segment)**: A segment is a section of a line that has two endpoints. See Figure 2-1 yet again. If a segment goes from P to R, you call it segment PR and write it as PR. You can also switch the order of the letters and call it RP . Segments can also appear within lines, as in MN. `Note:` A pair of letters without a bar over it means the length of a segment. For example, PR means the length of PR.
+
+    **Point**: A point is like a dot except that it actually has no size at all; or you can say that it’s infinitely small (except that even saying infinitely small makes a point sound larger than it really is). Essentially, a point is zero-dimensional, with no height, length, or width, but you draw it as a dot, anyway. You name a point with a single uppercase letter, as with points A, D, and T in Figure 2-1.
+    ]]
+}
 -- classes/images/first_mention.png
 
 return HowTo

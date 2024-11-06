@@ -61,6 +61,14 @@ Commands.creategpc = function(MessageHandlerObj)
 
         Client:createGuildApplicationCommand(MessageHandlerObj.guild.id, slashCommand)
     end
+
+    MessageHandlerObj.channel:send {
+        content = "الأوامر جاهزة يا مؤمن",
+        reference = {
+            message = MessageHandlerObj.message,
+            mention = false,
+        }
+    }
 end
 
 -- Delete guild app cmds
