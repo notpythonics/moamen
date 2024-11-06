@@ -4,6 +4,9 @@ local Commands = require("../Dictionary/Commands")
 local Block = require("../Utility/Block")
 local http = require('coro-http')
 
+local BLACK_LISTED_WORDS = { "steam gift 50$", "Bro steam gift 50$", "$50 from steam", "50$ from steam", "اخونا ادريس",
+"كس امك", "قحبة", "منيوك" }
+
 local MessageHandler = {}
 MessageHandler.__index = MessageHandler
 
@@ -64,7 +67,7 @@ function MessageHandler:AddingReactions()
             self:Add_like_and_dislike()
             self:CreateThread()
         else
-            if not self.content:match("fe_embed") then
+            if not self.content:find("fe_embed") then
                 if not self.author_member:hasPermission("administrator") then
                     self.message:delete()
                 end
@@ -90,6 +93,7 @@ function MessageHandler:AddingReactions()
     end
 end
 
+-- returns false indicating bad filtering result
 function MessageHandler:Filter()
     -- Member mentioned moderators?
     if not Predicates.isModerator_v(self.author_member) then
@@ -102,7 +106,7 @@ function MessageHandler:Filter()
         end
     end
     -- thanked a member
-    if self.content:match("شكرا") then
+    if self.content:find("شكرا") then
         self.channel:send {
             content = "استخدم امر thank/ لتشكر العضو",
             reference = {
@@ -112,16 +116,15 @@ function MessageHandler:Filter()
         }
     end
 
-    -- Message from a hacked member?
-    if self.content:sub(1, 14) == '50$ from steam'
-        or self.content:sub(1, 14) == '$50 from steam'
-        or self.content:sub(1, 18) == 'Bro steam gift 50$'
-        or self.content:sub(1, 14) == "steam gift 50$"
-        or self.content:find("اخونا ادريس") then -- hehe loser
-        self.message:delete()
-        Block.Append({ self.author_member }, self.channel, true)
-        return
+    -- Message from a hacked member or an idiot?
+    for _, black_listed_word in pairs(BLACK_LISTED_WORDS) do
+        if self.content:find(black_listed_word) then
+            self.message:delete()
+            Block.Append({ self.author_member }, self.channel, true)
+            return false -- bad word | filtering
+        end
     end
+    return true -- no bad filtering result
 end
 
 function MessageHandler:ConvertToMp4()
@@ -129,7 +132,7 @@ function MessageHandler:ConvertToMp4()
     if self.attachment then
         for _, attachment in ipairs(self.attachments) do
             if attachment.content_type then
-                if attachment.content_type:match("x-matroska") then -- mkv --> video\x-matroska
+                if attachment.content_type:find("x-matroska") then -- mkv --> video\x-matroska
                     -- http request the file's body
                     local res, body = http.request("GET", self.attachment.url)
 
@@ -158,8 +161,8 @@ function MessageHandler:ConvertToMp4()
 end
 
 function MessageHandler:Process()
+    if not self:Filter() then return end
     coroutine.wrap(function()
-        self:Filter()
         self:AddingReactions()
         self:ConvertToMp4()
     end)()
