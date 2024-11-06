@@ -5,5 +5,11 @@ discordia.log
 gateway.json
 .vscode
 
+# extensions
+deps/discordia-components/
+deps/discordia-interactions/
+deps/discordia-modals/
+deps/discordia-slash/
+
 # all of
 *.exe
