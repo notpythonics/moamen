@@ -385,7 +385,7 @@ function shop.send(message, r_embed)
                 },
                 discordia.Components {
                     discordia.Button("communicate") -- id
-                        :label "تواصل مع المطور 📜"
+                        :label "تواصل مع العضو 📜"
                         :style "secondary"
                 })
             return sent_embed.link

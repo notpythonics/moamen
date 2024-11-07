@@ -172,9 +172,6 @@ function Interactions.request_accept(inter)
 end
 
 function Interactions.request_decline(inter)
-    local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
-    local r_embed = inter.message.embed
-
     if not Predicates.isEmbedApprover_v(inter.member) then
         inter:replyDeferred(true)
         inter:reply("أنت مو مسؤول عن الإمبد")
@@ -199,20 +196,20 @@ function Interactions.communicate(inter)
 
     if embed_author_id == inter.member.id then
         inter:replyDeferred(true)
-        inter:reply("أنت صاحب الإمبد")
+        inter:reply("أنت صاحب الإمبد ❌")
         return
     end
 
     local author_member = inter.guild:getMember(embed_author_id)
     if not author_member then
         inter:replyDeferred(true)
-        inter:reply("المطور خارج السيرفر ❌")
+        inter:reply("العضو خارج السيرفر ❌")
         return
     end
 
     -- This is a reply
     inter:modal(dModals.Modal {
-        title = "رسالة للمطور",
+        title = "رسالة للعضو",
         id = "communicate_modal", -- id
         dModals.TextInput({
             id = "communicate_textInput",
@@ -247,11 +244,8 @@ end
 
 function Interactions.decline_reason_modal(inter)
     local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
-
-    local user = _G.Client:getUser(embed_author_id)
-
-    -- Get what's in the textInput
     local textInputValue = inter.data.components[1].components[1].value
+    local user = _G.Client:getUser(embed_author_id)
 
     local p_channel = user:getPrivateChannel()
     if p_channel then
