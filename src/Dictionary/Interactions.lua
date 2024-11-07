@@ -194,6 +194,57 @@ function Interactions.request_decline(inter)
     })
 end
 
+function Interactions.communicate(inter)
+    local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
+
+    if embed_author_id == inter.member.id then
+        inter:replyDeferred(true)
+        inter:reply("أنت صاحب الإمبد")
+        return
+    end
+
+    local author_member = inter.guild:getMember(embed_author_id)
+    if not author_member then
+        inter:replyDeferred(true)
+        inter:reply("المطور خارج السيرفر ❌")
+        return
+    end
+
+    -- This is a reply
+    inter:modal(dModals.Modal {
+        title = "رسالة للمطور",
+        id = "communicate_modal", -- id
+        dModals.TextInput({
+            id = "communicate_textInput",
+            style = "paragraph",
+            label = "الرسالة",
+            placeholder = ""
+        })
+    })
+end
+
+function Interactions.communicate_modal(inter)
+    local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
+    local textInputValue = inter.data.components[1].components[1].value
+    local author_member = inter.guild:getMember(embed_author_id)
+
+    local privateThread = inter.channel:startThread {
+        name = inter.member.username, -- only required input
+        type = 12                     -- priavte thread
+    }
+
+    privateThread:send {
+        content = inter.member.mentionString .. " " .. author_member.mentionString,
+        embed = {
+            title = "روم التواصل",
+            description = "هذا روم للتوصل عن الإمبد هذا " .. inter.message.link .. "\n**رسالة العميل:** " .. textInputValue,
+            color = Enums.Colors.Default
+        }
+    }
+
+    inter:updateDeferred()
+end
+
 function Interactions.decline_reason_modal(inter)
     local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
 
