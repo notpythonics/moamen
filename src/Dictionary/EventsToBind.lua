@@ -33,13 +33,13 @@ function EventsToBind.messageCreate(message)
     if message.author.bot then return end
 
     if message.channel.type == 1 then -- If DM
-        local created_embed, custom_id, type_work = Shop.process_stage(message)
+        local created_embed, custom_id, work_type = Shop.process_stage(message)
 
         local function send(id)
             local channel = _G.Client:getChannel(id)
 
             channel:sendComponents({
-                    content = type_work,
+                    content = custom_id .. work_type,
                     embed = created_embed
                 },
                 discordia.Components {
@@ -53,12 +53,6 @@ function EventsToBind.messageCreate(message)
         end
 
         if created_embed then
-            _G.Shop_Requests[message.author.id] = {
-                created_embed,
-                custom_id,
-                message.author
-            }
-
             local shop_prefix = custom_id:match("lfd") or custom_id:match("fh") or custom_id:match("sell")
             send(Enums.Channels[shop_prefix .. "_server"])
         end

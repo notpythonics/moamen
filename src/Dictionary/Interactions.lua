@@ -120,8 +120,8 @@ do
             inter:reply("أنت محظور")
             return
         end
-        inter:reply("خاص")
-        Shop.append_working(inter.member.user, custom_id)
+        inter:reply("أرسلت لك خاص")
+        Shop.append_working(inter.member.user, custom_id) -- custom_id == interaction ID
 
         -- Start the cooldown
         shop_cooldowns[inter.member.id] = SHOP_MINUTES_COOLDOWN
@@ -131,21 +131,14 @@ do
         end
         shop_cooldowns[inter.member.id] = nil
     end
-    Interactions.lfd_request = foo
-    Interactions.fh_request = foo
-    Interactions.sell_request = foo
+    Interactions.lfd = foo
+    Interactions.fh = foo
+    Interactions.sell = foo
 end
 
 function Interactions.request_accept(inter)
-    local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
-    local r_embed = _G.Shop_Requests[embed_author_id]
-
-    if not r_embed then
-        inter:replyDeferred(true)
-        inter:reply("حدث خطأ")
-        inter.message:delete()
-        return
-    end
+    local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
+    local r_embed = inter.message.embed
 
     if not Predicates.isEmbedApprover_v(inter.member) then
         inter:replyDeferred(true)
@@ -154,7 +147,7 @@ function Interactions.request_accept(inter)
     end
 
     local user = _G.Client:getUser(embed_author_id)
-    local message_link = Shop.send(inter.message, r_embed[1], r_embed[2])
+    local message_link = Shop.send(inter.message, r_embed)
 
     local p_channel = user:getPrivateChannel()
     if p_channel then
@@ -162,7 +155,7 @@ function Interactions.request_accept(inter)
             embed = {
                 title = "الإمبد انقبل",
                 description = "رابط الإمبد " .. message_link,
-                color = discordia.Color.fromRGB(21, 73, 64).value
+                color = Enums.Colors.Default
             }
         }
     end
@@ -171,23 +164,15 @@ function Interactions.request_accept(inter)
 
     _G.Client:getChannel(Enums.Channels.Logs.Embeds):send {
         embed = {
-            title = r_embed[2] .. " ✔️",
+            title = inter.message.content .. " ✔️",
             description = "an embed requested by " .. user.mentionString .. ", was accepted by " .. inter.member.mentionString
         }
     }
-    _G.Shop_Requests[embed_author_id] = nil
 end
 
 function Interactions.request_decline(inter)
-    local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
-    local r_embed = _G.Shop_Requests[embed_author_id]
-
-    if not r_embed then
-        inter:replyDeferred(true)
-        inter:reply("حدث خطأ")
-        inter.message:delete()
-        return
-    end
+    local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
+    local r_embed = inter.message.embed
 
     if not Predicates.isEmbedApprover_v(inter.member) then
         inter:replyDeferred(true)
@@ -209,15 +194,8 @@ function Interactions.request_decline(inter)
 end
 
 function Interactions.decline_reason_modal(inter)
-    local embed_author_id = (inter.message.embed.fields[2].value):match("%d+")
-    local r_embed = _G.Shop_Requests[embed_author_id]
-
-    if not r_embed then
-        inter:replyDeferred(true)
-        inter:reply("حدث خطأ")
-        inter.message:delete()
-        return
-    end
+    local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
+    local r_embed = inter.message.embed
 
     local user = _G.Client:getUser(embed_author_id)
 
@@ -230,7 +208,7 @@ function Interactions.decline_reason_modal(inter)
             embed = {
                 title = "الإمبد انرفض",
                 description = "السبب: " .. textInputValue,
-                color = discordia.Color.fromRGB(146, 27, 56).value
+                color = Enums.Colors.Block
             }
         }
     end
@@ -239,7 +217,7 @@ function Interactions.decline_reason_modal(inter)
 
     _G.Client:getChannel(Enums.Channels.Logs.Embeds):send {
         embed = {
-            title = r_embed[2] .. " ❌",
+            title = inter.message.content .. " ❌",
             description = "an embed requested by " .. user.mentionString .. ", was declined by " .. inter.member.mentionString,
 
             fields = {
@@ -249,7 +227,6 @@ function Interactions.decline_reason_modal(inter)
             }
         }
     }
-    _G.Shop_Requests[embed_author_id] = nil
 end
 
 return Interactions

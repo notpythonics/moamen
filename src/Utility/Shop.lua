@@ -22,7 +22,7 @@ function shop.process_stage(message)
 
     if not working_member then return end
 
-    local is_sell_request = working_member.custom_id == "sell_request"
+    local is_sell_request = working_member.custom_id == "sell"
 
     if invalid_input(message, author, working_member.stage) then return end
 
@@ -259,14 +259,10 @@ function shop.process_stage(message)
                     (working_member.credit_option and (working_member.credit_option .. "\n") or "") ..
                     (working_member.dollar_option and (working_member.dollar_option .. "\n") or ""),
                 inline = false
-            },
-
-            {
-                name = "التواصل",
-                value = author.mentionString,
-                inline = false
             }
-        }
+        },
+
+        footer = { text = author.id }
     }
 
     -- Add the image to the embed
@@ -298,7 +294,7 @@ function shop.process_stage(message)
 
         if custom_id == "shop_request" then
             interaction:reply("الإمبد انرسل، انتظر القبول والرفض بيجيك اشعار خاص")
-            return created_embed, working_member.custom_id, working_member.type_work
+            return created_embed, working_member.custom_id, working_member.work_type
         end
 
         working_member = nil
@@ -308,7 +304,7 @@ function shop.process_stage(message)
     end
 end
 
-function shop.append_working(author, custom_id)
+function shop.append_working(author, custom_id) -- custom_id == interaction ID
     local p_channel = author:getPrivateChannel()
     if not p_channel then return end
 
@@ -316,7 +312,7 @@ function shop.append_working(author, custom_id)
         stage = 0,
         title = "",
         description = "",
-        type_work = "",
+        work_type = "",
         attachment = nil,
         custom_id = custom_id,
         robux_option = nil,
@@ -324,7 +320,7 @@ function shop.append_working(author, custom_id)
         dollar_option = nil
     }
 
-    if custom_id == "fh_request" or custom_id == "lfd_request" then
+    if custom_id == "fh" or custom_id == "lfd" then
         local sent_message = p_channel:sendComponents({
                 embed = {
                     title = "البحث او الخبرة",
@@ -351,14 +347,14 @@ function shop.append_working(author, custom_id)
         if success then
             print(interaction.data.values[1])
             interaction:updateDeferred()
-            Working_members[author.id].type_work = interaction.data.values[1]
+            Working_members[author.id].work_type = interaction.data.values[1]
         else
             return
         end
     end
 
     if custom_id == "sell_request" then
-        Working_members[author.id].type_work = custom_id
+        Working_members[author.id].work_type = custom_id
     end
 
 
@@ -373,18 +369,25 @@ function shop.append_working(author, custom_id)
     Working_members[author.id].stage = 1
 end
 
--- returns a link to the sent embed/message
-function shop.send(message, r_embed, custom_id)
-    if custom_id == "sell_request" then
-        local sent_embed = message.guild:getChannel(Enums.Channels.shop.sell):send { embed = r_embed }
-        return sent_embed.link
-    end
+function shop.send(message, r_embed)
+    assert(type(message) == "table")
+    assert(type(r_embed) == "table")
+    local custom_id = message.content:match("lfd") or message.content:match("fh")
+    local work_type = message.content:gsub("lfd", "")
+    work_type = work_type:gsub("fh", "")
 
-    local channel_table = (custom_id == "lfd_request" and Enums.Channels.shop.lfd or Enums.Channels.shop.fh)
+    local channel_table = (custom_id == "lfd" and Enums.Channels.shop.lfd or custom_id == "fh" and Enums.Channels.shop.fh or Enums.Channels.shop)
 
     for channelName, channelId in pairs(channel_table) do
-        if message.content == channelName then
-            local sent_embed = message.guild:getChannel(channelId):send { embed = r_embed }
+        if work_type == channelName then
+            local sent_embed = message.guild:getChannel(channelId):sendComponents({
+                    embed = r_embed
+                },
+                discordia.Components {
+                    discordia.Button("communicate") -- id
+                        :label "تواصل مع المطور 📜"
+                        :style "secondary"
+                })
             return sent_embed.link
         end
     end

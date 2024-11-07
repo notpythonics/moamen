@@ -251,21 +251,21 @@ Commands.shop_embeds = C_Command.new(Predicates.isOwner_v, function(MessageHandl
             title = "عرض خدمة",
             description = "اعرض خدمتك التطويرية للربح منها"
         }
-    }, CraeteButtonComponentWithId("fh_request"))
+    }, CraeteButtonComponentWithId("fh"))
 
     _G.Client:getChannel(Enums.Channels.sell_embed_channel):sendComponents({
         embed = {
             title = "بيع عمل",
             description = "اعرض أعمالك الإبداعية للبيع وحقق ارباح مادية"
         }
-    }, CraeteButtonComponentWithId("sell_request"))
+    }, CraeteButtonComponentWithId("sell"))
 
     _G.Client:getChannel(Enums.Channels.lfd_embed_channel):sendComponents({
         embed = {
             title = "طلب خدمة",
             description = "ابحث عن مطورين لمساعدتك في تطوير مشروعك أو لعبتك"
         }
-    }, CraeteButtonComponentWithId("lfd_request"))
+    }, CraeteButtonComponentWithId("lfd"))
 end)
 
 Commands.fe_embed = C_Command.new(Predicates.isOwner_v, function(MessageHandlerObj)

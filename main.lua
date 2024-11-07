@@ -12,7 +12,6 @@ _G.Client:useApplicationCommands()
 _G.Enums = Enums
 _G.IsBots_Entry_Allowed = false
 _G.Docs = {}
-_G.Shop_Requests = {}
 
 local token = ""
 --[[local botObj = ]]Bot(token)
