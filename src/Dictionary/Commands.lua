@@ -283,7 +283,8 @@ Commands.fe_embed = C_Command.new(Predicates.isOwner_v, function(MessageHandlerO
             icon_url = replied_to_msg.author.avatarURL
         },
         description = "made by " .. replied_to_msg.author.mentionString,
-        image = { url = Enums.Images.Header }
+        image = { url = Enums.Images.Header },
+        color = Enums.Colors.Default
     }
 
     -- Check for links

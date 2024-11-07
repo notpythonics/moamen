@@ -6,6 +6,8 @@ local Predicates = require("../Utility/Predicates")
 local Shop = require("../Utility/Shop")
 local Block = require("../Utility/Block")
 
+local SHOP_MINUTES_COOLDOWN = 30
+
 local Interactions = {}
 
 function Interactions.roles_embed(inter)
@@ -107,7 +109,6 @@ do
 end
 
 do
-    local SHOP_MINUTES_COOLDOWN = 30
     local shop_cooldowns = {}
     -- Shop
     local function foo(inter, custom_id)
@@ -195,7 +196,6 @@ end
 
 function Interactions.decline_reason_modal(inter)
     local embed_author_id = (inter.message.embed.footer["text"]):match("%d+")
-    local r_embed = inter.message.embed
 
     local user = _G.Client:getUser(embed_author_id)
 

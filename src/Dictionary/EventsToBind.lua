@@ -9,6 +9,9 @@ local timer = require("timer")
 local http = require('coro-http')
 local tools = require("discordia-slash").util.tools()
 
+-- how many delete this emoji to delete a message
+local DELETE_THIS_COUNT = 4
+
 local EventsToBind = {}
 
 function EventsToBind.threadCreate(threadChannel)
@@ -141,9 +144,6 @@ function EventsToBind.memberLeave(member)
 end
 
 do
-    -- how many delete this emoji to delete a message
-    local DELETE_THIS_COUNT = 4
-
     local function deleteThisTarget(message)
         if message.author.bot then return end
         local count = 0

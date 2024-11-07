@@ -2,10 +2,11 @@ local sql = require("./deps/deps/sqlite3")
 local timer = require("timer")
 local HowTo = require("./HowTo")
 
+local THANK_HOURS_COOLDOWN = 9
+
 local SlashCommands = {}
 
 do
-    local THANK_HOURS_COOLDOWN = 9
     local thanks_cooldowns = {}
 
     SlashCommands.thank = function(inter, command, args)
