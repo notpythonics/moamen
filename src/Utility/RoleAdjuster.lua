@@ -19,7 +19,7 @@ function RoleAdjuster.SetTierRole(member, roleName)
     assert(type(roleName) == "string", "Invalid Argument to RoleAdjuster")
 
     if Enums.Roles.Levels[roleName] then
-        member:addRole(Enums.Roles.Levels[roleName]) 
+        member:addRole(Enums.Roles.Levels[roleName])
     end
 end
 

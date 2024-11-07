@@ -234,7 +234,7 @@ function Interactions.communicate_modal(inter)
         content = inter.member.mentionString .. " " .. author_member.mentionString,
         embed = {
             title = "روم التواصل",
-            description = "هذا روم للتوصل عن الإمبد هذا " .. inter.message.link .. "\n**رسالة العميل:** " .. textInputValue,
+            description = "هذا روم للتواصل عن الإمبد هذا " .. inter.message.link .. "\n\n**رسالة العميل:** " .. textInputValue,
             color = Enums.Colors.Default
         }
     }

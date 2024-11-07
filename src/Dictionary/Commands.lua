@@ -249,21 +249,24 @@ Commands.shop_embeds = C_Command.new(Predicates.isOwner_v, function(MessageHandl
     _G.Client:getChannel(Enums.Channels.fh_embed_channel):sendComponents({
         embed = {
             title = "عرض خدمة",
-            description = "اعرض خدمتك التطويرية للربح منها"
+            description = "اعرض خدمتك التطويرية للربح منها",
+            color = Enums.Colors.Default
         }
     }, CraeteButtonComponentWithId("fh"))
 
     _G.Client:getChannel(Enums.Channels.sell_embed_channel):sendComponents({
         embed = {
             title = "بيع عمل",
-            description = "اعرض أعمالك الإبداعية للبيع وحقق ارباح مادية"
+            description = "اعرض أعمالك الإبداعية للبيع وحقق ارباح مادية",
+            color = Enums.Colors.Default
         }
     }, CraeteButtonComponentWithId("sell"))
 
     _G.Client:getChannel(Enums.Channels.lfd_embed_channel):sendComponents({
         embed = {
             title = "طلب خدمة",
-            description = "ابحث عن مطورين لمساعدتك في تطوير مشروعك أو لعبتك"
+            description = "ابحث عن مطورين لمساعدتك في تطوير مشروعك أو لعبتك",
+            color = Enums.Colors.Default
         }
     }, CraeteButtonComponentWithId("lfd"))
 end)
