@@ -28,3 +28,6 @@ git clone https://github.com/Bilal2453/discordia-modals
 - Update the IDs allocated in `Enums.lua`
 - Place your token in the token variable allocated in `main.lua`
 - To start the bot: run `luvit main.lua` or `build.bat`
+
+![Shop](https://i.imgur.com/WTwD5FE.png)
+![More than 105 doc](https://i.imgur.com/2rpQgsZ.png)
