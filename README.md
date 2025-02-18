@@ -29,5 +29,5 @@ git clone https://github.com/Bilal2453/discordia-modals
 - Place your token in the token variable allocated in `main.lua`
 - To start the bot: run `luvit main.lua` or `build.bat`
 
-![Shop](https://i.imgur.com/WTwD5FE.png)
-![More than 105 doc](https://i.imgur.com/2rpQgsZ.png)
+![Shop](https://i.imgur.com/USC8mw8.png)
+![More than 105 doc](https://i.imgur.com/0TKcDJG.png)
